@@ -4,7 +4,7 @@ const path = require('path');
 const ghpages = require('gh-pages');
 
 const options = {
-    branch: 'gh-pages',
+    branch: 'gh-pages-twgoodthing',
     repo: 'https://github.com/minchemo/NFT-minting' // project github repo
 };
 
