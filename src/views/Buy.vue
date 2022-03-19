@@ -77,7 +77,6 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background-image: url("~@/views/section/buy/bg.svg");
   background-size: cover;
   color: #fff;
 

@@ -5,9 +5,6 @@
     }}</template>
   </metainfo>
   <S1 />
-  <S2 />
-  <S3 />
-  <S4 />
 
   <router-view />
 </template>
@@ -27,17 +24,11 @@ import {
 
 import useEthereum from "@/utils/useEthereum";
 import S1 from "@/views/section/s1.vue";
-import S2 from "@/views/section/s2.vue";
-import S3 from "@/views/section/s3.vue";
-import S4 from "@/views/section/s4.vue";
 
 export default defineComponent({
   name: "Home",
   components: {
     S1,
-    S2,
-    S3,
-    S4
   },
   setup() {
     const globals = getCurrentInstance().appContext.config.globalProperties;
