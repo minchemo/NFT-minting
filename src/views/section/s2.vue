@@ -1,9 +1,10 @@
 <template>
-  <div class="section" id="s2">
-    <div class="preview" data-aos="fade-up"></div>
+  <div class="section" id="s2" data-aos="fade" data-aos-delay="500">
     <div class="title">
-      <h1 data-aos="fade-up" data-aos-delay="200">{{ $t("s2.title_1") }}</h1>
-      <p data-aos="fade-up" data-aos-delay="400">{{ $t("s2.title_2") }}</p>
+      <h1 class="styled-title" data-aos="fade" data-aos-delay="500">
+        {{ $t("s2.title_1") }}
+      </h1>
+      <p data-aos="fade" data-aos-delay="1000" v-html="$t('s2.title_2')"></p>
     </div>
     <div class="filter"></div>
   </div>
@@ -28,17 +29,21 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import "~@/assets/variable.scss";
+@import "~@/assets/global.scss";
 
 .section {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-image: url("~@/views/section/s2/bg.jpeg");
+  background-image: url("~@/views/section/s2/bg.svg");
   background-size: cover;
+  background-color: #32325d;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  box-shadow: 0 0 100px rgba($color: rgb(0, 0, 0), $alpha: 0.5);
+  z-index: 5;
 
   .preview {
     z-index: 1;
@@ -62,14 +67,15 @@ export default defineComponent({
     font-family: "Noto serif tc";
     color: #fff;
     letter-spacing: 5px;
-    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.9));
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9));
 
     h1 {
-      font-size: 5vw;
-      margin-bottom: 1.5vw;
+      font-size: 3vw;
+      margin-bottom: 2.5vw;
     }
     p {
-      font-size: 3vw;
+      font-size: 1vw;
+      line-height: 1.5;
     }
   }
 
@@ -81,20 +87,6 @@ export default defineComponent({
     left: 0;
     top: 0;
     background: rgba($color: #000, $alpha: 0.2);
-    backdrop-filter: blur(2px);
-    transform: scale(1);
-    animation: blurIn 5s;
-
-    @keyframes blurIn {
-      from {
-        backdrop-filter: blur(10px);
-        transform: scale(1);
-      }
-      to {
-        backdrop-filter: blur(2px);
-        transform: scale(1);
-      }
-    }
   }
 }
 </style>

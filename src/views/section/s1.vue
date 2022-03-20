@@ -1,8 +1,14 @@
 <template>
   <div class="section" id="s1">
     <div class="title">
-      <h1 data-aos="fade-right">{{ $t("s1.title_1") }}</h1>
-      <p  data-aos="fade-left" data-aos-delay="500">{{ $t("s1.title_2") }}</p>
+      <h1
+        data-aos="fade-right"
+        data-aos-duration="3000"
+        v-html="$t('s1.title_1')"
+      ></h1>
+      <p data-aos="fade-left" data-aos-duration="3000" data-aos-delay="1000">
+        {{ $t("s1.title_2") }}
+      </p>
     </div>
     <div class="filter"></div>
   </div>
@@ -32,7 +38,7 @@ export default defineComponent({
   position: relative;
   width: 100%;
   height: 100vh;
-  background-image: url("~@/views/section/s1/bg.jpeg");
+  background-image: url("~@/views/section/s1/bg.svg");
   background-size: cover;
   background-attachment: fixed;
   display: flex;
@@ -42,18 +48,17 @@ export default defineComponent({
   .title {
     position: relative;
     z-index: 1;
-    font-family: "Noto serif tc";
+    font-family: $font2;
     color: #fff;
     letter-spacing: 5px;
-    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.9));
 
     h1 {
-      font-size: 5vw;
+      font-size: 1.5vw;
       margin-bottom: 1.5vw;
+      line-height: 1.5;
     }
     p {
-      font-size: 3vw;
-      padding-left: 5vw;
+      font-size: 1vw;
     }
   }
 
@@ -65,17 +70,17 @@ export default defineComponent({
     left: 0;
     top: 0;
     background: rgba($color: #000, $alpha: 0.2);
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(1px);
     transform: scale(1);
-    animation: blurIn 5s;
+    animation: blurIn 2s alternate-reverse infinite;
 
     @keyframes blurIn {
       from {
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(15px);
         transform: scale(1);
       }
       to {
-        backdrop-filter: blur(2px);
+        backdrop-filter: blur(1px);
         transform: scale(1);
       }
     }

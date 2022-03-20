@@ -1,25 +1,18 @@
 <template>
-  <metainfo>
-    <template v-slot:title="{ content }">{{
-      content ? `${content} | 台灣好覓 NFT` : `台灣好覓 NFT`
-    }}</template>
-  </metainfo>
   <div class="section" id="buy">
     <div class="box" data-aos="fade">
       <div class="mint">
         <div class="mint-info">1 / 10000</div>
+        <div class="mint-amount">
+          <span class="de btn">－</span>
+          <span class="current">0</span>
+          <span class="in btn">＋</span>
+        </div>
         <div class="mint-button">購買</div>
       </div>
       <div class="desc">
-        <h1>購買說明</h1>
-        <p>
-          1.購買之前請先詳閱購買說明<br />
-          2.購買之前請先詳閱購買說明<br />
-          3.購買之前請先詳閱購買說明<br />
-          4.購買之前請先詳閱購買說明<br />
-          5.購買之前請先詳閱購買說明<br />
-          6.購買之前請先詳閱購買說明<br />
-        </p>
+        <h1>{{ $t("buy.title") }}</h1>
+        <p v-html="$t('buy.desc')"></p>
       </div>
     </div>
   </div>
@@ -51,12 +44,6 @@ export default defineComponent({
 
     const smoothScroll = inject("smoothScroll");
 
-    //Meta
-    useMeta({
-      title: "購買",
-      htmlAttrs: { lang: "en", amp: false },
-    });
-
     return {
       store,
       // init,
@@ -72,14 +59,17 @@ export default defineComponent({
 .section {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   background-image: url("~@/views/section/buy/bg.svg");
-  background-size: cover;
+  background-size: 50%;
   color: #fff;
+  padding: 5vw 5vw;
+
+  font-family: $font1;
 
   .box {
     display: flex;
@@ -94,7 +84,31 @@ export default defineComponent({
       .mint-info {
         font-family: "noto serif tc";
         font-size: 3vw;
-        margin-bottom: 5vw;
+      }
+
+      .mint-amount {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        margin: 5vw 0;
+        .btn {
+          display: inline-flex;
+          width: 3vw;
+          height: 3vw;
+          background: $primaryYellow;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          border-radius: 100%;
+          font-size: 1.5vw;
+
+          &:hover {
+            background-color: $primaryOrange;
+          }
+        }
+        .current {
+          font-size: 2vw;
+        }
       }
       .mint-button {
         font-size: 2vw;
@@ -102,17 +116,22 @@ export default defineComponent({
         padding: 1vw 2.5vw;
         border-radius: 100px;
         text-align: center;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $primaryOrange;
+        }
       }
     }
     .desc {
-      text-align: center;
+      text-align: left;
       h1 {
         font-size: 2.5vw;
         font-weight: 900;
         margin-bottom: 3vw;
       }
       p {
-        font-size: 1.5vw;
+        font-size: 1vw;
         line-height: 2;
         font-weight: 300;
         letter-spacing: 1.5px;

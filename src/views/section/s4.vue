@@ -1,28 +1,10 @@
 <template>
-  <div class="section">
-    <div class="item">
-      <div class="title">NFT 的價格是多少？</div>
-      <div class="content">NFT 價格為 0.0 ETH（不包括 Gas fee）</div>
-    </div>
-    <div class="item">
-      <div class="title">NFT 的價格是多少？</div>
-      <div class="content">NFT 價格為 0.0 ETH（不包括 Gas fee）</div>
-    </div>
-    <div class="item">
-      <div class="title">NFT 的價格是多少？</div>
-      <div class="content">NFT 價格為 0.0 ETH（不包括 Gas fee）</div>
-    </div>
-    <div class="item">
-      <div class="title">NFT 的價格是多少？</div>
-      <div class="content">NFT 價格為 0.0 ETH（不包括 Gas fee）</div>
-    </div>
-    <div class="item">
-      <div class="title">NFT 的價格是多少？</div>
-      <div class="content">NFT 價格為 0.0 ETH（不包括 Gas fee）</div>
-    </div>
-    <div class="item">
-      <div class="title">NFT 的價格是多少？</div>
-      <div class="content">NFT 價格為 0.0 ETH（不包括 Gas fee）</div>
+  <div class="section" id="s4">
+    <div class="title">
+      <h1 class="styled-title" data-aos="fade">
+        {{ $t("s4.title_1") }}
+      </h1>
+      <p data-aos="fade" data-aos-delay="400" v-html="$t('s4.desc')"></p>
     </div>
   </div>
 </template>
@@ -46,39 +28,37 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import "~@/assets/variable.scss";
+@import "~@/assets/global.scss";
 
 .section {
   position: relative;
   width: 100%;
-  height: auto;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   flex-direction: column;
-  background-color: rgba($color: $primaryBlue, $alpha: 0.85);
+  background-color: #32325d;
   padding: 5vw 0;
   background-image: url("~@/views/section/s4/bg.svg");
-  background-size: 150%;
-  // background-attachment: fixed;
+  background-size: 100%;
   background-position: center;
-  .item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+  .title {
+    position: relative;
+    z-index: 1;
+    font-family: "Noto serif tc";
     color: #fff;
-    margin: 3vw 0;
-    .title {
-      font-weight: bold;
+    letter-spacing: 5px;
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9));
+
+    h1 {
       font-size: 3vw;
-      letter-spacing: 2px;
+      margin-bottom: 2.5vw;
     }
-    .content {
-      margin-top: 1.5vw;
-      font-weight: 300;
-      font-size: 2vw;
-      letter-spacing: 0;
+    p {
+      font-size: 1vw;
+      line-height: 1.5;
     }
   }
 }

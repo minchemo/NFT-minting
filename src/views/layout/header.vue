@@ -1,13 +1,24 @@
 <template>
-  <div id="nav"  data-aos="fade-down" data-aos-delay="1000">
+  <div id="nav" data-aos="fade-down" data-aos-delay="1000">
     <div class="logo">
-      <img src="@/assets/logo.png" alt="" srcset="" />
+      <router-link to="/" class="link">
+        <img src="@/assets/logo.svg" alt="" srcset=""
+      /></router-link>
     </div>
     <div class="right">
       <div class="links">
-        <router-link to="/#s1" class="link">{{ $t("header.home") }}</router-link>
-        <router-link to="/#s2" class="link">{{ $t("header.about") }}</router-link>
-        <router-link to="/#s3" class="link">{{ $t("header.work") }}</router-link>
+        <router-link to="/#s1" class="link">{{
+          $t("header.home")
+        }}</router-link>
+        <router-link to="/#s2" class="link">{{
+          $t("header.about")
+        }}</router-link>
+        <router-link to="/#s3" class="link">{{
+          $t("header.work")
+        }}</router-link>
+        <router-link to="/raffle" class="link">{{
+          $t("header.raffle")
+        }}</router-link>
         <router-link to="/buy" class="link">{{ $t("header.buy") }}</router-link>
       </div>
       <div class="connect-wallet">{{ $t("header.connect_wallet") }}</div>
@@ -50,7 +61,7 @@ export default defineComponent({
   backdrop-filter: blur(15px);
 
   .logo {
-    height: 80%;
+    height: 50%;
     img {
       height: 100%;
     }
@@ -71,6 +82,7 @@ export default defineComponent({
         letter-spacing: 2px;
         border-right: 0.5px solid;
         padding-right: 2vw;
+        filter: drop-shadow(1px 1px 0#000);
 
         &:after {
           content: "";
@@ -96,7 +108,7 @@ export default defineComponent({
       }
     }
     .connect-wallet {
-      font-size:16px;
+      font-size: 16px;
       background: $primaryYellow;
       color: #fff;
       padding: 12px 30px;
