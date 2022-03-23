@@ -65,7 +65,7 @@ export default defineComponent({
   align-items: center;
   overflow: hidden;
   background-image: url("~@/views/section/buy/bg.svg");
-  background-size: 50%;
+  background-size: cover;
   color: #fff;
   padding: 5vw 5vw;
 
@@ -75,7 +75,7 @@ export default defineComponent({
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
-    background: rgba($color: #fff, $alpha: 0.1);
+    background: rgba($color: #000, $alpha: 0.5);
     padding: 5vw 10vw;
     border-radius: 50px;
     backdrop-filter: blur(3px);
