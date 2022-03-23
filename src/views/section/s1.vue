@@ -14,18 +14,18 @@
         </p>
       </div>
       <div class="masonry">
-        <div class="masonry-item">
-          <img src="@/assets/images/cat.jpg" alt="" srcset="" />
-        </div>
-        <div class="masonry-item">
-          <img src="@/assets/images/cat.jpg" alt="" srcset="" />
-        </div>
-        <div class="masonry-item">
-          <img src="@/assets/images/cat.jpg" alt="" srcset="" />
-        </div>
-        <div class="masonry-item">
-          <img src="@/assets/images/cat.jpg" alt="" srcset="" />
-        </div>
+        <img
+          class="m-item"
+          v-lazy="{
+            src: require(`@/assets/images/cat/${i}.jpg`),
+            loading: require(`@/assets/images/loading.svg`),
+            lifecycle: lazyOptions.lifecycle,
+          }"
+          alt=""
+          srcset=""
+          v-for="i in catImagesLength"
+          :key="i"
+        />
       </div>
     </div>
   </div>
@@ -33,15 +33,39 @@
 
 <script>
 import { useStore } from "vuex";
-import { ref, defineComponent, onMounted } from "vue";
+import { ref, reactive, defineComponent, onMounted } from "vue";
+import Masonry from "masonry-layout";
 
 export default defineComponent({
   name: "s1",
   setup() {
+    const catImagesLength = ref(17);
+    const imagesLoaded = ref(0);
     const store = useStore();
-    onMounted(() => {});
+
+    const lazyOptions = reactive({
+      lifecycle: {
+        loaded: (el) => {
+          imagesLoaded.value++
+
+          if (imagesLoaded.value == catImagesLength.value) {
+
+            new Masonry('.masonry', {
+              itemSelector: '.m-item',
+              gutter: 10,
+              originTop: false
+            });
+          }
+        }
+      }
+    })
+
+    onMounted(() => {
+    });
 
     return {
+      catImagesLength,
+      lazyOptions,
       store,
     };
   },
@@ -67,9 +91,9 @@ export default defineComponent({
     border-radius: 10vw 0 0 0;
     padding: 8vw 10vw;
     font-weight: 300;
-
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    justify-content: space-between;
     .info {
       h2 {
         font-size: 4vw;
@@ -92,14 +116,15 @@ export default defineComponent({
     }
     .masonry {
       position: relative;
-      display: flex;
-      flex-flow: column wrap;
-      align-content: space-between;
-      height: 100%;
-      .masonry-item {
-        width: 200px;
-        img {
-          width: 100%;
+      width: 50%;
+      .m-item {
+        width: 15%;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        transition: all 0.3s;
+        &:hover {
+          transform: translateY(-5px);
+          z-index: 1;
         }
       }
     }

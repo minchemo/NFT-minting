@@ -4,6 +4,7 @@ import store from "./store"
 import { createMetaManager } from "vue-meta"
 import router from "./router"
 import VueSmoothScroll from "vue3-smooth-scroll"
+import VueLazyLoad from "vue3-lazyload"
 import AOS from "aos"
 import "aos/dist/aos.css"
 import "normalize.css/normalize.css"
@@ -28,6 +29,7 @@ const app = createApp(App)
     })
     .use(i18n)
     .use(AOS)
+    .use(VueLazyLoad)
 
 AOS.init({
     duration: 1500,

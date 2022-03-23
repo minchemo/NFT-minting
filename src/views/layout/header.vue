@@ -38,7 +38,7 @@ export default defineComponent({
 
       setTimeout(() => {
         document.body.style.overflowY = "auto";
-      }, 6000);
+      }, 4000);
     });
 
     return {
@@ -108,9 +108,9 @@ export default defineComponent({
   .open-menu {
     position: absolute;
     right: 0;
-    top: 7.7vh;
+    top: 7vh;
     width: 10vw;
-    height: 4vw;
+    height: 8vh;
     background: #fff;
     border-radius: 30px 0 0 0;
     transition: all 0.5s;
@@ -121,6 +121,8 @@ export default defineComponent({
     font-family: $font2;
     font-size: 1.5vw;
     padding-left: 10px;
+    font-weight: 1000;
+    letter-spacing: 5px;
     &:hover {
       background-color: $primaryGreen;
       color: #fff;
