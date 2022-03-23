@@ -1,28 +1,45 @@
 <template>
   <div class="section" id="s1">
-    <div class="title">
-      <h1
-        data-aos="fade-right"
-        data-aos-duration="3000"
-        v-html="$t('s1.title_1')"
-      ></h1>
-      <p data-aos="fade-left" data-aos-duration="3000" data-aos-delay="1000">
-        {{ $t("s1.title_2") }}
-      </p>
+    <div class="main">
+      <div class="info">
+        <h2>
+          <span class="t">The cat</span><br />
+          in real<br />
+          but now<br />
+          <span class="t">on chain .</span>
+        </h2>
+        <p>
+          Real picture with different handpainted properties <br />and will be
+          sold at a random price.
+        </p>
+      </div>
+      <div class="masonry">
+        <div class="masonry-item">
+          <img src="@/assets/images/cat.jpg" alt="" srcset="" />
+        </div>
+        <div class="masonry-item">
+          <img src="@/assets/images/cat.jpg" alt="" srcset="" />
+        </div>
+        <div class="masonry-item">
+          <img src="@/assets/images/cat.jpg" alt="" srcset="" />
+        </div>
+        <div class="masonry-item">
+          <img src="@/assets/images/cat.jpg" alt="" srcset="" />
+        </div>
+      </div>
     </div>
-    <div class="filter"></div>
   </div>
 </template>
 
 <script>
 import { useStore } from "vuex";
-import { defineComponent, onMounted } from "vue";
-import useEthereum from "@/utils/useEthereum";
+import { ref, defineComponent, onMounted } from "vue";
 
 export default defineComponent({
   name: "s1",
   setup() {
     const store = useStore();
+    onMounted(() => {});
 
     return {
       store,
@@ -38,50 +55,52 @@ export default defineComponent({
   position: relative;
   width: 100%;
   height: 100vh;
-  background-image: url("~@/views/section/s1/bg.svg");
-  background-size: cover;
-  background-attachment: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  .title {
-    position: relative;
-    z-index: 1;
-    font-family: $font2;
-    color: #fff;
-    letter-spacing: 5px;
+  font-family: $font2;
 
-    h1 {
-      font-size: 1.5vw;
-      margin-bottom: 1.5vw;
-      line-height: 1.5;
-    }
-    p {
-      font-size: 1vw;
-    }
-  }
-
-  .filter {
+  .main {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    left: 0;
-    top: 0;
-    background: rgba($color: #000, $alpha: 0.2);
-    backdrop-filter: blur(1px);
-    transform: scale(1);
-    animation: blurIn 2s alternate-reverse infinite;
+    width: 95%;
+    height: 85vh;
+    background: $primaryYellow;
+    right: 0;
+    bottom: 0;
+    border-radius: 10vw 0 0 0;
+    padding: 8vw 10vw;
+    font-weight: 300;
 
-    @keyframes blurIn {
-      from {
-        backdrop-filter: blur(15px);
-        transform: scale(1);
+    display: flex;
+    align-items: center;
+    .info {
+      h2 {
+        font-size: 4vw;
+        font-weight: 200;
+        color: $primaryGreen;
+        text-transform: uppercase;
+        line-height: 1.5;
+        .t {
+          font-weight: 1000;
+        }
       }
-      to {
-        backdrop-filter: blur(1px);
-        transform: scale(1);
+
+      p {
+        margin-top: 2vw;
+        font-size: 1.5vw;
+        line-height: 1.5;
+        font-weight: 200;
+        color: $primaryGreen;
+      }
+    }
+    .masonry {
+      position: relative;
+      display: flex;
+      flex-flow: column wrap;
+      align-content: space-between;
+      height: 100%;
+      .masonry-item {
+        width: 200px;
+        img {
+          width: 100%;
+        }
       }
     }
   }

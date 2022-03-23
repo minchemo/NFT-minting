@@ -1,41 +1,48 @@
 <template>
-  <div id="nav" data-aos="fade-down" data-aos-delay="1000">
-    <div class="logo">
-      <router-link to="/" class="link">
-        <img src="@/assets/logo.svg" alt="" srcset=""
-      /></router-link>
+  <div id="nav" v-bind:class="{ active: scrollTop > 0 }">
+    <div class="logo fadejs">
+      <img src="@/assets/logo.jpeg" alt="" srcset="" />
     </div>
-    <div class="right">
-      <div class="links">
-        <router-link to="/#s1" class="link">{{
-          $t("header.home")
-        }}</router-link>
-        <router-link to="/#s2" class="link">{{
-          $t("header.about")
-        }}</router-link>
-        <router-link to="/#s3" class="link">{{
-          $t("header.work")
-        }}</router-link>
-        <router-link to="/raffle" class="link">{{
-          $t("header.raffle")
-        }}</router-link>
-        <router-link to="/buy" class="link">{{ $t("header.buy") }}</router-link>
-      </div>
-      <div class="connect-wallet">{{ $t("header.connect_wallet") }}</div>
+
+    <div class="title fadejs">The cat on chain</div>
+
+    <div class="open-menu">
+      <div>mint</div>
     </div>
   </div>
 </template>
 
 <script>
 import { useStore } from "vuex";
-import { defineComponent, onMounted } from "vue";
-import useEthereum from "@/utils/useEthereum";
+import { ref, defineComponent, onMounted } from "vue";
+// import useEthereum from "@/utils/useEthereum";
 
 export default defineComponent({
   name: "header",
   setup() {
     const store = useStore();
+    const scrollTop = ref(0);
+
+    onMounted(() => {
+      window.onbeforeunload = function () {
+        window.scrollTo(0, 0);
+      };
+      document.body.style.overflowY = "hidden";
+      document.addEventListener(
+        "scroll",
+        function (e) {
+          scrollTop.value = window.scrollY;
+        },
+        true
+      );
+
+      setTimeout(() => {
+        document.body.style.overflowY = "auto";
+      }, 6000);
+    });
+
     return {
+      scrollTop,
       store,
     };
   },
@@ -47,78 +54,107 @@ export default defineComponent({
 #nav {
   position: fixed;
   width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-
-  height: $navHeight;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-  padding: 0 7vw;
-  box-sizing: border-box;
-  backdrop-filter: blur(15px);
-
+  z-index: 50;
   .logo {
-    height: 50%;
+    position: absolute;
+    top: 5vh;
+    left: 15vw;
+    width: 10vh;
+    height: 10vh;
+    border-radius: 100%;
+    border: 1px solid#eee;
+    overflow: hidden;
+    animation: in 4.5s;
+    transition: all 0.5s;
+
     img {
-      height: 100%;
+      width: 100%;
+    }
+
+    @keyframes in {
+      0% {
+        transform: translateX(100vw) rotate(0deg);
+      }
+      80% {
+        transform: translateX(-10px) rotate(-2890deg);
+      }
+      100% {
+        transform: translateX(0) rotate(-2880deg);
+      }
+    }
+  }
+  .title {
+    position: absolute;
+    top: 7vh;
+    left: 22vw;
+    font-family: $font1;
+    font-size: 3vw;
+    color: #fff;
+    animation: titlein 4.5s;
+    transition: all 0.5s;
+
+    @keyframes titlein {
+      0% {
+        transform: translateX(100vw);
+      }
+      80% {
+        transform: translateX(-10px);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+  }
+  .open-menu {
+    position: absolute;
+    right: 0;
+    top: 7.7vh;
+    width: 10vw;
+    height: 4vw;
+    background: #fff;
+    border-radius: 30px 0 0 0;
+    transition: all 0.5s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    font-family: $font2;
+    font-size: 1.5vw;
+    padding-left: 10px;
+    &:hover {
+      background-color: $primaryGreen;
+      color: #fff;
+      cursor: pointer;
+    }
+    animation: btnin 2s;
+    transition: all 0.5s;
+
+    @keyframes btnin {
+      0% {
+        transform: translateX(20vw);
+      }
+      100% {
+        transform: translateX(0);
+      }
     }
   }
 
-  .right {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .links {
-      margin-right: 1vw;
-      .link {
-        position: relative;
-        margin-right: 2vw;
-        font-size: 24px;
-        color: $primaryYellow;
-        text-decoration: none;
-        letter-spacing: 2px;
-        border-right: 0.5px solid;
-        padding-right: 2vw;
-        filter: drop-shadow(1px 1px 0#000);
-
-        &:after {
-          content: "";
-          background: $primaryYellow;
-          position: absolute;
-          bottom: -20%;
-          left: 0;
-          width: 0;
-          height: 2px;
-          z-index: -1;
-          transition: all 0.3s;
-        }
-
-        &:last-child {
-          border-right: 0;
-        }
-
-        &:hover {
-          &::after {
-            width: calc(80% - 1vw);
-          }
-        }
-      }
+  &.active {
+    .logo {
+      top: 0.5vw;
+      left: 0.5vw;
+      width: 4vw;
+      height: 4vw;
+      border-radius: 5px;
     }
-    .connect-wallet {
-      font-size: 16px;
-      background: $primaryYellow;
-      color: #fff;
-      padding: 12px 30px;
-      border-radius: 50px;
-      transition: all 0.5s;
-
-      &:hover {
-        cursor: pointer;
-        box-shadow: 0 0 20px rgba($color: #fff, $alpha: 0.5);
-      }
+    .title {
+      top: -5vh;
+    }
+    .open-menu {
+      right: 0;
+      top: 0;
+      border-radius: 0 0 0 30px;
+      filter: drop-shadow(-5px -10px 10px rgba(0, 0, 0, 0.2));
     }
   }
 }

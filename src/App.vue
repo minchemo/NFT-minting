@@ -2,8 +2,8 @@
   <metainfo>
     <template v-slot:title="{ content }">{{
       content
-        ? `${content} | 台灣好覓NFT｜Taiwan goodthing NFT`
-        : `台灣好覓NFT｜Taiwan goodthing NFT`
+        ? `${content}The cat on chain`
+        : `The cat on chain`
     }}</template>
   </metainfo>
   <Header />
@@ -38,14 +38,14 @@ export default {
     const store = useStore();
     const route = useRoute();
     // const { } = useEthereum();
-    const { initFirebase } = useFirebase();
+    // const { initFirebase } = useFirebase();
 
     const smoothScroll = inject("smoothScroll");
 
     //Meta
     useMeta({
-      title: "官方",
-      htmlAttrs: { lang: "en", amp: false },
+      title: "",
+      // htmlAttrs: { lang: "en", amp: false },
     });
 
     const hashScroll = () => {
@@ -61,9 +61,8 @@ export default {
     onMounted(() => {
       hashScroll();
       // 初始化 firebase
-      initFirebase();
+      // initFirebase();
     });
-
 
     return {
       store,
@@ -78,15 +77,14 @@ export default {
 <style lang="scss">
 @import "~@/assets/variable.scss";
 @import "~@/assets/reset.css";
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Noto+Serif+TC:wght@500;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Roboto:wght@300;400;700;900&display=swap');
 
 * {
-  font-family: $font1;
   box-sizing: border-box !important;
 }
 
 html,
 body {
-  background: #32325d;
+  background-color: $primaryGreen;
 }
 </style>
