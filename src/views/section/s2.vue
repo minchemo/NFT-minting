@@ -124,4 +124,38 @@ export default defineComponent({
     }
   }
 }
+
+@media screen and (max-width: 767px) {
+  .section {
+    position: relative;
+    width: 100%;
+    height: auto;
+    font-family: $font2;
+    .main {
+      .item {
+        width: 100%;
+        h1 {
+          font-size: 40px;
+          font-weight: 1000;
+          text-transform: uppercase;
+          line-height: 1.5;
+        }
+
+        p {
+          font-size: 18px;
+          line-height: 2;
+        }
+
+        &.w100 {
+          width: 100%;
+        }
+      }
+
+      .break {
+        margin: 2vw 0;
+        width: 100%;
+      }
+    }
+  }
+}
 </style>

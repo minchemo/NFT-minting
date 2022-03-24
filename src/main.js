@@ -9,13 +9,13 @@ import AOS from "aos"
 import "aos/dist/aos.css"
 import "normalize.css/normalize.css"
 import { createI18n } from "vue-i18n"
-import { lang } from "./lang"
+// import { lang } from "./lang"
 
-const i18n = createI18n({
-    locale: "zh",
-    fallbackLocale: "en",
-    messages: lang,
-})
+// const i18n = createI18n({
+//     locale: "zh",
+//     fallbackLocale: "en",
+//     messages: lang,
+// })
 
 const metaManager = createMetaManager()
 
@@ -27,7 +27,7 @@ const app = createApp(App)
         duration: 1000,
         updateHistory: false,
     })
-    .use(i18n)
+    // .use(i18n)
     .use(AOS)
     .use(VueLazyLoad)
 

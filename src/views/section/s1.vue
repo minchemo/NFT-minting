@@ -1,6 +1,9 @@
 <template>
   <div class="section" id="s1">
     <div class="main">
+      <div class="loading" v-bind:class="{ hide: !loading }">
+        <p>loading</p>
+      </div>
       <div class="info">
         <h2>
           <span class="t">The cat</span><br />
@@ -42,31 +45,35 @@ export default defineComponent({
     const catImagesLength = ref(17);
     const imagesLoaded = ref(0);
     const store = useStore();
+    const loading = ref(true);
 
     const lazyOptions = reactive({
       lifecycle: {
         loaded: (el) => {
-          imagesLoaded.value++
+          imagesLoaded.value++;
 
           if (imagesLoaded.value == catImagesLength.value) {
-
-            new Masonry('.masonry', {
-              itemSelector: '.m-item',
+            new Masonry(".masonry", {
+              itemSelector: ".m-item",
               gutter: 10,
-              originTop: false
+              originTop: false,
             });
           }
-        }
-      }
-    })
+        },
+      },
+    });
 
     onMounted(() => {
+      setTimeout(() => {
+        loading.value = false;
+      }, 4000);
     });
 
     return {
       catImagesLength,
       lazyOptions,
       store,
+      loading,
     };
   },
 });
@@ -94,6 +101,34 @@ export default defineComponent({
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
+
+    .loading {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border-radius: 10vw 0 0 0;
+      z-index: 50;
+      backdrop-filter: blur(30px);
+      transition: all 0.5s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      p {
+        font-size: 5vw;
+        font-weight: 1000;
+        text-transform: uppercase;
+        color: #fff;
+        letter-spacing: 5px;
+      }
+
+      &.hide {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+      }
+    }
     .info {
       h2 {
         font-size: 4vw;
@@ -125,6 +160,90 @@ export default defineComponent({
         &:hover {
           transform: translateY(-5px);
           z-index: 1;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    font-family: $font2;
+
+    .main {
+      position: absolute;
+      width: 95%;
+      height: 90vh;
+      background: $primaryYellow;
+      right: 0;
+      bottom: 0;
+      border-radius: 10vw 0 0 0;
+      padding: 8vw 10vw;
+      font-weight: 300;
+      flex-direction: column;
+
+      .loading {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        border-radius: 10vw 0 0 0;
+        z-index: 50;
+        backdrop-filter: blur(30px);
+        transition: all 0.5s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        p {
+          font-size: 5vw;
+          font-weight: 1000;
+          text-transform: uppercase;
+          color: #fff;
+          letter-spacing: 5px;
+        }
+
+        &.hide {
+          opacity: 0;
+          backdrop-filter: blur(0px);
+        }
+      }
+      .info {
+        h2 {
+          font-size: 40px;
+          font-weight: 200;
+          color: $primaryGreen;
+          text-transform: uppercase;
+          line-height: 1.5;
+          .t {
+            font-weight: 1000;
+          }
+        }
+
+        p {
+          margin-top: 2vw;
+          font-size: 18px;
+          line-height: 1.5;
+          font-weight: 200;
+          color: $primaryGreen;
+        }
+      }
+      .masonry {
+        position: relative;
+        width: 100%;
+        .m-item {
+          width: 18%;
+          border-radius: 5px;
+          margin-bottom: 10px;
+          transition: all 0.3s;
+          &:hover {
+            transform: translateY(-5px);
+            z-index: 1;
+          }
         }
       }
     }
