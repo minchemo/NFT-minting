@@ -86,6 +86,7 @@ export default defineComponent({
       font-size: 3vw;
       font-weight: 1000;
       text-transform: uppercase;
+      margin: 2vh 0;
     }
 
     p {

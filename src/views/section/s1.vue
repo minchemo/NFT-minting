@@ -170,16 +170,17 @@ export default defineComponent({
   .section {
     position: relative;
     width: 100%;
-    height: 100vh;
+    min-height: auto;
     font-family: $font2;
 
     .main {
-      position: absolute;
+      position: relative;
       width: 95%;
-      height: 90vh;
+      height: auto;
       background: $primaryYellow;
       right: 0;
-      bottom: 0;
+      top: 10vh;
+      bottom: unset;
       border-radius: 10vw 0 0 0;
       padding: 8vw 10vw;
       font-weight: 300;
@@ -235,6 +236,7 @@ export default defineComponent({
       .masonry {
         position: relative;
         width: 100%;
+        margin-top: 5vh;
         .m-item {
           width: 18%;
           border-radius: 5px;
