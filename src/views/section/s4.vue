@@ -4,7 +4,7 @@
       <h1>Team</h1>
       <div class="team">
         <div class="team-item">
-          <img src="@/assets/images/team/jmo.png" alt="" srcset="" />
+          <img src="@/assets/images/team/jmo.jpg" alt="" srcset="" />
           <h2 class="t1">JMO</h2>
           <p class="t2">Founder</p>
           <p class="t3">
