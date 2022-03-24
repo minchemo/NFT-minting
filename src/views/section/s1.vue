@@ -4,6 +4,11 @@
       <div class="loading" v-bind:class="{ hide: !loading }">
         <p>loading</p>
       </div>
+      <div class="social">
+        <a href="https://discord.gg/MTRJ95nbvf" target="_blank" class="link"
+          ><img src="@/assets/images/icon/discord.svg" alt="" srcset=""
+        /></a>
+      </div>
       <div class="info">
         <h2>
           <span class="t">The cat</span><br />
@@ -127,6 +132,15 @@ export default defineComponent({
       &.hide {
         opacity: 0;
         backdrop-filter: blur(0px);
+      }
+    }
+
+    .social {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 20px;
+      .link {
       }
     }
     .info {
