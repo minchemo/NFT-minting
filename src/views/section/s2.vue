@@ -19,6 +19,16 @@
       </div>
       <div class="break"></div>
       <div class="item w100">
+        <h1 class="special">random pricing mint</h1>
+        <p>
+          Assuming that the require payment is 0.02 eth before minting, it does
+          not mean that it is your purchase price. You will receive a refund
+          immediately after minting. If you receive 0.015 eth, then your
+          purchase price is 0.005 eth. The price will be different for everyone.
+        </p>
+      </div>
+      <div class="break"></div>
+      <div class="item">
         <h1>all app users</h1>
         <p>
           1. Enter online matchmaking and meet different people<br />
@@ -27,8 +37,7 @@
           4. To be determined
         </p>
       </div>
-      <div class="break"></div>
-      <div class="item w100">
+      <div class="item">
         <h1>holders</h1>
         <p>
           1. Enter online matchmaking and meet different people<br />
@@ -106,6 +115,9 @@ export default defineComponent({
         font-size: 3vw;
         font-weight: 1000;
         text-transform: uppercase;
+        &.special {
+          text-decoration: underline;
+        }
       }
 
       p {

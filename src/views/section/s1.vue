@@ -5,8 +5,11 @@
         <p>loading</p>
       </div>
       <div class="social">
-        <a href="https://discord.gg/MTRJ95nbvf" target="_blank" class="link"
+        <a @click="discordWarning" target="_blank" class="link"
           ><img src="@/assets/images/icon/discord.svg" alt="" srcset=""
+        /></a>
+        <a href="https://twitter.com/TheCatOnChain" target="_blank" class="link"
+          ><img src="@/assets/images/icon/twitter.svg" alt="" srcset=""
         /></a>
       </div>
       <div class="info">
@@ -68,6 +71,10 @@ export default defineComponent({
       },
     });
 
+    const discordWarning = () => {
+      alert('Discord for private only, please follow twitter for latest discord link.')
+    }
+
     onMounted(() => {
       setTimeout(() => {
         loading.value = false;
@@ -79,6 +86,7 @@ export default defineComponent({
       lazyOptions,
       store,
       loading,
+      discordWarning,
     };
   },
 });
@@ -121,6 +129,7 @@ export default defineComponent({
       display: flex;
       align-items: center;
       justify-content: center;
+      pointer-events: none;
       p {
         font-size: 5vw;
         font-weight: 1000;
@@ -140,7 +149,24 @@ export default defineComponent({
       right: 0;
       top: 0;
       padding: 20px;
+      display: flex;
+
       .link {
+        width: 3vw;
+        margin-left: 1vw;
+        padding: 0.5vw;
+        transition: all 0.3s;
+        border: 4px solid transparent;
+        cursor: pointer;
+
+        img {
+          width: 100%;
+        }
+
+        &:hover {
+          border: 4px solid #fff;
+          border-radius: 10px;
+        }
       }
     }
     .info {
@@ -225,6 +251,32 @@ export default defineComponent({
         &.hide {
           opacity: 0;
           backdrop-filter: blur(0px);
+        }
+      }
+
+      .social {
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 5px;
+        display: flex;
+
+        .link {
+          width: 40px;
+          margin-left: 6px;
+          padding: 2px;
+          transition: all 0.3s;
+          border: 4px solid transparent;
+          cursor: pointer;
+
+          img {
+            width: 100%;
+          }
+
+          &:hover {
+            border: 4px solid #fff;
+            border-radius: 10px;
+          }
         }
       }
       .info {
