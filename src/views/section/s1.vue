@@ -5,7 +5,10 @@
         <p>loading</p>
       </div>
       <div class="social">
-        <a @click="discordWarning" target="_blank" class="link"
+        <a
+          href="https://discord.com/invite/UCvFvwMTm9"
+          target="_blank"
+          class="link"
           ><img src="@/assets/images/icon/discord.svg" alt="" srcset=""
         /></a>
         <a href="https://twitter.com/TheCatOnChain" target="_blank" class="link"
@@ -71,9 +74,6 @@ export default defineComponent({
       },
     });
 
-    const discordWarning = () => {
-      alert('Discord for private only, please follow twitter for latest discord link.')
-    }
 
     onMounted(() => {
       setTimeout(() => {
@@ -86,7 +86,6 @@ export default defineComponent({
       lazyOptions,
       store,
       loading,
-      discordWarning,
     };
   },
 });
@@ -210,6 +209,7 @@ export default defineComponent({
   .section {
     position: relative;
     width: 100%;
+    height: auto;
     min-height: auto;
     font-family: $font2;
 

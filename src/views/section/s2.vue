@@ -66,6 +66,13 @@
           <b>20%</b> community funding
         </p>
       </div>
+      <div class="break"></div>
+      <div class="item">
+        <img src="@/assets/images/roadmap_zh.svg" alt="" srcset="" />
+      </div>
+      <div class="item">
+        <img src="@/assets/images/roadmap_en.svg" alt="" srcset="" />
+      </div>
     </div>
   </div>
 </template>
@@ -118,6 +125,9 @@ export default defineComponent({
         &.special {
           text-decoration: underline;
         }
+      }
+      img {
+        width: 100%;
       }
 
       p {
