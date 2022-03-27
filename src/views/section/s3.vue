@@ -42,6 +42,11 @@ export default defineComponent({
       breakpoints: {
         640: {
           perPage: 1,
+          gap: 50,
+          autoScroll: {
+            speed: 0.5,
+          },
+          type: "slide",
         },
       },
     });
@@ -106,6 +111,21 @@ export default defineComponent({
       to {
         backdrop-filter: blur(2px);
         transform: scale(1);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .section {
+    padding: 100px 0;
+
+    .main {
+      width: 100%;
+
+      img {
+        width: 100%;
+        border-radius: 10px;
       }
     }
   }

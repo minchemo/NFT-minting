@@ -146,7 +146,7 @@ export default defineComponent({
 
 @media screen and (max-width: 767px) {
   .section {
-    padding: 0;
+    padding: 30px 0;
     .title {
       position: relative;
       z-index: 1;

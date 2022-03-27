@@ -187,6 +187,7 @@ export default defineComponent({
         font-size: 24px;
         font-weight: 600;
         text-transform: uppercase;
+        margin: 20px 0;
       }
       p {
         font-size: 14px;
