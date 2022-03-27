@@ -37,7 +37,7 @@ export default defineComponent({
   height: 100vh;
   background-image: url("~@/views/section/s2/bg.svg");
   background-size: cover;
-  background-color: #32325d;
+  background-color: $primaryLightBlue;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,22 +45,6 @@ export default defineComponent({
   box-shadow: 0 0 100px rgba($color: rgb(0, 0, 0), $alpha: 0.5);
   z-index: 5;
 
-  .preview {
-    z-index: 1;
-    width: 25vw;
-    height: 25vw;
-    background-image: url("~@/assets/images/01.jpg");
-    background-size: 100%;
-    background-position: center;
-    filter: drop-shadow(10px 20px 10px rgba(0, 0, 0, 0.5));
-    margin-right: 10vw;
-    transition: all 1s;
-    &:hover {
-      transform: translateY(-5%);
-      filter: drop-shadow(10px 30px 5px rgba(0, 0, 0, 0.7));
-      background-size: 105%;
-    }
-  }
   .title {
     position: relative;
     z-index: 1;
@@ -87,6 +71,42 @@ export default defineComponent({
     left: 0;
     top: 0;
     background: rgba($color: #000, $alpha: 0.2);
+  }
+}
+@media screen and (max-width: 767px) {
+  .section {
+    height: auto;
+    padding: 50px;
+
+    .title {
+      position: relative;
+      z-index: 1;
+      font-family: "Noto serif tc";
+      color: #fff;
+      letter-spacing: 5px;
+      filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9));
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 30px;
+        padding: 16px;
+      }
+      p {
+        font-size: 14px;
+        line-height: 1.5;
+        text-align: justify;
+      }
+    }
+
+    .filter {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      left: 0;
+      top: 0;
+      background: rgba($color: #000, $alpha: 0.2);
+    }
   }
 }
 </style>

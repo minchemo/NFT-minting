@@ -177,4 +177,42 @@ export default defineComponent({
     }
   }
 }
+
+@media screen and (max-width: 767px) {
+  .section {
+    .main {
+      text-align: center;
+      padding: 0 30px;
+      h1 {
+        font-size: 24px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      p {
+        font-size: 14px;
+        line-height: 2;
+        text-align: left;
+        font-weight: 300;
+      }
+      .email-input {
+        margin-top: 30px;
+        padding: 10px;
+      }
+      .error-msg {
+        margin: 10px 0;
+        color: $primaryRed;
+      }
+      .send-verify {
+        padding: 10px;
+        margin-top: 30px;
+
+        &:hover {
+          cursor: pointer;
+          border-radius: 0;
+          background: rgba($color: $primaryBlue, $alpha: 0.7);
+        }
+      }
+    }
+  }
+}
 </style>

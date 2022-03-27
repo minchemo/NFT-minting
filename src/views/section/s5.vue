@@ -1,0 +1,202 @@
+<template>
+  <div class="section" id="s5">
+    <div class="title">
+      <h1 class="styled-title" data-aos="fade">
+        {{ $t("s5.title_1") }}
+      </h1>
+    </div>
+    <div class="news" data-aos="fade" data-aos-delay="400">
+      <div class="item" v-for="(item, i) in news" :key="i">
+        <a target="_blank" :href="news[i].url">
+          <p class="id">
+            <span>{{ i + 1 }}</span>
+          </p>
+          <div class="content">
+            <p class="title">{{ news[i].title }}</p>
+            <p class="date">發布於 {{ news[i].date }}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { useStore } from "vuex";
+import { defineComponent, onMounted, ref } from "vue";
+import useEthereum from "@/utils/useEthereum";
+
+export default defineComponent({
+  name: "s5",
+  setup() {
+    const store = useStore();
+    const news = ref([
+      {
+        title: "挽救亞馬遜雨林 巴西企業販售NFT保育林地",
+        url: "https://www.google.com/",
+        date: "2022/03"
+      },
+      {
+        title: "張惠妹超狂！看演唱會「免費送」NFT 每件作品獨一無二",
+        url: "https://www.google.com/",
+        date: "2022/03"
+      }
+    ]);
+
+    return {
+      news,
+      store,
+    };
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+@import "~@/assets/variable.scss";
+@import "~@/assets/global.scss";
+
+.section {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  flex-direction: column;
+  background-color: $primaryLightBlue;
+  padding: 5vw 0;
+  background-image: url("~@/views/section/s5/bg.svg");
+  background-size: 100%;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  .title {
+    position: relative;
+    z-index: 1;
+    font-family: "Noto serif tc";
+    color: #fff;
+    letter-spacing: 5px;
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9));
+
+    h1 {
+      font-size: 3vw;
+      margin-bottom: 2.5vw;
+    }
+  }
+
+  .news {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+    .item {
+      border-bottom: 2px solid #fff;
+      margin-top: 1vw;
+      padding: 1vw 2vw;
+      transition: all 0.2s;
+      a {
+        color: #fff;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        .id {
+          position: relative;
+          font-size: 2vw;
+          margin-right: 3vw;
+          z-index: 1;
+          color: #fff;
+          span {
+            position: relative;
+            z-index: 1;
+          }
+          &:after {
+            content: "";
+            width: 2.5vw;
+            height: 2.5vw;
+            position: absolute;
+            background-color: $primaryOrange;
+            border-radius: 100%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+          }
+        }
+        .content {
+          .title {
+            font-size: 1.5vw;
+            font-weight: bold;
+            margin-bottom: 1vw;
+            line-height: 1.5;
+            overflow: hidden;
+            max-width: 100%;
+          }
+          .date {
+            font-size: 1vw;
+          }
+        }
+      }
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px 10px 0 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .section {
+    padding: 0;
+    .title {
+      position: relative;
+      z-index: 1;
+      font-family: "Noto serif tc";
+      color: #fff;
+      letter-spacing: 5px;
+      filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9));
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 30px;
+        padding: 16px;
+      }
+    }
+
+    .news {
+      width: 90%;
+      .item {
+        border-bottom: 1px solid #fff;
+        margin-top: 10px;
+        padding: 15px 20px;
+        transition: all 0.2s;
+        a {
+          .id {
+            font-size: 20px;
+            margin-right: 24px;
+            &:after {
+              width: 30px;
+              height: 30px;
+            }
+          }
+          .content {
+            width: 100%;
+            .title {
+              font-size: 16px;
+              margin-bottom: 12px;
+              width: 90%;
+            }
+            .date {
+              font-family: $font2;
+              font-size: 12px;
+            }
+          }
+        }
+        &:hover {
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 10px 10px 0 0;
+        }
+      }
+    }
+  }
+}
+</style>

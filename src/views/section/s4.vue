@@ -1,10 +1,25 @@
 <template>
   <div class="section" id="s4">
-    <div class="title">
-      <h1 class="styled-title" data-aos="fade">
-        {{ $t("s4.title_1") }}
-      </h1>
-      <p data-aos="fade" data-aos-delay="400" v-html="$t('s4.desc')"></p>
+    <div class="flex">
+      <div class="container">
+        <h1 class="styled-title" data-aos="fade">
+          {{ $t("s4.title_1") }}
+        </h1>
+        <p data-aos="fade" data-aos-delay="400" v-html="$t('s4.desc_1')"></p>
+      </div>
+      <div class="container">
+        <h1 class="styled-title" data-aos="fade">
+          {{ $t("s4.title_2") }}
+        </h1>
+        <p data-aos="fade" data-aos-delay="400" v-html="$t('s4.desc_2')"></p>
+        <img
+          data-aos="fade"
+          data-aos-delay="800"
+          src="@/assets/images/gold.jpg"
+          alt=""
+          srcset=""
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -33,32 +48,65 @@ export default defineComponent({
 .section {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   flex-direction: column;
-  background-color: #32325d;
+  background-color: $primaryLightBlue;
   padding: 5vw 0;
-  background-image: url("~@/views/section/s4/bg.svg");
-  background-size: 100%;
-  background-position: center;
-  .title {
+  .flex {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
     position: relative;
     z-index: 1;
     font-family: "Noto serif tc";
     color: #fff;
     letter-spacing: 5px;
-    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9));
 
-    h1 {
-      font-size: 3vw;
-      margin-bottom: 2.5vw;
+    .container {
+      h1 {
+        font-size: 3vw;
+        margin-bottom: 2.5vw;
+      }
+      p {
+        font-size: 1vw;
+        line-height: 1.5;
+      }
+      img {
+        margin-top: 2vw;
+        width: 50%;
+        border-radius: 5px;
+      }
     }
-    p {
-      font-size: 1vw;
-      line-height: 1.5;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .section {
+    .flex {
+      width: 80%;
+      flex-direction: column;
+      .container {
+        margin-bottom: 50px;
+        h1 {
+          font-size: 24px;
+          margin-bottom: 30px;
+          padding: 16px;
+        }
+        p {
+          font-size: 14px;
+          line-height: 1.5;
+          text-align: justify;
+        }
+        img {
+          margin-top: 30px;
+          width: 100%;
+          border-radius: 10px;
+        }
+      }
     }
   }
 }

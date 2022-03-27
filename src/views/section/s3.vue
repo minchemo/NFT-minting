@@ -1,84 +1,11 @@
 <template>
   <div class="section" id="s3">
     <div class="main">
-      <div class="horizontal-container">
-        <div class="scroll-wrapper" ref="scroll">
-          <div class="scroll-content">
-            <img
-              class="scroll-item"
-              src="@/assets/images/1.png"
-              alt=""
-              srcset=""
-            />
-            <img
-              class="scroll-item"
-              src="@/assets/images/6.png"
-              alt=""
-              srcset=""
-            />
-            <img
-              class="scroll-item"
-              src="@/assets/images/7.png"
-              alt=""
-              srcset=""
-            />
-            <img
-              class="scroll-item"
-              src="@/assets/images/8.png"
-              alt=""
-              srcset=""
-            />
-            <img
-              class="scroll-item"
-              src="@/assets/images/13.png"
-              alt=""
-              srcset=""
-            />
-            <img
-              class="scroll-item"
-              src="@/assets/images/01.jpg"
-              alt=""
-              srcset=""
-            />
-            <img
-              class="scroll-item"
-              src="@/assets/images/1.png"
-              alt=""
-              srcset=""
-            />
-            <img
-              class="scroll-item"
-              src="@/assets/images/6.png"
-              alt=""
-              srcset=""
-            />
-            <img
-              class="scroll-item"
-              src="@/assets/images/7.png"
-              alt=""
-              srcset=""
-            />
-            <img
-              class="scroll-item"
-              src="@/assets/images/8.png"
-              alt=""
-              srcset=""
-            />
-            <img
-              class="scroll-item"
-              src="@/assets/images/13.png"
-              alt=""
-              srcset=""
-            />
-            <img
-              class="scroll-item"
-              src="@/assets/images/01.jpg"
-              alt=""
-              srcset=""
-            />
-          </div>
-        </div>
-      </div>
+      <Splide :options="slideOption" :extensions="extensions">
+        <SplideSlide v-for="i in 6" :key="i">
+          <img :src="require(`@/assets/images/${i}.png`)" />
+        </SplideSlide>
+      </Splide>
     </div>
     <div class="filter"></div>
   </div>
@@ -86,26 +13,46 @@
 
 <script>
 import { useStore } from "vuex";
-import { defineComponent, onMounted, ref } from "vue";
+import { reactive, defineComponent, onMounted, ref } from "vue";
 import useEthereum from "@/utils/useEthereum";
-import BScroll from '@better-scroll/core'
+import { Splide, SplideSlide } from '@splidejs/vue-splide';
+import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
+import '@splidejs/splide/dist/css/themes/splide-skyblue.min.css';
 
 export default defineComponent({
   name: "s3",
+  components: {
+    Splide,
+    SplideSlide,
+  },
   setup() {
     const store = useStore();
-    const scroll = ref(null);
+    const slideOption = reactive({
+      type: "loop",
+      drag: "free",
+      rewind: true,
+      autoScroll: {
+        speed: 0.35,
+      },
+      perPage: 7,
+      perMove: 1,
+      gap: 20,
+      pagination: false,
+      arrows: false,
+      breakpoints: {
+        640: {
+          perPage: 1,
+        },
+      },
+    });
 
     onMounted(() => {
-      new BScroll(scroll.value, {
-        scrollX: true,
-        probeType: 3
-      })
     })
 
     return {
-      scroll,
       store,
+      slideOption,
+      extensions: { AutoScroll },
     };
   },
 });
@@ -118,8 +65,8 @@ export default defineComponent({
 .section {
   position: relative;
   width: 100%;
-  min-height: 50vh;
-  background-color: #32325d;
+  min-height: auto;
+  background-color: $primaryLightBlue;
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -133,20 +80,9 @@ export default defineComponent({
   .main {
     width: 100%;
 
-    .horizontal-container {
-      .scroll-wrapper {
-        position: relative;
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        .scroll-content {
-          display: inline-block;
-        }
-        .scroll-item {
-          width: 15vw;
-          display: inline-block;
-        }
-      }
+    img {
+      width: 100%;
+      border-radius: 10px;
     }
   }
 

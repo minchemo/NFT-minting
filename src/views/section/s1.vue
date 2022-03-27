@@ -41,10 +41,20 @@ export default defineComponent({
   background-image: url("~@/views/section/s1/bg.svg");
   background-size: cover;
   background-attachment: fixed;
+  background-position: 50% 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  animation: bgmove 15s alternate-reverse infinite linear;
+  @keyframes bgmove {
+    from {
+      background-position: 0% 0%;
+    }
+    to {
+      background-position: 100% 100%;
+    }
+  }
   .title {
     position: relative;
     z-index: 1;
@@ -82,6 +92,60 @@ export default defineComponent({
       to {
         backdrop-filter: blur(1px);
         transform: scale(1);
+      }
+    }
+  }
+}
+@media screen and (max-width: 767px) {
+  .section {
+    @keyframes bgmove {
+      from {
+        background-position: 80% 80%;
+      }
+      to {
+        background-position: 100% 100%;
+      }
+    }
+    .title {
+      position: relative;
+      z-index: 1;
+      font-family: $font2;
+      color: #fff;
+      letter-spacing: 5px;
+      padding: 0 40px;
+
+      h1 {
+        font-size: 20px;
+        margin-bottom: 30px;
+        line-height: 1.5;
+      }
+      p {
+        font-size: 16px;
+        line-height: 1.5;
+      }
+    }
+
+    .filter {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      left: 0;
+      top: 0;
+      background: rgba($color: #000, $alpha: 0.2);
+      backdrop-filter: blur(1px);
+      transform: scale(1);
+      animation: blurIn 2s alternate-reverse infinite;
+
+      @keyframes blurIn {
+        from {
+          backdrop-filter: blur(15px);
+          transform: scale(1);
+        }
+        to {
+          backdrop-filter: blur(1px);
+          transform: scale(1);
+        }
       }
     }
   }

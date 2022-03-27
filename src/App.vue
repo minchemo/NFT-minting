@@ -8,11 +8,13 @@
   </metainfo>
   <Header />
   <router-view />
+  <Footer />
 </template>
 
 
 <script>
 import Header from "@/views/layout/header.vue";
+import Footer from "@/views/layout/footer.vue";
 import { useMeta } from "vue-meta";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
@@ -32,6 +34,7 @@ export default {
   name: "App",
   components: {
     Header,
+    Footer
   },
   setup() {
     const globals = getCurrentInstance().appContext.config.globalProperties;
@@ -50,11 +53,17 @@ export default {
 
     const hashScroll = () => {
       let section = globals.$router.currentRoute.value.hash.replace("#", "");
-      if (section && document.getElementById(section)) {
-        smoothScroll({
-          scrollTo: document.getElementById(section),
-        });
-      }
+      setTimeout(() => {
+
+        if (section && document.getElementById(section)) {
+
+          smoothScroll({
+            scrollTo: document.getElementById(section),
+          });
+        } else {
+          window.scrollTo(0, 0);
+        }
+      }, 0);
     };
 
     watch(route, () => hashScroll(), { deep: true });
@@ -87,6 +96,6 @@ export default {
 
 html,
 body {
-  background: #32325d;
+  background: $primaryLightBlue;
 }
 </style>

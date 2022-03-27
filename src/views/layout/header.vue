@@ -5,7 +5,7 @@
         <img src="@/assets/logo.svg" alt="" srcset=""
       /></router-link>
     </div>
-    <div class="right">
+    <div class="right" v-bind:class="{ open: menuOpened }">
       <div class="links">
         <router-link to="/#s1" class="link">{{
           $t("header.home")
@@ -21,22 +21,38 @@
         }}</router-link>
         <router-link to="/buy" class="link">{{ $t("header.buy") }}</router-link>
       </div>
-      <div class="connect-wallet">{{ $t("header.connect_wallet") }}</div>
+      <div class="connect-wallet">
+        {{ $t("header.connect_wallet") }}
+      </div>
+      <div class="close" v-if="isMobile"></div>
+    </div>
+    <div class="openMenu" v-if="isMobile" @click="menuOpened = !menuOpened">
+      <img src="@/assets/menu.svg" alt="" srcset="" />
     </div>
   </div>
+  <div
+    class="backdrop"
+    v-if="isMobile && menuOpened"
+    v-bind:class="{ active: menuOpened }"
+    @click="menuOpened = !menuOpened"
+  ></div>
 </template>
 
 <script>
 import { useStore } from "vuex";
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import useEthereum from "@/utils/useEthereum";
+import { isMobile } from "@/utils/mobile";
 
 export default defineComponent({
   name: "header",
   setup() {
     const store = useStore();
+    const menuOpened = ref(false);
     return {
       store,
+      menuOpened,
+      isMobile
     };
   },
 });
@@ -58,6 +74,7 @@ export default defineComponent({
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
   padding: 0 7vw;
   box-sizing: border-box;
+  background: rgba($color: #fff, $alpha: 1);
   backdrop-filter: blur(15px);
 
   .logo {
@@ -82,7 +99,7 @@ export default defineComponent({
         letter-spacing: 2px;
         border-right: 0.5px solid;
         padding-right: 2vw;
-        filter: drop-shadow(1px 1px 0#000);
+        font-weight: bold;
 
         &:after {
           content: "";
@@ -120,6 +137,101 @@ export default defineComponent({
         box-shadow: 0 0 20px rgba($color: #fff, $alpha: 0.5);
       }
     }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  #nav {
+    height: 50px;
+
+    .right {
+      position: fixed;
+      width: 60vw;
+      height: 100vh;
+      right: 0;
+      top: 0;
+      background: #fff;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transform: translateX(100%);
+      transition: all 0.5s;
+
+      &.open {
+        transform: translateX(0);
+        z-index: -1;
+      }
+
+      .links {
+        margin-right: 0;
+        display: flex;
+        flex-direction: column;
+        .link {
+          position: relative;
+          margin-right: 2vw;
+          font-size: 24px;
+          color: $primaryYellow;
+          text-decoration: none;
+          letter-spacing: 2px;
+          border-right: 0;
+          padding-right: 2vw;
+          font-weight: bold;
+          margin: 12px 0;
+
+          &:after {
+            content: "";
+            background: $primaryYellow;
+            position: absolute;
+            bottom: -20%;
+            left: 0;
+            width: 0;
+            height: 2px;
+            z-index: -1;
+            transition: all 0.3s;
+          }
+
+          &:last-child {
+            border-right: 0;
+          }
+
+          &:hover {
+            &::after {
+              width: calc(80% - 1vw);
+            }
+          }
+        }
+      }
+      .connect-wallet {
+        font-size: 16px;
+        background: $primaryYellow;
+        color: #fff;
+        padding: 12px 30px;
+        border-radius: 50px;
+        transition: all 0.5s;
+        margin-top: 20px;
+
+        &:hover {
+          cursor: pointer;
+          box-shadow: 0 0 20px rgba($color: #fff, $alpha: 0.5);
+        }
+      }
+    }
+    .openMenu {
+      width: 30px;
+      height: 30px;
+      img {
+        width: 30px;
+      }
+    }
+  }
+  .backdrop {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    background: rgba($color: #000000, $alpha: 0.5);
+    left: 0;
+    top: 0;
   }
 }
 </style>
