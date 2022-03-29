@@ -11,7 +11,7 @@
         :placeholder="$t('raffle.input_placeholder')"
       />
       <div class="error-msg" v-if="returnMsg != ''">{{ returnMsg }}</div>
-      <div class="send-verify" @click="startVerify()">
+      <div class="send-verify" @click="startVerify()" v-if="!loading">
         {{ $t("raffle.send") }}
       </div>
     </div>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { useI18n } from 'vue-i18n'
+import { useI18n } from "vue-i18n";
 import { useMeta } from "vue-meta";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
@@ -34,7 +34,7 @@ import {
 } from "vue";
 
 import useEthereum from "@/utils/useEthereum";
-import useFirebase from "@/utils/firebase";
+import useEmail from "@/utils/email";
 
 export default defineComponent({
   name: "raffle",
@@ -42,9 +42,10 @@ export default defineComponent({
   setup() {
     const { t } = useI18n();
     const store = useStore();
-    const inputEmail = ref('');
-    const returnMsg = ref('');
-    const { isSignIn, verifyEmail, signInEmail } = useFirebase();
+    const inputEmail = ref("");
+    const returnMsg = ref("");
+    const loading = ref(false);
+    const { send, verify } = useEmail();
 
     const validateEmail = (email) => {
       /* eslint-disable no-useless-escape */
@@ -54,66 +55,78 @@ export default defineComponent({
     };
 
     const startVerify = async () => {
-      if (!inputEmail.value) {
-        returnMsg.value = t("raffle.msg1");
-        return
-      } else if (!validateEmail(inputEmail.value)) {
-        returnMsg.value = t("raffle.msg2");
+      if (!validateEmail(inputEmail.value)) {
+        returnMsg.value = "Email 格式錯誤";
+
         setTimeout(() => {
-          returnMsg.value = ''
-        }, 2000);
+          returnMsg.value = "";
+        }, 1000);
         return;
       }
 
-      let emailProviders = await isSignIn(inputEmail.value);
+      loading.value = true;
 
-      if (emailProviders.indexOf("emailLink") >= 0) {
-        returnMsg.value = t("raffle.msg6")
+      returnMsg.value = "請稍候，信件發送中";
+      let res = await send(inputEmail.value);
+
+      if (res.code == 10) {
+        returnMsg.value = "信件已發送，請前往收件夾驗證";
         setTimeout(() => {
-          returnMsg.value = ''
-        }, 5000);
-      } else {
-        returnMsg.value = t("raffle.msg3")
-        let res = await verifyEmail(inputEmail.value);
-
-        if (res) {
-          returnMsg.value = t("raffle.msg4")
-          alert(t("raffle.msg4"));
-        } else {
-          returnMsg.value = t("raffle.msg5")
-          alert(t("raffle.msg5"));
-        }
+          returnMsg.value = "";
+        }, 3000);
+      } else if (res.code == 1) {
+        returnMsg.value = "此信箱已經驗證過";
+        setTimeout(() => {
+          returnMsg.value = "";
+        }, 3000);
       }
-    }
+
+      loading.value = false;
+    };
 
     const processUrl = async () => {
       let url = window.location.href;
       let continueUrl = new URL(url);
-      continueUrl = continueUrl.searchParams.get("continueUrl");
+      let method = continueUrl.searchParams.get("method");
 
-      if (continueUrl) {
+      if (method == "verify") {
         let parms = new URL(continueUrl);
-        const method = parms.searchParams.get('method');
-        const email = parms.searchParams.get('email');
+        const email = parms.searchParams.get("email");
+        const token = parms.searchParams.get("token");
 
-        if (method == 'verify' && email) {
+        if (email && token) {
           inputEmail.value = email;
-          let res = await signInEmail(email)
-          returnMsg.value = res
+          returnMsg.value = "信箱驗證中，請稍候";
+          loading.value = true;
+
+          let res = await verify(email, token);
+
+          loading.value = false;
+
+          if (res.code == 1) {
+            returnMsg.value = "信箱已驗證，請先加入 Discord 群組，抽獎結果將於 Discord 公告，亦發送至中獎信箱以完成後續錢包地址登記。";
+          } else if (res.code == 2) {
+            returnMsg.value = "信箱不存在";
+          } else if (res.code == 3) {
+            returnMsg.value = "驗證失敗，請重新申請一次";
+          } else if (res.code == 0) {
+            returnMsg.value = "驗證失敗，請重新申請一次";
+          } 
+
         }
       }
-
-    }
+    };
 
     onMounted(() => {
-      processUrl()
-    })
+      processUrl();
+    });
 
     return {
       store,
       returnMsg,
       inputEmail,
       startVerify,
+      loading,
     };
   },
 });
@@ -139,6 +152,7 @@ export default defineComponent({
       font-size: 48px;
       font-weight: 600;
       text-transform: uppercase;
+      margin: 30px 0;
     }
     p {
       font-size: 18px;
@@ -156,8 +170,9 @@ export default defineComponent({
       letter-spacing: 1.5px;
     }
     .error-msg {
+      line-height: 1.5;
       margin-top: 1vw;
-      color: $primaryRed;
+      color: $primaryYellow;
     }
     .send-verify {
       display: inline-block;
@@ -201,7 +216,6 @@ export default defineComponent({
       }
       .error-msg {
         margin: 10px 0;
-        color: $primaryRed;
       }
       .send-verify {
         padding: 10px;
