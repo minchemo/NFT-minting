@@ -2,164 +2,181 @@ import Web3 from "web3";
 import contractConfig from "@/utils/contract";
 import { ref } from "vue";
 import store from "@/store";
+import presaleList from '@/assets/whitelist.json';
+import keccak256 from "keccak256";
+import MerkleTree from "merkletreejs";
 
 export default function () {
     const requestAccount = () => {
-        if (store.state.connectedAddress != '') {
-            return;
-        }
-        const { ethereum } = window;
-
-        ethereum
+        store.state.ethereum
             .request({ method: "eth_requestAccounts" })
             .then((account) => {
-
-                store.dispatch('setConnectedAddress', account[0]);
-
-                // getSupply();
-                // getMintedAmount();
+                store.dispatch('setStateData', { name: 'setConnectedAddress', data: account[0] });
+                getAddressMinted();
             })
             .catch((e) => {
                 const errorCode = e.code;
 
                 if (errorCode == 4001) {
-                    // showAlert("User rejected the request, Please connect again.");
+                    alert("User rejected the request, Please connect again.");
                 } else if (errorCode == -32002) {
-                    // showAlert(
-                    //     "Request already pending, please check on your Metamask."
-                    // );
+                    alert(
+                        "Request already pending, please check on your Metamask."
+                    );
                 }
             });
     };
 
-    // const getConfig = () => {
-    //     contract.value.methods
-    //         .nftConfig()
-    //         .call()
-    //         .then((config) => {
-    //             nftConfig.value = config;
+    const getConfig = () => {
+        store.state.contract.methods
+            .twgoodthingConfig()
+            .call()
+            .then((config) => {
+                store.dispatch('setStateData', { name: 'setNftConfig', data: config });
+            });
+    };
 
-    //             console.log(config);
+    const getTotalSupply = () => {
+        store.state.contract.methods
+            .totalSupply()
+            .call()
+            .then((amount) => {
+                store.dispatch('setStateData', { name: 'setTotalSupply', data: amount });
+            });
+    }
 
-    //             if (loading.value) {
-    //                 setTimeout(() => {
-    //                     loading.value = false;
-    //                 }, 1000);
-    //             }
-    //         });
-    // };
+    const getAddressMinted = () => {
+        store.state.contract.methods
+            .addressMinted(store.state.connectedAddress)
+            .call()
+            .then((amount) => {
+                store.dispatch('setStateData', { name: 'setAddressMinted', data: amount });
+            });
+    };
 
-    // const getSupply = () => {
-    //     contract.value.methods
-    //         .totalSupply()
-    //         .call()
-    //         .then((supply) => {
-    //             nftConfig.value.totalSupply = supply;
-    //         });
-    // };
+    const publicSaleMint = (amount) => {
+        let value = store.state.web3.utils.toHex(
+            store.state.nftConfig.publicSalePrice * amount
+        );
 
-    // const getMintedAmount = () => {
-    //     contract.value.methods
-    //         .addressMinted(connectedAddress.value)
-    //         .call()
-    //         .then((amount) => {
-    //             mintedAmount.value = amount;
+        const transactionParams = {
+            to: contractConfig.contract_address,
+            from: store.state.connectedAddress,
+            value: value,
+            data: store.state.contract.methods
+                .publicSaleMint(amount)
+                .encodeABI(),
+        };
+        return store.state.ethereum.request({
+            method: "eth_sendTransaction",
+            params: [transactionParams],
+        });
+    };
 
-    //             if (nftConfig.value.isSale) {
-    //                 if (amount >= nftConfig.value.maxMint) {
-    //                     exceedMaxAmount.value = true;
-    //                 } else {
-    //                     exceedMaxAmount.value = false;
-    //                 }
-    //             }
-    //         });
-    // };
+    const preSaleMint = (amount) => {
+        const proof = getProof();
 
-    // const publicSaleMint = () => {
-    //     if (exceedMaxAmount.value) {
-    //         showAlert("Can't mint more.");
-    //         return;
-    //     }
+        let value = store.state.web3.utils.toHex(
+            store.state.nftConfig.preSalePrice * amount
+        );
 
-    //     const { ethereum } = window;
+        const transactionParams = {
+            to: contractConfig.contract_address,
+            from: store.state.connectedAddress,
+            value: value,
+            data: store.state.contract.methods
+                .preSaleMint(amount, proof)
+                .encodeABI(),
+        };
 
-    //     let value = 0;
-    //     if (nftConfig.value.totalSupply > 300) {
-    //         value = web3.value.utils.toHex(
-    //             nftConfig.value.salePrice * publicSaleSelectedAmount.value
-    //         );
-    //     }
+        return store.state.web3.eth.sendTransaction(transactionParams);
+    };
 
-    //     const transactionParams = {
-    //         to: contractConfig.contract_address,
-    //         from: connectedAddress.value,
-    //         gasLimit: web3.value.utils.toHex(300000),
-    //         value: value,
-    //         data: contract.value.methods
-    //             .mint(publicSaleSelectedAmount.value)
-    //             .encodeABI(),
-    //     };
-    //     return ethereum.request({
-    //         method: "eth_sendTransaction",
-    //         params: [transactionParams],
-    //     });
-    // };
+    const init = () => {
+        const { ethereum } = window;
+        if (!ethereum) {
+            alert(
+                "No wallet plugin is available! Please change your browser or install wallet plugin."
+            );
+            return;
+        }
 
-    // const showAlert = (msg) => {
-    //     alertMsg.value = msg;
-    //     isShowAlert.value = true;
-    // };
+        let web3 = new Web3(ethereum);
+        let contract = new web3.eth.Contract(
+            contractConfig.ABI,
+            contractConfig.contract_address
+        );
 
-    // const init = () => {
+        store.dispatch('setStateData', { name: 'setEthereum', data: ethereum });
+        store.dispatch('setStateData', { name: 'setWeb3', data: web3 });
+        store.dispatch('setStateData', { name: 'setContract', data: contract });
 
-    //     const { ethereum } = window;
+        getConfig();
 
-    //     if (!ethereum) {
-    //         showAlert(
-    //             "No wallet plugin is available! Please change your browser or install wallet plugin."
-    //         );
-    //         return;
-    //     }
+        ethereum.on("chainChanged", function (id) {
+            store.state.web3.eth.getChainId().then((id) => {
+                if (id != store.state.networkId) {
+                    alert("Please Change to mainnet.");
+                } else {
+                    window.location.reload();
+                }
+            });
+        });
 
-    //     web3.value = new Web3(ethereum);
-    //     contract.value = new web3.value.eth.Contract(
-    //         contractConfig.ABI,
-    //         contractConfig.contract_address
-    //     );
-    //     getConfig();
+        ethereum.on("accountsChanged", function (accounts) {
+            store.dispatch('setStateData', { name: 'setConnectedAddress', data: accounts[0] });
+        })
 
-    //     ethereum.on("chainChanged", function (id) {
-    //         web3.value.eth.getChainId().then((id) => {
-    //             if (id != networkId.value) {
-    //                 error.value = true;
-    //                 clearInterval(interval.value);
-    //             } else {
-    //                 window.location.reload();
-    //             }
-    //         });
-    //     });
+        store.state.web3.eth.getChainId().then((id) => {
+            if (id != store.state.networkId) {
+                alert("Please Change to mainnet.");
+                return;
+            }
+            ethereum.on("accountsChanged", function (accounts) {
+                store.dispatch('setStateData', { name: 'setConnectedAddress', data: accounts[0] });
+            });
 
-    //     web3.value.eth.getChainId().then((id) => {
-    //         if (id != networkId.value) {
-    //             showAlert("Please Change to mainnet.");
-    //             return;
-    //         }
-    //         ethereum.on("accountsChanged", function (accounts) {
-    //             connectedAddress.value = accounts[0];
-    //         });
-    //         requestAccount();
-    //         interval.value = setInterval(() => {
-    //             getConfig();
+            requestAccount();
 
-    //             if (connectedAddress.value) {
-    //                 getSupply();
-    //                 getMintedAmount();
-    //             }
-    //         }, 1000);
-    //     });
-    // }
+            setInterval(() => {
+                getConfig();
+                getTotalSupply();
+
+                if (store.state.connectedAddress != '') {
+                    getAddressMinted()
+                }
+            }, 1000);
+        });
+
+        store.dispatch('setStateData', { name: 'setInit', data: true });
+
+    }
+
+    /**
+     * WHITELIST FUNCTION
+     */
+    const canPresaleIdx = () => {
+
+        return presaleList.addresses.findIndex(item => item.toLowerCase() == store.state.connectedAddress.toLowerCase());
+    }
+    const getProof = () => {
+        const leafNodes = presaleList.addresses.map(addr => keccak256(addr));
+        const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
+        const rootHash = merkleTree.getRoot().toString('hex');
+
+        console.log(`rootHash: 0x${rootHash}`);
+
+        if (canPresaleIdx() > -1) {
+            const claimingAddress = leafNodes[canPresaleIdx()];
+            const proof = merkleTree.getHexProof(claimingAddress);
+            return proof;
+        }
+    }
 
     return {
-        requestAccount
+        init,
+        canPresaleIdx,
+        publicSaleMint,
+        preSaleMint
     };
 }

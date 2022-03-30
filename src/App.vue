@@ -41,7 +41,7 @@ export default {
     const store = useStore();
     const route = useRoute();
     // const { } = useEthereum();
-    const { initFirebase } = useFirebase();
+    // const { initFirebase } = useFirebase();
 
     const smoothScroll = inject("smoothScroll");
 
@@ -70,7 +70,7 @@ export default {
     onMounted(() => {
       hashScroll();
       // 初始化 firebase
-      initFirebase();
+      // initFirebase();
     });
 
 

@@ -2,36 +2,56 @@ import { createStore } from "vuex"
 
 export default createStore({
     state: {
-        firebaseInstance: null,
+        init: false,
+        ethereum: null,
         web3: null,
-        networkId: 1,
+        networkId: 4,
         contract: null,
         connectedAddress: "",
         nftConfig: {
-            isSale: false,
-            maxMint: 5,
-            salePrice: 10000000000000000,
-            totalSupply: 0,
-            maxSupply: 3000,
+            paused: false,
+            isPublicSale: false,
+            isPreSale: false,
+            preSaleMaxMint: 2,
+            publicSaleMaxMint: 10,
+            publicSalePrice: 0,
+            preSalePrice: 0,
+            maxSupply: 10625,
+            devMintAmount: 625,
         },
-        mintedAmount: 0,
-        buyingAmount: 0,
+        totalSupply: 0,
+        addressMinted: 0,
     },
     mutations: {
-        initFirebase(state, n) {
-            state.firebaseInstance = n
+        setInit(state, n) {
+            state.init = n
+        },
+        setEthereum(state, n) {
+            state.ethereum = n
+        },
+        setWeb3(state, n) {
+            state.web3 = n
+        },
+        setContract(state, n) {
+            state.contract = n
+        },
+        setAddressMinted(state, n) {
+            state.addressMinted = n
+        },
+        setNftConfig(state, n) {
+            state.nftConfig = n
+        },
+        setTotalSupply(state, n) {
+            state.totalSupply = n
         },
         setConnectedAddress(state, n) {
             state.connectedAddress = n
         },
     },
     actions: {
-        initFirebase({ commit }, payload) {
-            commit("initFirebase", payload)
-        },
-        setConnectedAddress({ commit }, payload) {
-            commit("setConnectedAddress", payload)
-        },
+        setStateData({ commit }, payload) {
+            commit(payload.name, payload.data)
+        }
     },
     modules: {},
 })

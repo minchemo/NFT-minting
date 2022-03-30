@@ -14,6 +14,7 @@ import { lang } from "./lang"
 const i18n = createI18n({
     locale: "zh",
     fallbackLocale: "en",
+    warnHtmlInMessage: 'off',
     messages: lang,
 })
 

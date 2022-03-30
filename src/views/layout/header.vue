@@ -1,5 +1,10 @@
 <template>
-  <div id="nav" data-aos="fade-down" data-aos-delay="1000">
+  <div
+    id="nav"
+    data-aos="fade-down"
+    data-aos-delay="1000"
+    v-bind:class="{ active: scrollPos > 0 }"
+  >
     <div class="logo">
       <router-link to="/" class="link">
         <img src="@/assets/logo.svg" alt="" srcset=""
@@ -21,9 +26,9 @@
         }}</router-link>
         <router-link to="/buy" class="link">{{ $t("header.buy") }}</router-link>
       </div>
-      <div class="connect-wallet">
+      <!-- <div class="connect-wallet">
         {{ $t("header.connect_wallet") }}
-      </div>
+      </div> -->
       <div class="close" v-if="isMobile"></div>
     </div>
     <div class="openMenu" v-if="isMobile" @click="menuOpened = !menuOpened">
@@ -49,10 +54,19 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const menuOpened = ref(false);
+    const scrollPos = ref(0);
+
+    onMounted(() => {
+      window.addEventListener("scroll", (e) => {
+        scrollPos.value = window.scrollY;
+      });
+    });
+
     return {
+      scrollPos,
       store,
       menuOpened,
-      isMobile
+      isMobile,
     };
   },
 });
@@ -66,21 +80,33 @@ export default defineComponent({
   top: 0;
   left: 0;
   z-index: 1000;
-
   height: $navHeight;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
   padding: 0 7vw;
   box-sizing: border-box;
-  background: rgba($color: #fff, $alpha: 1);
-  backdrop-filter: blur(15px);
+  transition: all 1s;
+
+  &.active {
+    backdrop-filter: blur(15px);
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+
+    .logo {
+      img {
+        height: 100%;
+        filter: brightness(100%);
+      }
+    }
+  }
 
   .logo {
     height: 50%;
     img {
+      transition: all 1s;
       height: 100%;
+      filter: brightness(0) invert(1);
     }
   }
 
@@ -94,7 +120,7 @@ export default defineComponent({
         position: relative;
         margin-right: 2vw;
         font-size: 24px;
-        color: $primaryYellow;
+        color: #fff;
         text-decoration: none;
         letter-spacing: 2px;
         border-right: 0.5px solid;

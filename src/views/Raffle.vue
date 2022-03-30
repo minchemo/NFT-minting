@@ -71,9 +71,6 @@ export default defineComponent({
 
       if (res.code == 10) {
         returnMsg.value = "信件已發送，請前往收件夾驗證";
-        setTimeout(() => {
-          returnMsg.value = "";
-        }, 3000);
       } else if (res.code == 1) {
         returnMsg.value = "此信箱已經驗證過";
         setTimeout(() => {

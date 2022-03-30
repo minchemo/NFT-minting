@@ -6,49 +6,153 @@
         <p v-html="$t('buy.desc')"></p>
       </div>
       <div class="mint">
-        <div class="mint-info">1 / 10000</div>
-        <div class="mint-amount">
-          <span class="de btn">－</span>
-          <span class="current">0</span>
-          <span class="in btn">＋</span>
+        <!-- amount -->
+        <template v-if="store.state.connectedAddress != ''">
+          <div class="mint-info">
+            {{ store.state.totalSupply }} /
+            {{ store.state.nftConfig.maxSupply }}
+          </div>
+          <div class="mint-amount">
+            <span class="de btn" @click="buyAmount--">－</span>
+            <span class="current">{{ buyAmount }}</span>
+            <span class="in btn" @click="buyAmount++">＋</span>
+          </div>
+        </template>
+        <!-- sale condition -->
+        <div class="sale-info">
+          <template v-if="store.state.nftConfig.paused">
+            尚未開始販售
+          </template>
+          <template v-else-if="store.state.nftConfig.isPreSale">
+            目前為白名單販售期間
+          </template>
+          <template v-else-if="store.state.nftConfig.isPublicSale">
+            目前為公開販售期間
+          </template>
         </div>
-        <div class="mint-button">購買</div>
+        <!-- buy section -->
+        <div class="mint-button" @click="processBuy()">
+          <template v-if="store.state.connectedAddress != ''">
+            <p>購買</p>
+          </template>
+          <template v-else>
+            <p>連接錢包</p>
+          </template>
+        </div>
+        <!-- connect wallet -->
+        <div class="connect-wallet">
+          <template v-if="store.state.connectedAddress != ''">
+            <p>
+              {{ store.state.connectedAddress.substring(0, 6) }}.....{{
+                store.state.connectedAddress.substr(-5)
+              }}
+            </p>
+          </template>
+          <template v-else>
+            <p>請先連接錢包</p>
+          </template>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { useMeta } from "vue-meta";
+import useEthereum from "@/utils/useEthereum";
+import { defineComponent, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
-import {
-  getCurrentInstance,
-  nextTick,
-  defineComponent,
-  onMounted,
-  watch,
-  inject,
-} from "vue";
-
-import useEthereum from "@/utils/useEthereum";
 
 export default defineComponent({
   name: "Buy",
-  components: {},
   setup() {
-    const globals = getCurrentInstance().appContext.config.globalProperties;
     const store = useStore();
-    const route = useRoute();
-    // const { } = useEthereum();
+    const { init, canPresaleIdx, publicSaleMint, preSaleMint } = useEthereum();
 
-    const smoothScroll = inject("smoothScroll");
+    const buyAmount = ref(0);
+
+    const processBuy = () => {
+      if (!store.state.init) {
+        init();
+        return
+      }
+
+      if (store.state.nftConfig.paused) {
+        alert("尚未開始販售");
+      } else {
+        const check = canBuy();
+        if (saleStage() == "presale") {
+          if (check["can"]) {
+            preSaleMint(buyAmount.value);
+          } else {
+            alert(check['msg']);
+          }
+        } else if (saleStage() == "publicsale") {
+          if (check["can"]) {
+            publicSaleMint(buyAmount.value);
+          } else {
+            alert(check['msg']);
+          }
+        }
+      }
+    };
+
+    const canBuy = () => {
+      let canBuyInfo = {
+        can: true,
+        msg: "",
+      };
+
+      const MAX_AMOUNT_PER_WALLET =
+        canPresaleIdx() >= 0
+          ? store.state.nftConfig.preSaleMaxMint +
+            store.state.nftConfig.publicSaleMaxMint
+          : store.state.nftConfig.preSaleMaxMint;
+
+      const MAX_SUPPLY = store.state.nftConfig.maxSupply;
+      const TOTAL_SUPPLY = store.state.totalSupply;
+
+
+      if (store.state.nftConfig.paused) {
+        canBuyInfo.can = false;
+        canBuyInfo.msg = "販售尚未開始";
+      } else if (saleStage() == "presale" || saleStage() == "publicsale") {
+        if (saleStage() == "presale" && canPresaleIdx() == -1) {
+          canBuyInfo.can = false;
+          canBuyInfo.msg = "不在白名單";
+        } else if (
+          store.state.addressMinted + buyAmount.value >
+          MAX_AMOUNT_PER_WALLET
+        ) {
+          canBuyInfo.can = false;
+          canBuyInfo.msg = "超出可購買數量";
+        } else if ((TOTAL_SUPPLY + buyAmount.value) > MAX_SUPPLY) {
+          canBuyInfo.can = false;
+          canBuyInfo.msg = "超出最大供應量";
+        }
+      }
+
+      return canBuyInfo;
+    };
+
+    const saleStage = () => {
+      if (
+        store.state.nftConfig.isPreSale &&
+        !store.state.nftConfig.isPublicSale
+      ) {
+        return "presale";
+      } else if (
+        !store.state.nftConfig.isPreSale &&
+        store.state.nftConfig.isPublicSale
+      ) {
+        return "publicsale";
+      }
+    };
 
     return {
       store,
-      // init,
-      // connectedAddress,
-      // requestAccount,
+      processBuy,
+      buyAmount,
     };
   },
 });
@@ -110,7 +214,7 @@ export default defineComponent({
         }
       }
       .mint-button {
-        font-size: 2vw;
+        font-size: 1.5vw;
         background-color: $primaryYellow;
         padding: 1vw 2.5vw;
         border-radius: 100px;
@@ -121,6 +225,10 @@ export default defineComponent({
           background-color: $primaryOrange;
         }
       }
+      .connect-wallet {
+        margin-top: 20px;
+        font-size: 1.5vw;
+      }
     }
     .desc {
       text-align: left;
@@ -130,7 +238,7 @@ export default defineComponent({
         margin-bottom: 3vw;
       }
       p {
-        font-size: 1vw;
+        font-size: 1.2vw;
         line-height: 2;
         font-weight: 300;
         letter-spacing: 1.5px;
