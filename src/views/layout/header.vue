@@ -90,13 +90,12 @@ export default defineComponent({
 
   &.active {
     backdrop-filter: blur(15px);
-    background-color: rgba(255, 255, 255, 0.2);
+    // background-color: rgba(255, 255, 255, 0.2);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 
     .logo {
       img {
         height: 100%;
-        filter: brightness(100%);
       }
     }
   }
@@ -106,7 +105,6 @@ export default defineComponent({
     img {
       transition: all 1s;
       height: 100%;
-      filter: brightness(0) invert(1);
     }
   }
 

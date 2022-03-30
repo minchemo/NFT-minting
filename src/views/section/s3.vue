@@ -2,7 +2,7 @@
   <div class="section" id="s3">
     <div class="main">
       <Splide :options="slideOption" :extensions="extensions">
-        <SplideSlide v-for="i in 6" :key="i">
+        <SplideSlide v-for="i in 10" :key="i">
           <img :src="require(`@/assets/images/${i}.png`)" />
         </SplideSlide>
       </Splide>

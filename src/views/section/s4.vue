@@ -6,6 +6,16 @@
           {{ $t("s4.title_1") }}
         </h1>
         <p data-aos="fade" data-aos-delay="400" v-html="$t('s4.desc_1')"></p>
+        <div class="donation">
+          <div class="title">參與協會列表</div>
+          <a target="_blank" href="https://www.facebook.com/Shine80945"
+            >光線溫暖協會</a
+          >
+          <a target="_blank" href="https://firefly.com.tw/"
+            >社團法人高雄市螢火蟲兒少福利服務關懷協會</a
+          >
+          <a target="_blank" href="https://kswu.org.tw/">高雄市社福慈善總會</a>
+        </div>
       </div>
       <div class="container">
         <h1 class="styled-title" data-aos="fade">
@@ -79,6 +89,25 @@ export default defineComponent({
         margin-top: 2vw;
         width: 50%;
         border-radius: 5px;
+      }
+
+      .donation {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 1.5vw 2vw;
+        color: #fff;
+        margin-top: 1.5vw;
+        .title {
+          font-size: 1.5vw;
+          margin-bottom: 1.5vw;
+          font-weight: 1000;
+        }
+        a {
+          font-size: 1.1vw;
+          display: block;
+          color: #fff;
+          margin: 20px 0;
+        }
       }
     }
   }

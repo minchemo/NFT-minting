@@ -38,7 +38,7 @@ export default defineComponent({
   position: relative;
   width: 100%;
   height: 100vh;
-  background-image: url("~@/views/section/s1/bg.svg");
+  background-image: url("~@/views/section/s1/bg.jpg");
   background-size: cover;
   background-attachment: fixed;
   background-position: 50% 50%;
@@ -46,15 +46,6 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  animation: bgmove 15s alternate-reverse infinite linear;
-  @keyframes bgmove {
-    from {
-      background-position: 0% 0%;
-    }
-    to {
-      background-position: 100% 100%;
-    }
-  }
   .title {
     position: relative;
     z-index: 1;
@@ -63,12 +54,12 @@ export default defineComponent({
     letter-spacing: 5px;
 
     h1 {
-      font-size: 1.5vw;
+      font-size: 2vw;
       margin-bottom: 1.5vw;
       line-height: 1.5;
     }
     p {
-      font-size: 1vw;
+      font-size: 1.3vw;
     }
   }
 
