@@ -16,14 +16,14 @@
         >discord.gg/vGEHGB2zaA</a
       ><br />
     </div>
-    <p class="cp">© 台灣好覓 2022</p>
+    <p class="cp">Copyright © 2022 台灣好覓. All rights reserved.</p>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @import "~@/assets/variable.scss";
 .footer {
-  border-top: 1px solid $primaryYellow;
+  border-top: 20px solid rgba(255, 255, 255, 0.14);
   background-color: $primaryLightBlue;
   min-height: 50vh;
   display: flex;
@@ -31,13 +31,19 @@
   align-items: center;
   color: #fff;
   flex-direction: column;
+  padding: 5vw 0;
+  // background-image: url("~@/views/layout/footer-bg.svg");
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;;
   h2 {
-    font-size: 2vw;
+    font-size: 3vw;
+    font-weight: 1000;
     font-family: $font2;
   }
   .social {
     margin-top: 3vw;
-    font-size: 0.7vw;
+    font-size: 1.25vw;
     font-family: $font2;
     font-weight: 100;
     line-height: 2;
@@ -46,7 +52,8 @@
     }
   }
   .cp {
-    margin-top: 2vw;
+    font-size: 1.2vw;
+    margin-top: 5vw;
   }
 }
 

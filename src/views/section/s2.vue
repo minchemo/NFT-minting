@@ -1,10 +1,10 @@
 <template>
-  <div class="section" id="s2" data-aos="fade" data-aos-delay="500">
+  <div class="section" id="s2" >
     <div class="title">
-      <h1 class="styled-title" data-aos="fade" data-aos-delay="500">
+      <h1 class="styled-title" data-aos="fade" data-aos-delay="200">
         {{ $t("s2.title_1") }}
       </h1>
-      <p data-aos="fade" data-aos-delay="1000" v-html="$t('s2.title_2')"></p>
+      <p data-aos="fade" data-aos-delay="500" v-html="$t('s2.title_2')"></p>
     </div>
     <div class="filter"></div>
   </div>
@@ -58,7 +58,7 @@ export default defineComponent({
       margin-bottom: 2.5vw;
     }
     p {
-      font-size: 1vw;
+      font-size: 1.25vw;
       line-height: 1.5;
     }
   }

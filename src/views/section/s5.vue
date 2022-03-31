@@ -32,13 +32,8 @@ export default defineComponent({
     const store = useStore();
     const news = ref([
       {
-        title: "挽救亞馬遜雨林 巴西企業販售NFT保育林地",
-        url: "https://www.google.com/",
-        date: "2022/03"
-      },
-      {
-        title: "張惠妹超狂！看演唱會「免費送」NFT 每件作品獨一無二",
-        url: "https://www.google.com/",
+        title: "更多媒體報導即將公告...",
+        url: "",
         date: "2022/03"
       }
     ]);
@@ -66,10 +61,6 @@ export default defineComponent({
   flex-direction: column;
   background-color: $primaryLightBlue;
   padding: 5vw 0;
-  background-image: url("~@/views/section/s5/bg.svg");
-  background-size: 100%;
-  background-position: bottom;
-  background-repeat: no-repeat;
   .title {
     position: relative;
     z-index: 1;
@@ -89,6 +80,7 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     margin-bottom: 50px;
+    font-family: $font2;
     .item {
       border-bottom: 2px solid #fff;
       margin-top: 1vw;
@@ -183,7 +175,7 @@ export default defineComponent({
             .title {
               font-size: 16px;
               margin-bottom: 12px;
-              width: 90%;
+              width: 100%;
             }
             .date {
               font-family: $font2;

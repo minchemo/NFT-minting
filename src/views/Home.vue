@@ -3,9 +3,9 @@
   <S2 />
   <S3 />
   <S4 />
+  <S7 />
   <S5 />
   <S6 />
-  <S7 />
 </template>
 
 <script>

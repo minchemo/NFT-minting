@@ -13,7 +13,7 @@
         v-bind:class="{ active: selectedQuestion == i }"
       >
         <div
-          v-html="item.q"
+          v-html="`${i + 1}. ${item.q}`"
           class="title"
           @click="selectedQuestion = i"
           @mouseover="selectedQuestion = i"
@@ -37,24 +37,24 @@ export default defineComponent({
     const question = ref([
       {
         q: "台灣好覓是什麼樣的NFT呢？",
-        a: "台灣好覓是一款以台灣特色規劃的NFT專案，裡面有動物異人與在地美食等元素結合的NFT，預計總共發行10625張NFT，後續也將會設計一系列與美食與賦能等線上線下的虛實活動，歡迎有興趣的朋友們，一起加入我們。"
+        a: "台灣好覓是一款以台灣特色規劃的NFT專案，裡面有動物異人與在地美食等元素結合的NFT，預計總共發行10625張NFT，後續也將會設計一系列與美食與賦能等線上線下的虛實活動，歡迎有興趣的朋友們，一起加入我們。",
       },
       {
         q: "請問每個人最多可以買幾張台灣好覓NFT呢？",
-        a: "白名單價格為 0.08 ETH (不包括 Gas fee) 每個錢包地址最多購買 2 張<br>公售期間價格為 0.1 ETH (不包括 Gas fee)每個錢包地址最多購買 10 張"
+        a: "白名單價格為 0.08 ETH (不包括 Gas fee) 每個錢包地址最多購買 2 張<br>公售期間價格為 0.1 ETH (不包括 Gas fee)每個錢包地址最多購買 10 張",
       },
       {
         q: "購買的NFT 會出現在哪裡呢？",
-        a: "我們採用以太坊智能合約進行相關mint鑄造，銷售採用以太幣ETH進行銷售，您mint了NFT後，您的台灣好覓NFT將會自動出現於Opensea上，後續您的NFT即會在上面顯示。"
+        a: "我們採用以太坊智能合約進行相關mint鑄造，銷售採用以太幣ETH進行銷售，您mint了NFT後，您的台灣好覓NFT將會自動出現於Opensea上，後續您的NFT即會在上面顯示。",
       },
       {
         q: "推薦使用購買錢包與綁定Opensea帳號",
-        a: "我們推薦您使用MetaMask 小狐狸錢包進行錢包的申請，並綁定於Opensea 公海帳號，並且於購買虛擬貨幣入金以後，於我們官方網站進行鑄造屬於您獨一無二的NFT"
+        a: "我們推薦您使用MetaMask 小狐狸錢包進行錢包的申請，並綁定於Opensea 公海帳號，並且於購買虛擬貨幣入金以後，於我們官方網站進行鑄造屬於您獨一無二的NFT",
       },
       {
         q: "我們的願景是什麼？",
-        a: "我們希望將台灣好覓打造成一款以推薦在地美食與結合賦能回饋給我們的持有者，既然是美食為發想，當然希望可以讓大家都享受到美食。所以也會結合一些美食廠商做賦能與活動，並回饋給我們的持有者。並且在我們的路線圖內也有規劃，我們於達成每一千張的銷售都將會捐出1ETH給予台灣的社福團體，讓這些需要幫助的大小朋友們能獲得大家的共同幫忙、讓社會更加美好，後續於達成全部銷售後，將會購買虛擬土地，並成立我們的俱樂部，打造一個線上線下的虛實社群結合，讓大家在元宇宙內開心玩樂，線下享受美食"
-      }
+        a: "我們希望將台灣好覓打造成一款以推薦在地美食與結合賦能回饋給我們的持有者，既然是美食為發想，當然希望可以讓大家都享受到美食。所以也會結合一些美食廠商做賦能與活動，並回饋給我們的持有者。並且在我們的路線圖內也有規劃，我們於達成每一千張的銷售都將會捐出1ETH給予台灣的社福團體，讓這些需要幫助的大小朋友們能獲得大家的共同幫忙、讓社會更加美好，後續於達成全部銷售後，將會購買虛擬土地，並成立我們的俱樂部，打造一個線上線下的虛實社群結合，讓大家在元宇宙內開心玩樂，線下享受美食",
+      },
     ]);
 
     const selectedQuestion = ref();
@@ -126,7 +126,7 @@ export default defineComponent({
       }
       .answer {
         font-size: 1.2vw;
-        line-height: 1.5;
+        line-height: 2;
         letter-spacing: 2px;
         padding-left: 1.5vw;
         margin-top: 1vw;
@@ -147,6 +147,7 @@ export default defineComponent({
 @media screen and (max-width: 767px) {
   .section {
     padding: 30px 0;
+    background-size: 300%;
     .title {
       position: relative;
       z-index: 1;
@@ -159,6 +160,30 @@ export default defineComponent({
         font-size: 24px;
         margin-bottom: 30px;
         padding: 16px;
+      }
+    }
+    .question {
+      width: 90%;
+      .question-item {
+        margin: 20px 0;
+        .title {
+          font-size: 17px;
+          padding: 14px;
+          line-height: 1.5;
+          margin-bottom: 15px;
+          &:hover {
+            transform: translate(-50%);
+          }
+        }
+        .answer {
+          font-size: 14px;
+          text-align: left;
+        }
+        &.active {
+          .answer {
+            max-height: 500px;
+          }
+        }
       }
     }
   }
