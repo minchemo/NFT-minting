@@ -31,16 +31,19 @@
           </template>
         </div>
         <!-- buy section -->
-        <div class="mint-button" @click="processBuy()">
+        <!-- <div class="mint-button" @click="processBuy()">
           <template v-if="store.state.connectedAddress != ''">
             <p>購買</p>
           </template>
           <template v-else>
             <p>連接錢包</p>
           </template>
+        </div> -->
+        <div class="mint-button">
+          <p>尚未開始販售</p>
         </div>
         <!-- connect wallet -->
-        <div class="connect-wallet">
+        <!-- <div class="connect-wallet" >
           <template v-if="store.state.connectedAddress != ''">
             <p>
               {{ store.state.connectedAddress.substring(0, 6) }}.....{{
@@ -51,7 +54,7 @@
           <template v-else>
             <p>請先連接錢包</p>
           </template>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -74,7 +77,7 @@ export default defineComponent({
     const processBuy = () => {
       if (!store.state.init) {
         init();
-        return
+        return;
       }
 
       if (store.state.nftConfig.paused) {
@@ -85,13 +88,13 @@ export default defineComponent({
           if (check["can"]) {
             preSaleMint(buyAmount.value);
           } else {
-            alert(check['msg']);
+            alert(check["msg"]);
           }
         } else if (saleStage() == "publicsale") {
           if (check["can"]) {
             publicSaleMint(buyAmount.value);
           } else {
-            alert(check['msg']);
+            alert(check["msg"]);
           }
         }
       }
@@ -112,7 +115,6 @@ export default defineComponent({
       const MAX_SUPPLY = store.state.nftConfig.maxSupply;
       const TOTAL_SUPPLY = store.state.totalSupply;
 
-
       if (store.state.nftConfig.paused) {
         canBuyInfo.can = false;
         canBuyInfo.msg = "販售尚未開始";
@@ -126,7 +128,7 @@ export default defineComponent({
         ) {
           canBuyInfo.can = false;
           canBuyInfo.msg = "超出可購買數量";
-        } else if ((TOTAL_SUPPLY + buyAmount.value) > MAX_SUPPLY) {
+        } else if (TOTAL_SUPPLY + buyAmount.value > MAX_SUPPLY) {
           canBuyInfo.can = false;
           canBuyInfo.msg = "超出最大供應量";
         }
@@ -177,12 +179,12 @@ export default defineComponent({
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     padding: 5vw 10vw;
     border-radius: 50px;
     backdrop-filter: blur(3px);
     .mint {
-      margin-left: 10vw;
-      width: 35%;
+      width: 30%;
       text-align: center;
       .mint-info {
         font-family: $font2;
@@ -231,7 +233,11 @@ export default defineComponent({
       }
     }
     .desc {
+      width: 65%;
       text-align: left;
+      border: 1px solid #fff;
+      padding: 20px 30px;
+      border-radius: 30px;
       h1 {
         font-size: 2.5vw;
         font-weight: 900;
@@ -254,7 +260,7 @@ export default defineComponent({
       display: flex;
       flex-direction: column-reverse;
       align-items: center;
-      padding: 30px;
+      padding: 10px;
       border-radius: 50px;
       backdrop-filter: blur(3px);
 
@@ -307,6 +313,8 @@ export default defineComponent({
       .desc {
         text-align: left;
         margin-top: 50px;
+        width: 100%;
+        padding: 10px 20px;
         h1 {
           font-size: 20px;
           font-weight: 900;
