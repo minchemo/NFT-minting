@@ -12,14 +12,17 @@
     </div>
     <div class="right" v-bind:class="{ open: menuOpened }">
       <div class="links">
-        <router-link to="/#s1" class="link">{{
-          $t("header.home")
-        }}</router-link>
-        <router-link to="/#s2" class="link">{{
-          $t("header.about")
-        }}</router-link>
         <router-link to="/#s3" class="link">{{
           $t("header.work")
+        }}</router-link>
+        <router-link to="/#s4" class="link">{{
+          $t("header.donation")
+        }}</router-link>
+        <router-link to="/#s7" class="link">{{
+          $t("header.roadmap")
+        }}</router-link>
+        <router-link to="/#s6" class="link">{{
+          $t("header.question")
         }}</router-link>
         <router-link to="/raffle" class="link">{{
           $t("header.raffle")
@@ -244,6 +247,7 @@ export default defineComponent({
       width: 30px;
       height: 30px;
       img {
+        filter: brightness(0) invert(1);
         width: 30px;
       }
     }

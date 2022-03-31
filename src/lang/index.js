@@ -3,7 +3,11 @@ export const lang = {
     zh: {
         header: {
             home: "首頁",
-            about: "故事緣起",
+            about: "故事",
+            donation: "公益回饋",
+            roadmap: "路線圖",
+            news: "報導",
+            question: "問答集",
             work: "作品",
             buy: "購買",
             raffle: "登記白名單",
@@ -77,9 +81,9 @@ export const lang = {
         raffle: {
             title: "白名單活動規則",
             desc: `
-            白名單 Email 登記期間： 2022/4/1(UTC+8) 00:01 起至 2022/4/7(UTC+8) 23:59 止<br/>
-            白名單總數量為3000張，我們將採官網登記 Email 隨機抽出白名單得主，<br/>
-            並進行相關白名單資格 Email 通知給意願購買者，有興趣的購買者僅需於官網登記您的 Email 即可，<br/>
+            白名單 Email 登記期間： 2022/4/1(UTC+8) 00:01 起至 2022/4/17(UTC+8) 23:59 止<br/><br/>
+            白名單總數量為 3000 張 (每個地址最多購買 2 張)，將採官網登記 Email 並隨機抽出白名單得主，<br/>
+            中獎者將公告於 Discord 與 Email 通知，有興趣的購買者僅需於官網登記您的 Email 即可，<br/>
             歡迎大家一起來登記參與。`,
             input_placeholder: "請輸入您的 EMAIL",
             send: "驗證登記",

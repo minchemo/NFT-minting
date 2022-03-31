@@ -15,9 +15,9 @@
 import { useStore } from "vuex";
 import { reactive, defineComponent, onMounted, ref } from "vue";
 import useEthereum from "@/utils/useEthereum";
-import { Splide, SplideSlide } from '@splidejs/vue-splide';
+import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
-import '@splidejs/splide/dist/css/themes/splide-skyblue.min.css';
+import "@splidejs/splide/dist/css/themes/splide-skyblue.min.css";
 
 export default defineComponent({
   name: "s3",
@@ -32,11 +32,11 @@ export default defineComponent({
       drag: "free",
       rewind: true,
       autoScroll: {
-        speed: 0.35,
+        speed: 0.8,
       },
-      perPage: 7,
+      perPage: 4,
       perMove: 1,
-      gap: 20,
+      gap: 50,
       pagination: false,
       arrows: false,
       breakpoints: {
@@ -51,8 +51,7 @@ export default defineComponent({
       },
     });
 
-    onMounted(() => {
-    })
+    onMounted(() => {});
 
     return {
       store,
@@ -70,17 +69,19 @@ export default defineComponent({
 .section {
   position: relative;
   width: 100%;
-  min-height: auto;
+  min-height: 100vh;
   background-color: $primaryLightBlue;
-  background-size: cover;
   background-attachment: fixed;
-  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   flex-direction: column;
   font-family: $font2;
+  background-image: url("~@/views/section/s3/bg.svg");
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
 
   .main {
     width: 100%;
@@ -118,6 +119,7 @@ export default defineComponent({
 
 @media screen and (max-width: 767px) {
   .section {
+    background-size: 200%;
     padding: 100px 0;
 
     .main {

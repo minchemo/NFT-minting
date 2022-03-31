@@ -5,7 +5,7 @@
         <h1 class="styled-title" data-aos="fade">
           {{ $t("s4.title_1") }}
         </h1>
-        <p data-aos="fade" data-aos-delay="400" v-html="$t('s4.desc_1')"></p>
+        <p data-aos="fade" data-aos-delay="200" v-html="$t('s4.desc_1')"></p>
         <div class="donation">
           <div class="title">參與協會列表</div>
           <a target="_blank" href="https://www.facebook.com/Shine80945"
@@ -21,10 +21,10 @@
         <h1 class="styled-title" data-aos="fade">
           {{ $t("s4.title_2") }}
         </h1>
-        <p data-aos="fade" data-aos-delay="400" v-html="$t('s4.desc_2')"></p>
+        <p data-aos="fade" data-aos-delay="200" v-html="$t('s4.desc_2')"></p>
         <img
           data-aos="fade"
-          data-aos-delay="800"
+          data-aos-delay="400"
           src="@/assets/images/gold.jpg"
           alt=""
           srcset=""
@@ -77,12 +77,13 @@ export default defineComponent({
     letter-spacing: 5px;
 
     .container {
+      width: 45%;
       h1 {
         font-size: 3vw;
         margin-bottom: 2.5vw;
       }
       p {
-        font-size: 1vw;
+        font-size: 1.25vw;
         line-height: 1.5;
       }
       img {
@@ -119,6 +120,7 @@ export default defineComponent({
       width: 80%;
       flex-direction: column;
       .container {
+        width: 100%;
         margin-bottom: 50px;
         h1 {
           font-size: 24px;
@@ -128,12 +130,28 @@ export default defineComponent({
         p {
           font-size: 14px;
           line-height: 1.5;
-          text-align: justify;
+          text-align: left;
         }
         img {
           margin-top: 30px;
           width: 100%;
           border-radius: 10px;
+        }
+
+        .donation {
+          padding: 20px;
+          margin-top: 30px;
+          
+          .title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: 1000;
+          }
+          a {
+            margin: 10px 0;
+            font-size: 14px;
+            line-height: 1.5;
+          }
         }
       }
     }
