@@ -19,13 +19,13 @@
         <h1 class="name">自撮り Jidori</h1>
         <div class="subtitle">あなたに最適な自撮り写真を見つけましょう</div>
         <div class="go-mint" @click="gomint = !gomint">GO MINT！</div>
-        <div class="slide">
-          <Splide :options="slideOption" :extensions="extensions" ref="slide">
-            <SplideSlide v-for="i in 4" :key="i">
-              <img :src="require(`@/assets/images/${i}.png`)" />
-            </SplideSlide>
-          </Splide>
-        </div>
+      </div>
+      <div class="slide">
+        <Splide :options="slideOption" :extensions="extensions" ref="slide">
+          <SplideSlide v-for="i in 4" :key="i">
+            <img :src="require(`@/assets/images/${i}.png`)" />
+          </SplideSlide>
+        </Splide>
       </div>
 
       <div class="lens"></div>
@@ -243,7 +243,7 @@ export default {
         cols: 2,
         gap: 0,
       },
-      perPage: 3,
+      perPage: 2,
       perMove: 1,
       gap: 0,
       pagination: false,
@@ -565,9 +565,9 @@ $family2: "Klee One", cursive;
 
     .slide {
       position: absolute;
-      left: -2.5vw;
-      top: 2vw;
-      width: 22vw;
+      left: 0;
+      top: 5vw;
+      width: 100%;
       img {
         width: 100%;
       }
@@ -641,6 +641,7 @@ $family2: "Klee One", cursive;
         both;
       animation: text-focus-in 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
       line-height: 1.2;
+      padding-top: 10vw;
       .name {
         font-size: 3vw;
         font-weight: normal;
