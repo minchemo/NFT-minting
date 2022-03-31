@@ -31,19 +31,16 @@
           </template>
         </div>
         <!-- buy section -->
-        <!-- <div class="mint-button" @click="processBuy()">
+        <div class="mint-button" @click="processBuy()">
           <template v-if="store.state.connectedAddress != ''">
             <p>購買</p>
           </template>
           <template v-else>
             <p>連接錢包</p>
           </template>
-        </div> -->
-        <div class="mint-button">
-          <p>尚未開始販售</p>
         </div>
         <!-- connect wallet -->
-        <!-- <div class="connect-wallet" >
+        <div class="connect-wallet">
           <template v-if="store.state.connectedAddress != ''">
             <p>
               {{ store.state.connectedAddress.substring(0, 6) }}.....{{
@@ -54,7 +51,7 @@
           <template v-else>
             <p>請先連接錢包</p>
           </template>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
@@ -77,7 +74,7 @@ export default defineComponent({
     const processBuy = () => {
       if (!store.state.init) {
         init();
-        return;
+        return
       }
 
       if (store.state.nftConfig.paused) {
@@ -88,13 +85,13 @@ export default defineComponent({
           if (check["can"]) {
             preSaleMint(buyAmount.value);
           } else {
-            alert(check["msg"]);
+            alert(check['msg']);
           }
         } else if (saleStage() == "publicsale") {
           if (check["can"]) {
             publicSaleMint(buyAmount.value);
           } else {
-            alert(check["msg"]);
+            alert(check['msg']);
           }
         }
       }
@@ -115,6 +112,7 @@ export default defineComponent({
       const MAX_SUPPLY = store.state.nftConfig.maxSupply;
       const TOTAL_SUPPLY = store.state.totalSupply;
 
+
       if (store.state.nftConfig.paused) {
         canBuyInfo.can = false;
         canBuyInfo.msg = "販售尚未開始";
@@ -128,7 +126,7 @@ export default defineComponent({
         ) {
           canBuyInfo.can = false;
           canBuyInfo.msg = "超出可購買數量";
-        } else if (TOTAL_SUPPLY + buyAmount.value > MAX_SUPPLY) {
+        } else if ((TOTAL_SUPPLY + buyAmount.value) > MAX_SUPPLY) {
           canBuyInfo.can = false;
           canBuyInfo.msg = "超出最大供應量";
         }
