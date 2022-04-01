@@ -177,12 +177,13 @@ export default defineComponent({
       height: 100vh;
       right: 0;
       top: 0;
-      background: #fff;
+      background: rgba($color: #000000, $alpha: .5);
       flex-direction: column;
       justify-content: center;
       align-items: center;
       transform: translateX(100%);
       transition: all 0.5s;
+      backdrop-filter: blur(10px);
 
       &.open {
         transform: translateX(0);
@@ -197,7 +198,7 @@ export default defineComponent({
           position: relative;
           margin-right: 2vw;
           font-size: 24px;
-          color: $primaryYellow;
+          color: #fff;
           text-decoration: none;
           letter-spacing: 2px;
           border-right: 0;
