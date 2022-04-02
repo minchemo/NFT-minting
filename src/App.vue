@@ -140,6 +140,13 @@
     <div class="info">
       <div class="about">
         <div class="item">
+          <h2>販売情報 buy info</h2>
+          <p>
+            4000 supply<br />pre-sale ： free mint (max 2)<br />public-sale ：
+            0.009 ETH (max 8)
+          </p>
+        </div>
+        <div class="item">
           <h2>概念 Concept</h2>
           <p>
             The creative idea comes from people's usual selfie habits, and maybe
@@ -998,12 +1005,12 @@ $family2: "Mochiy Pop P One", sans-serif;
     box-sizing: border-box;
     .about {
       .item {
-        margin-bottom: 2vw;
+        margin-bottom: 1.5vw;
         h2 {
           position: relative;
           font-size: 1.5vw;
           display: inline-block;
-          margin-bottom: 0.5vw;
+          margin-bottom: 0.25vw;
           text-transform: uppercase;
           color: #fff;
           &::after {
