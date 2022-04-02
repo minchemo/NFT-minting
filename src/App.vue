@@ -7,7 +7,7 @@
       Go fill the form and you will receive an email once presale start, stay
       tuned! <br />( stealth launch in 48hours)
     </p>
-    <a href="https://forms.gle/1Kbg48APAwncnEL59" target="_blank"
+    <a href="https://forms.gle/57tDA3JmGXrKq1wc7" target="_blank"
       >GO Fill form<br /><br />(CLOSE AT 04/03/2022 PM14:00 UTC+09:00)</a
     >
     <div class="close" @click="enter = true">ENTER WEBSITE</div>
