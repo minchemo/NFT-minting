@@ -1,4 +1,17 @@
 <template>
+  <div class="whitelist-popup" v-bind:class="{ hide: enter }">
+    <h1>ホワイトリスト登録<br />Whitelist registration now</h1>
+    <p>
+      Whitelist can free mint 2 Jidori, will pick first 200 addresses for WL.<br />
+      (It will going to raffle if more than 205 addresses are registered.)<br /><br />
+      Go fill the form and you will receive an email once presale start, stay
+      tuned! <br />( stealth launch in 48hours)
+    </p>
+    <a href="https://forms.gle/1Kbg48APAwncnEL59" target="_blank"
+      >GO Fill form<br /><br />(CLOSE AT 04/03/2022 PM14:00 UTC+09:00)</a
+    >
+    <div class="close" @click="enter = true">ENTER WEBSITE</div>
+  </div>
   <div class="error-page" v-if="error">
     <p>
       You're not able to visit this website, Please check your metamask network
@@ -18,11 +31,14 @@
       <div class="header">
         <h1 class="name">自撮り Jidori</h1>
         <div class="subtitle">あなたに最適な自撮り写真を見つけましょう</div>
-        <div class="go-mint" @click="gomint = !gomint">GO MINT！</div>
+        <!-- <div class="go-mint" @click="gomint = !gomint">GO MINT！</div> -->
+        <div class="go-mint" @click="showAlert('Sale not start!!!')">
+          GO MINT！
+        </div>
       </div>
       <div class="slide">
         <Splide :options="slideOption" :extensions="extensions" ref="slide">
-          <SplideSlide v-for="i in 4" :key="i">
+          <SplideSlide v-for="i in 20" :key="i">
             <img :src="require(`@/assets/images/${i}.png`)" />
           </SplideSlide>
         </Splide>
@@ -54,16 +70,34 @@
               <div class="supply">
                 {{ totalSupply }} / {{ jidoriConfig.maxSupply }}
               </div>
-              <p class="whitelist-msg">{{ isWhitelistedMsg }}</p>
+              <p class="whitelist-msg" v-html="isWhitelistedMsg"></p>
+
+              <div class="selection">
+                <p>BUY</p>
+                <div class="item-box">
+                  <div
+                    class="item"
+                    v-for="(amount, i) in parseInt(jidoriConfig.preSaleMaxMint)"
+                    :key="i"
+                    v-bind:class="{
+                      selected: selectedAmount == amount,
+                    }"
+                    @click="selectedAmount = amount"
+                  >
+                    {{ amount }}
+                  </div>
+                </div>
+                <p>ITEMS</p>
+              </div>
               <div class="mint-button" @click="preSaleMint">Pre-Sale MINT</div>
 
-              <div class="minted">You have minted: {{ mintedAmount }}</div>
+              <div class="minted">You have {{ mintedAmount }} Jidori</div>
             </template>
             <template v-else>
               <div class="supply">
                 {{ totalSupply }} / {{ jidoriConfig.maxSupply }}
               </div>
-              <p class="whitelist-msg">{{ isWhitelistedMsg }}</p>
+              <p class="whitelist-msg" v-html="isWhitelistedMsg"></p>
             </template>
           </template>
           <!--Public-Sale-->
@@ -73,34 +107,36 @@
             <div class="supply">
               {{ totalSupply }} / {{ jidoriConfig.maxSupply }}
             </div>
-            <p class="public-msg">
-              Public-sale is now live, Maximum mint amount:
-              {{ jidoriConfig.publicSaleMaxMint }}
-            </p>
             <div class="selection">
-              <p>Select Amount</p>
-              <div
-                class="item"
-                v-for="(amount, i) in parseInt(jidoriConfig.publicSaleMaxMint)"
-                :key="i"
-                v-bind:class="{ selected: publicSaleSelectedAmount == amount }"
-                @click="publicSaleSelectedAmount = amount"
-              >
-                {{ amount }}
+              <p>BUY</p>
+              <div class="item-box">
+                <div
+                  class="item"
+                  v-for="(amount, i) in parseInt(
+                    jidoriConfig.publicSaleMaxMint
+                  )"
+                  :key="i"
+                  v-bind:class="{
+                    selected: selectedAmount == amount,
+                  }"
+                  @click="selectedAmount = amount"
+                >
+                  {{ amount }}
+                </div>
               </div>
-              <!-- <p>Amount</p> -->
+              <p>ITEMS</p>
             </div>
             <div class="mint-button" @click="publicSaleMint">
               Public-Sale MINT
             </div>
 
-            <div class="minted">You have minted: {{ mintedAmount }}</div>
+            <div class="minted">You have {{ mintedAmount }} Jidori</div>
           </template>
         </template>
         <template v-else>
           <div class="init-warning">Please connect to Metamask wallet</div>
         </template>
-        <div class="go-back" @click="gomint = !gomint">GO BACK！</div>
+        <div class="go-back" @click="gomint = !gomint">➞</div>
       </div>
     </div>
     <div class="info">
@@ -115,7 +151,7 @@
         <div class="item">
           <h2>収集 Collection</h2>
           <p>
-            This collection is N in total and contains hundreds of fully
+            This collection is 4000 in total and contains hundreds of fully
             hand-painted features.
           </p>
         </div>
@@ -132,13 +168,31 @@
           <h2>チーム Team</h2>
           <div class="team">
             <div class="member">
-              <img class="image" src="@/assets/images/1.png" alt="" srcset="" />
-              <p>Artist e11i</p>
+              <img
+                class="image"
+                src="@/assets/images/team1.png"
+                alt=""
+                srcset=""
+              />
+              <p>Artist エリ</p>
             </div>
             <div class="member">
-              <img class="image" src="@/assets/images/2.png" alt="" srcset="" />
-              <p>Founder&Dev Jmo</p>
+              <img
+                class="image"
+                src="@/assets/images/team2.png"
+                alt=""
+                srcset=""
+              />
+              <p>Dev ジャスミン</p>
             </div>
+          </div>
+        </div>
+        <div class="item">
+          <h2>Links</h2>
+          <div class="links">
+            <a href="twitter.com" class="link">
+              Twitter (WILL OPENED ONCE PRESALE)
+            </a>
           </div>
         </div>
       </div>
@@ -157,7 +211,15 @@
         <rect width="100%" height="100%" filter="url(#noiseFilter)" />
       </svg>
     </div>
-    <div class="connect-wallet" @click="requestAccount()">
+    <!-- <div class="connect-wallet" @click="requestAccount()">
+      <div v-if="connectedWalletAddress">
+        {{ connectedWalletAddress.substring(-5, 7) }}...{{
+          connectedWalletAddress.slice(37)
+        }}
+      </div>
+      <div v-else>Connect Wallect</div>
+    </div> -->
+    <div class="connect-wallet" @click="showAlert('sale not start!!!')">
       <div v-if="connectedWalletAddress">
         {{ connectedWalletAddress.substring(-5, 7) }}...{{
           connectedWalletAddress.slice(37)
@@ -167,6 +229,9 @@
     </div>
   </div>
   <div class="flash" v-if="!error && takingPicture"></div>
+  <div class="bg">
+    <img src="@/assets/bg.svg" alt="" srcset="" />
+  </div>
 </template>
 
 <script>
@@ -191,6 +256,7 @@ export default {
     SplideSlide,
   },
   setup() {
+    const enter = ref(false);
     const connectedWalletAddress = ref();
     const whitelistAddresses = ref(whitelist);
     const whitelistAddressesIndex = ref(-1);
@@ -207,7 +273,7 @@ export default {
       preSalePrice: 0,
       maxSupply: 0
     });
-    const publicSaleSelectedAmount = ref(1);
+    const selectedAmount = ref(1);
 
     const targetNetworkId = ref(4);
     const isWhitelistedMsg = ref('');
@@ -233,7 +299,7 @@ export default {
       type: "loop",
       rewind: true,
       autoScroll: {
-        speed: 4,
+        speed: 0.5,
         rewind: true,
         pauseOnHover: false,
         pauseOnFocus: false
@@ -241,17 +307,28 @@ export default {
       grid: {
         rows: 2,
         cols: 2,
-        gap: 0,
+        gap: {
+          row: '15px',
+          col: '25px',
+        },
       },
       perPage: 2,
       perMove: 1,
-      gap: 0,
+      gap: 25,
       pagination: false,
       arrows: false,
       breakpoints: {
         640: {
-          perPage: 1,
-          gap: 0,
+          grid: {
+            rows: 2,
+            cols: 2,
+            gap: {
+              row: '15px',
+              col: '25px',
+            },
+          },
+          perPage: 2,
+          gap: 25,
           autoScroll: {
             speed: 0.5,
           },
@@ -319,7 +396,7 @@ export default {
         let addressIndex = whitelistAddresses.value.addresses.findIndex(item => item.toLowerCase() == connectedWalletAddress.value.toLowerCase());
         whitelistAddressesIndex.value = addressIndex;
         if (addressIndex > -1) {
-          isWhitelistedMsg.value = 'You are in whitelist! (Maximum mint amount: 1)';
+          isWhitelistedMsg.value = 'You are in whitelist!';
         } else {
           isWhitelistedMsg.value = 'Not in whitelist';
         }
@@ -354,7 +431,7 @@ export default {
     const preSaleMint = () => {
       if (exceedMaxAmount.value) {
 
-        showAlert("Can't mint more.")
+        showAlert("You mint too much.")
         return
       }
 
@@ -365,9 +442,9 @@ export default {
       const transactionParams = {
         to: contractConfig.contract_address,
         from: connectedWalletAddress.value,
-        gasLimit: web3.value.utils.toHex(300000),
-        value: web3.value.utils.toHex(jidoriConfig.value.preSalePrice),
-        data: contract.value.methods.preSaleMint(1, proof).encodeABI()
+        // gasLimit: web3.value.utils.toHex(300000),
+        value: web3.value.utils.toHex(jidoriConfig.value.preSalePrice * selectedAmount.value),
+        data: contract.value.methods.preSaleMint(selectedAmount.value, proof).encodeABI()
       };
       return ethereum.request({
         method: 'eth_sendTransaction',
@@ -378,7 +455,7 @@ export default {
     //公售mint
     const publicSaleMint = () => {
       if (exceedMaxAmount.value) {
-        showAlert("Can't mint more.")
+        showAlert("You mint too much.")
         return
       }
 
@@ -387,9 +464,9 @@ export default {
       const transactionParams = {
         to: contractConfig.contract_address,
         from: connectedWalletAddress.value,
-        gasLimit: web3.value.utils.toHex(300000),
-        value: web3.value.utils.toHex(jidoriConfig.value.publicSalePrice * publicSaleSelectedAmount.value),
-        data: contract.value.methods.publicSaleMint(publicSaleSelectedAmount.value).encodeABI()
+        // gasLimit: web3.value.utils.toHex(300000),
+        value: web3.value.utils.toHex(jidoriConfig.value.publicSalePrice * selectedAmount.value),
+        data: contract.value.methods.publicSaleMint(selectedAmount.value).encodeABI()
       };
       return ethereum.request({
         method: 'eth_sendTransaction',
@@ -414,63 +491,62 @@ export default {
 
     //初始化
     onMounted(() => {
-      const { ethereum } = window;
+      // const { ethereum } = window;
 
-      if (!ethereum) {
-        showAlert('No wallet plugin is available! Please change your browser or install wallet plugin.');
-        return;
-      }
+      // if (!ethereum) {
+      //   showAlert('No wallet plugin is available! Please change your browser or install wallet plugin.');
+      //   return;
+      // }
 
-      web3.value = new Web3(ethereum);
+      // web3.value = new Web3(ethereum);
 
-      //連接合約
-      contract.value = new web3.value.eth.Contract(contractConfig.ABI, contractConfig.contract_address)
-      //取得合約設定
-      getConfig();
+      // //連接合約
+      // contract.value = new web3.value.eth.Contract(contractConfig.ABI, contractConfig.contract_address)
+      // //取得合約設定
+      // getConfig();
 
-      ethereum.on('chainChanged', function (id) {
-        web3.value.eth.getChainId().then((id) => {
+      // ethereum.on('chainChanged', function (id) {
+      //   web3.value.eth.getChainId().then((id) => {
 
-          if (id != targetNetworkId.value) {
-            error.value = true;
-            clearInterval(interval.value);
-          } else {
-            window.location.reload();
-          }
-        })
-      })
+      //     if (id != targetNetworkId.value) {
+      //       error.value = true;
+      //       clearInterval(interval.value);
+      //     } else {
+      //       window.location.reload();
+      //     }
+      //   })
+      // })
 
-      web3.value.eth.getChainId().then((id) => {
-        //檢查chainId
-        if (id != targetNetworkId.value) {
-          showAlert('Please Change to mainnet.')
-          return
-        }
-        //監聽地址變化
-        ethereum.on('accountsChanged', function (accounts) {
-          connectedWalletAddress.value = accounts[0]
-          checkWhitelisted();
-        })
-        //開始請求錢包同意
-        requestAccount();
-        //定時
-        interval.value = setInterval(() => {
-          getConfig();
+      // web3.value.eth.getChainId().then((id) => {
+      //   //檢查chainId
+      //   if (id != targetNetworkId.value) {
+      //     showAlert('Please Change to mainnet.')
+      //     return
+      //   }
+      //   //監聽地址變化
+      //   ethereum.on('accountsChanged', function (accounts) {
+      //     connectedWalletAddress.value = accounts[0]
+      //     checkWhitelisted();
+      //   })
+      //   //開始請求錢包同意
+      //   requestAccount();
+      //   //定時
+      //   interval.value = setInterval(() => {
+      //     getConfig();
 
-          if (connectedWalletAddress.value) {
-            getSupply();
-            getMintedAmount();
-          }
-        }, 1000);
+      //     if (connectedWalletAddress.value) {
+      //       getSupply();
+      //       getMintedAmount();
+      //     }
+      //   }, 1000);
 
-      })
-      // slide.value.play();
-
+      // })
     })
 
     return {
-      isShowAlert, alertMsg, error, loading, connectedWalletAddress, whitelistAddresses,
-      whitelistAddressesIndex, publicSaleSelectedAmount, mintedAmount, isWhitelistedMsg,
+      enter,
+      showAlert, isShowAlert, alertMsg, error, loading, connectedWalletAddress, whitelistAddresses,
+      whitelistAddressesIndex, selectedAmount, mintedAmount, isWhitelistedMsg,
       contract, totalSupply, jidoriConfig, takingPicture,
       requestAccount, showFlashlight, getConfig, getSupply, getProof,
       checkWhitelisted, preSaleMint, publicSaleMint, gomint,
@@ -484,13 +560,76 @@ export default {
 
 <style lang="scss" scoped>
 @import url("./assets/reset.css");
-@import url("https://fonts.googleapis.com/css2?family=Klee+One&family=Rampart+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Rampart+One&display=swap");
 
 $secondaryColor: #707070;
 $primaryColor: #e5d9c3;
 $hoverColor: #b19f7e;
 $family1: "Rampart One", cursive;
-$family2: "Klee One", cursive;
+$family2: "Mochiy Pop P One", sans-serif;
+
+.whitelist-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  border: 50px dashed rgb(231, 228, 33);
+  box-shadow: inset 1em 1em rgb(0, 0, 0);
+  box-sizing: border-box;
+  transition: all 1s;
+  animation: enter 1s;
+
+  @keyframes enter {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0%);
+    }
+  }
+
+  &.hide {
+    transform: translateY(-100%);
+  }
+  h1 {
+    font-family: $family1;
+    font-size: 40px;
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+  p {
+    margin: 30px 0;
+    font-family: $family2;
+    line-height: 2;
+  }
+  a {
+    text-transform: uppercase;
+    font-family: $family1;
+    color: #fff;
+    font-size: 24px;
+  }
+  .close {
+    margin-top: 40px;
+    font-family: $family2;
+    background: #fff;
+    color: rgb(0, 0, 0);
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+}
+
 .error-page {
   position: relative;
   width: 100vw;
@@ -542,11 +681,10 @@ $family2: "Klee One", cursive;
     align-items: center;
     justify-content: space-between;
     overflow: hidden;
-    backdrop-filter: blur(1px);
+    backdrop-filter: blur(10px);
     transition: all 0.8s;
     animation: in 1s;
     animation-delay: 1s;
-    transform: rotate(-5deg);
 
     @keyframes in {
       0% {
@@ -559,7 +697,7 @@ $family2: "Klee One", cursive;
         transform: rotate(5deg);
       }
       100% {
-        transform: rotate(-5deg);
+        transform: rotate(0);
       }
     }
 
@@ -567,14 +705,15 @@ $family2: "Klee One", cursive;
       position: absolute;
       left: 0;
       top: 5vw;
-      width: 100%;
+      width: 110%;
       img {
         width: 100%;
+        border-radius: 100%;
+        border: 3px dashed #fff;
       }
     }
 
     .alert-msg {
-      font-family: "Noto Sans TC";
       font-weight: bolder;
       line-height: 1.5;
       position: absolute;
@@ -592,20 +731,24 @@ $family2: "Klee One", cursive;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 0 0 15px 15px;
+      border-radius: 0 0 5px 5px;
+      font-family: $family2;
       &::after {
         content: "New Message";
+        font-family: $family2;
         font-weight: 500;
         text-align: center;
-        color: #fff;
+        color: rgb(0, 0, 0);
         width: 100%;
-        height: 30px;
+        height: 40px;
         position: absolute;
-        top: -30px;
+        top: -40px;
         left: 0;
-        background-color: #b19f7e;
-        border-radius: 15px 15px 0 0;
+        background-color: #ffffff;
+        border-radius: 5px 5px 0 0;
         padding: 5px 0;
+        line-height: 40px;
+        text-transform: uppercase;
       }
       &:hover {
         cursor: pointer;
@@ -642,6 +785,7 @@ $family2: "Klee One", cursive;
       animation: text-focus-in 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
       line-height: 1.2;
       padding-top: 10vw;
+      color: #fff;
       .name {
         font-size: 3vw;
         font-weight: normal;
@@ -702,50 +846,75 @@ $family2: "Klee One", cursive;
     }
     .mint {
       display: none;
-      font-family: $family2;
+      font-family: $family1;
       text-align: center;
       height: 100%;
       width: 100%;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      color: #000;
+
       .init-warning {
         text-align: left;
+        font-family: $family2;
       }
       .whitelist-msg {
         margin-top: 0.8vw;
+        font-family: $family2;
+        font-size: 14px;
+        line-height: 1.5;
       }
       .public-msg {
         margin-top: 0.8vw;
+        font-family: $family2;
+        font-size: 14px;
       }
       .supply {
-        font-family: "Noto Sans TC";
         font-weight: bolder;
+        font-size: 2vw;
+      }
+      .minted {
+        margin-top: 20px;
         font-size: 1vw;
+        border: 1px solid;
+        padding: 10px;
+        border-radius: 10px;
+        text-transform: uppercase;
       }
       .selection {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-top: 20px;
-        .item {
-          width: 40px;
-          height: 40px;
-          border-radius: 100%;
-          background-color: #fff;
-          font-size: 24px;
+        flex-direction: column;
+        margin: 60px 0;
+        font-family: $family2;
+        p {
+          font-size: 20px;
+        }
+        .item-box {
           display: flex;
-          align-items: center;
           justify-content: center;
-          margin: 0 10px;
-          &.selected {
-            background-color: $hoverColor;
-            color: #fff;
-          }
-          &:hover {
-            background-color: $hoverColor;
-            color: #fff;
-            cursor: pointer;
+          align-items: center;
+          flex-wrap: wrap;
+          margin: 20px 0;
+          .item {
+            width: 40px;
+            height: 40px;
+            border-radius: 100%;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            border: 2px solid transparent;
+            &.selected {
+              border-color: #000;
+            }
+            &:hover {
+              border-color: #000;
+              cursor: pointer;
+            }
           }
         }
       }
@@ -755,16 +924,12 @@ $family2: "Klee One", cursive;
         font-size: 1.5vw;
         padding: 0.5vw 1.3vw;
         border-radius: 1000px;
-        margin-top: 1vw;
         transition: all 0.3s;
         &:hover {
           cursor: pointer;
           color: #000;
+          transform: scale(1.1);
         }
-      }
-      .minted {
-        margin-top: 20px;
-        font-size: 18px;
       }
 
       .go-back {
@@ -773,8 +938,9 @@ $family2: "Klee One", cursive;
         font-size: 1.5vw;
         transition: all 0.2s;
         cursor: pointer;
+        transform: rotateY(180deg);
         &:hover {
-          transform: scale(1.1);
+          transform: scale(1.1) rotateY(180deg);
           color: #000;
         }
       }
@@ -789,7 +955,7 @@ $family2: "Klee One", cursive;
       background: #000;
     }
     &:hover {
-      transform: rotate(-5deg) translateY(-10px);
+      transform: translateY(-10px);
       .header {
         .name {
           color: #000;
@@ -805,12 +971,11 @@ $family2: "Klee One", cursive;
         color: #000;
       }
     }
-
     &.active {
       &:hover {
-        transform: rotateY(180deg) rotate(-5deg) translateY(-10px);
+        transform: rotateY(180deg) rotate(5deg) translateY(-10px);
       }
-      transform: rotateY(180deg) rotate(-5deg);
+      transform: rotateY(180deg) rotate(5deg);
       .header {
         display: none;
       }
@@ -827,29 +992,31 @@ $family2: "Klee One", cursive;
       .alert-msg {
         transform: translate(-50%, -50%) rotateY(-180deg);
       }
+      .slide {
+        display: none;
+      }
     }
   }
+
   .info {
     position: relative;
     width: 45vw;
     height: 45vw;
-    padding: 5vw 2.5vw;
+    padding: 2.5vw 2.5vw;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
     box-sizing: border-box;
     .about {
       .item {
-        margin-bottom: 1vw;
+        margin-bottom: 2vw;
         h2 {
           position: relative;
-          font-size: 1.2vw;
-          background-color: $primaryColor;
+          font-size: 1.5vw;
           display: inline-block;
-          padding: 0.4vw 1vw;
-          border-radius: 1000px;
           margin-bottom: 0.5vw;
           text-transform: uppercase;
+          color: #fff;
           &::after {
             content: "";
             position: absolute;
@@ -864,11 +1031,14 @@ $family2: "Klee One", cursive;
           }
         }
         p {
+          border-left: 5px solid #fff;
+          margin-top: 1vw;
           padding-left: 0.5vw;
-          line-height: 1.2;
-          font-size: 1vw;
-          text-align: justify;
+          line-height: 2;
+          font-size: 16px;
           font-family: $family2;
+          color: #ffffff;
+          letter-spacing: 1px;
         }
         .team {
           display: flex;
@@ -877,13 +1047,21 @@ $family2: "Klee One", cursive;
           .member {
             margin-right: 1vw;
             img {
-              border-radius: 1vw;
-              width: 10vw;
+              border-radius: 100%;
+              width: 5vw;
+              border: 3px dashed #fff;
             }
             p {
-              font-size: 1vw;
+              font-size: 14px;
               font-family: $family2;
             }
+          }
+        }
+        .links {
+          margin-top: 10px;
+          .link {
+            font-size: 24px;
+            color: #fff;
           }
         }
       }
@@ -894,28 +1072,28 @@ $family2: "Klee One", cursive;
     right: 2vw;
     top: 2vw;
     position: absolute;
-    background-color: $primaryColor;
-    color: $secondaryColor;
+    color: #fff;
     padding: 1vw 2vw;
     border-radius: 1000px;
     font-size: 1vw;
     transition: all 0.2s;
-    font-family: $family2;
+    font-family: $family1;
+    text-transform: uppercase;
     &:hover {
       cursor: pointer;
-      color: $hoverColor;
-      background-color: #fff;
+      &::after {
+        transform: scale(1);
+      }
     }
     &::after {
       content: "";
       position: absolute;
       width: 100%;
-      height: 100%;
-      background: $hoverColor;
-      z-index: -1;
-      right: -2.5%;
-      top: 9%;
-      border-radius: 1000px;
+      height: 5px;
+      left: 0;
+      bottom: 0;
+      background: #fff;
+      transform: scale(0);
       transition: all 0.3s;
     }
   }
@@ -942,7 +1120,75 @@ $family2: "Klee One", cursive;
   }
 }
 
+.bg {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  background-color: #9eac9e;
+  z-index: -1;
+  img {
+    position: absolute;
+    left: -25%;
+    bottom: 0;
+    width: 150%;
+    animation: skew 3s alternate-reverse infinite;
+    @keyframes skew {
+      from {
+        transform: skewX(10deg);
+      }
+      to {
+        transform: skewX(-10deg);
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 767px) {
+  .whitelist-popup {
+    border: 10px dashed rgb(231, 228, 33);
+    padding: 25px;
+
+    @keyframes enter {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0%);
+      }
+    }
+
+    &.hide {
+      transform: translateY(-100%);
+    }
+    h1 {
+      font-size: 20px;
+    }
+    p {
+      margin: 30px 0;
+      font-family: $family2;
+      line-height: 2;
+      font-size: 14px;
+    }
+    a {
+      text-transform: uppercase;
+      font-family: $family1;
+      color: #fff;
+      font-size: 18px;
+    }
+    .close {
+      margin-top: 40px;
+      font-family: $family2;
+      background: #fff;
+      color: rgb(0, 0, 0);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
+
   .container {
     padding: 50px;
     height: auto;
@@ -967,75 +1213,123 @@ $family2: "Klee One", cursive;
       width: 90vw;
       height: 90vh;
       padding: 30px;
-      border-radius: 30px;
+      border-radius: 50px;
+      border-width: 5px;
       flex-direction: column;
+      background-color: rgba(0, 0, 0, 0.2);
       &::after {
-        right: -1.5%;
-        top: 1%;
-        border-radius: 30px;
+        content: "";
+        position: absolute;
+        width: 50%;
+        height: 5vw;
+        top: -1px;
+        border-radius: 0 0 10px 10px;
+        background: #000;
       }
-      &:hover {
-        &::after {
-          right: -2.5%;
-          top: 2%;
-        }
-      }
+
       .header {
         width: 100%;
+        height: 100%;
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        h1 {
-          font-size: 40px;
-          font-weight: normal;
+        align-items: flex-start;
+        justify-content: flex-end;
+        flex-direction: column;
+        -webkit-animation: text-focus-in 1s
+          cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+        animation: text-focus-in 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+        line-height: 1.2;
+        padding-top: 10vw;
+        color: #fff;
+        .name {
+          font-size: 32px;
         }
-        .lens {
-          position: relative;
-          width: 40px;
-          height: 40px;
-          background-color: rgb(53, 53, 53);
-          border-radius: 100%;
-          border: 5px solid #fff;
-          filter: drop-shadow(1px 1px);
-          &::before {
-            content: "";
-            width: 10px;
-            height: 10px;
-            background-color: rgb(0, 0, 0);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            z-index: 1;
-            transform: translate(-50%, -50%);
-            border-radius: 100%;
-          }
-          &::after {
-            content: "";
-            width: 5px;
-            height: 5px;
-            background-color: rgb(0, 0, 0);
-            position: absolute;
-            top: 50%;
-            left: -50%;
-            z-index: 1;
-            transform: translateY(-50%);
-            border-radius: 100%;
-          }
+        .subtitle {
+          font-size: 20px;
+          margin-top: 18px;
+        }
+        .go-mint {
+          margin-top: 30px;
+          font-size: 32px;
         }
       }
+
+      .lens {
+        display: none;
+        position: absolute;
+        left: 5vw;
+        top: 5vw;
+        width: 15vw;
+        height: 15vw;
+        background-color: rgb(53, 53, 53);
+        border-radius: 100%;
+        border: 5px solid #fff;
+        filter: drop-shadow(1px 1px);
+        transform: rotateY(-180deg);
+        &::before {
+          content: "";
+          width: 3vw;
+          height: 3vw;
+        }
+        &::after {
+          content: "";
+          width: 2vw;
+          height: 2vw;
+        }
+      }
+
       .mint {
-        font-family: $family2;
         text-align: center;
+        justify-content: flex-end;
         .supply {
           font-size: 24px;
         }
         .mint-button {
+          font-size: 24px;
+          padding: 0;
+        }
+        .go-back {
+          margin-top: 40px;
           font-size: 30px;
-          padding: 12px 20px;
-          margin-top: 32px;
+        }
+        .selection {
+          margin: 30px 0;
+          p {
+            font-size: 14px;
+          }
+          .item-box {
+            margin: 20px 0;
+            .item {
+              width: 20px;
+              height: 20px;
+              font-size: 15px;
+              margin: 0 10px;
+            }
+          }
+        }
+      }
+      .slide {
+        top: 15vw;
+      }
+      &.active {
+        &:hover {
+          transform: rotateY(0) rotate(0) translateY(-10px);
+        }
+        transform: rotateY(0) rotate(0);
+        .mint {
+          transform: rotate3d(0, 0, 0, 180deg);
+        }
+        .lens {
+          transform: rotateY(180deg);
+        }
+        .alert-msg {
+          transform: translate(-50%, -50%) rotateY(-180deg);
+        }
+        .slide {
+          display: none;
         }
       }
     }
+
     .info {
       position: relative;
       width: 90vw;
@@ -1046,9 +1340,9 @@ $family2: "Klee One", cursive;
         .item {
           margin-bottom: 24px;
           h2 {
-            font-size: 24px;
-            padding: 12px 24px;
-            margin-bottom: 12px;
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #000;
             &::after {
               content: "";
               position: absolute;
@@ -1064,8 +1358,10 @@ $family2: "Klee One", cursive;
           }
           p {
             padding-left: 10px;
-            padding-right: 10px;
-            font-size: 18px;
+            border-width: 3px;
+            font-size: 14px;
+            color: #000;
+            border-color: #000;
           }
           .team {
             display: flex;
@@ -1075,7 +1371,6 @@ $family2: "Klee One", cursive;
             .member {
               margin-right: 0;
               img {
-                border-radius: 20px;
                 width: 40vw;
               }
               p {
@@ -1085,14 +1380,20 @@ $family2: "Klee One", cursive;
               }
             }
           }
+          .links {
+            .link {
+              color: #000;
+            }
+          }
         }
       }
     }
 
     .connect-wallet {
-      right: 20px;
-      top: 10px;
-      padding: 12px 24px;
+      right: 50%;
+      transform: translate(50%);
+      top: 30px;
+      padding: 0;
       font-size: 18px;
     }
   }
@@ -1114,6 +1415,33 @@ $family2: "Klee One", cursive;
       }
       to {
         opacity: 0;
+      }
+    }
+  }
+
+  .bg {
+    pointer-events: none;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    background-color: #9eac9e;
+    z-index: -1;
+    img {
+      position: absolute;
+      left: -25%;
+      bottom: 0;
+      width: auto;
+      height: 60%;
+      animation: skew 3s alternate-reverse infinite;
+      @keyframes skew {
+        from {
+          transform: skewX(10deg);
+        }
+        to {
+          transform: skewX(-10deg);
+        }
       }
     }
   }
