@@ -143,7 +143,8 @@
           <h2>販売情報 buy info</h2>
           <p>
             4000 supply<br />pre-sale ： free mint (max 2)<br />public-sale ：
-            0.009 ETH (max 8)
+            first 300 free, then 0.009 ETH (max 8)<br />reveal ： In 12 hours
+            once soldout
           </p>
         </div>
         <div class="item">
@@ -170,6 +171,14 @@
           </p>
         </div>
         <div class="item">
+          <h2>Links</h2>
+          <div class="links">
+            <a href="twitter.com" class="link">
+              Twitter (WILL OPENED ONCE PRESALE)
+            </a>
+          </div>
+        </div>
+        <div class="item">
           <h2>チーム Team</h2>
           <div class="team">
             <div class="member">
@@ -190,14 +199,6 @@
               />
               <p>Dev ジャスミン</p>
             </div>
-          </div>
-        </div>
-        <div class="item">
-          <h2>Links</h2>
-          <div class="links">
-            <a href="twitter.com" class="link">
-              Twitter (WILL OPENED ONCE PRESALE)
-            </a>
           </div>
         </div>
       </div>
