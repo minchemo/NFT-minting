@@ -51,9 +51,7 @@
           <!--Loading-->
           <template v-if="loading"> Loading... </template>
           <!--Paused-->
-          <template v-else-if="jidoriConfig.paused">
-            販售尚未開始或已停止
-          </template>
+          <template v-else-if="jidoriConfig.paused"> sale not start </template>
           <template
             v-else-if="
               parseInt(totalSupply) >= parseInt(jidoriConfig.maxSupply)
@@ -336,7 +334,6 @@ export default {
       },
     });
 
-    //連線錢包請求
     const requestAccount = () => {
       if (connectedWalletAddress.value) {
         return;
@@ -360,7 +357,7 @@ export default {
       });
     }
 
-    //讀取合約目前設定
+
     const getConfig = () => {
       contract.value.methods
         .jidoriConfig().call().then((config) => {
@@ -382,7 +379,7 @@ export default {
         });
     }
 
-    //取得白名單證明
+
     const getProof = () => {
       const leafNodes = whitelistAddresses.value.addresses.map((addr) => keccak256(addr))
       const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true })
@@ -390,7 +387,6 @@ export default {
       return merkleTree.getHexProof(leafNodes[whitelistAddressesIndex.value]);
     }
 
-    //白名單檢查
     const checkWhitelisted = () => {
       if (connectedWalletAddress.value) {
         let addressIndex = whitelistAddresses.value.addresses.findIndex(item => item.toLowerCase() == connectedWalletAddress.value.toLowerCase());
@@ -405,7 +401,6 @@ export default {
       }
     }
 
-    //檢查已mint數量
     const getMintedAmount = () => {
       contract.value.methods
         .addressMinted(connectedWalletAddress.value).call().then((amount) => {
@@ -427,7 +422,6 @@ export default {
         });
     }
 
-    //預售mint
     const preSaleMint = () => {
       if (exceedMaxAmount.value) {
 
@@ -452,7 +446,6 @@ export default {
       })
     }
 
-    //公售mint
     const publicSaleMint = () => {
       if (exceedMaxAmount.value) {
         showAlert("You mint too much.")
@@ -474,7 +467,6 @@ export default {
       })
     }
 
-    //閃光燈
     const showFlashlight = () => {
       takingPicture.value = true;
 
@@ -483,13 +475,11 @@ export default {
       }, 1000);
     }
 
-    //顯示錯誤訊息
     const showAlert = (msg) => {
       alertMsg.value = msg;
       isShowAlert.value = true;
     }
 
-    //初始化
     onMounted(() => {
       // const { ethereum } = window;
 
@@ -500,9 +490,7 @@ export default {
 
       // web3.value = new Web3(ethereum);
 
-      // //連接合約
       // contract.value = new web3.value.eth.Contract(contractConfig.ABI, contractConfig.contract_address)
-      // //取得合約設定
       // getConfig();
 
       // ethereum.on('chainChanged', function (id) {
@@ -518,19 +506,20 @@ export default {
       // })
 
       // web3.value.eth.getChainId().then((id) => {
-      //   //檢查chainId
+
       //   if (id != targetNetworkId.value) {
       //     showAlert('Please Change to mainnet.')
       //     return
       //   }
-      //   //監聽地址變化
+
+
       //   ethereum.on('accountsChanged', function (accounts) {
       //     connectedWalletAddress.value = accounts[0]
       //     checkWhitelisted();
       //   })
-      //   //開始請求錢包同意
+
       //   requestAccount();
-      //   //定時
+
       //   interval.value = setInterval(() => {
       //     getConfig();
 
