@@ -169,8 +169,15 @@
         <div class="item">
           <h2>Links</h2>
           <div class="links">
-            <a href="https://twitter.com/jidorinft" class="link">
-              Twitter follow now
+            <a href="https://twitter.com/jidorinft" class="link"> Twitter </a>
+            <a
+              href="https://etherscan.io/address/0x0f7f90a5274ec882597be323f43347bf73e09bce"
+              class="link"
+            >
+              Contract
+            </a>
+            <a href="https://opensea.io/collection/jidori" class="link">
+              Opensea
             </a>
           </div>
         </div>
@@ -1073,9 +1080,14 @@ $family2: "Mochiy Pop P One", sans-serif;
         }
         .links {
           margin-top: 10px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
           .link {
             font-size: 24px;
             color: #fff;
+            margin-bottom: 10px;
           }
         }
       }
