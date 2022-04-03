@@ -1,16 +1,13 @@
 <template>
   <div class="whitelist-popup" v-bind:class="{ hide: enter }">
-    <h1>ホワイトリスト登録<br />Whitelist registration now</h1>
-    <p>
-      Whitelist can free mint 2 Jidori, will pick first 200 addresses for WL.<br />
-      (It will going to raffle if more than 205 addresses are registered.)<br /><br />
-      Go fill the form and you will receive an email once presale start, stay
-      tuned! <br />( stealth launch in 48hours)
+    <img class="jidori" src="@/assets/jidori.png" alt="" srcset="" />
+    <h1>先行販売開始 <br />Presale start now!</h1>
+    <p style="text-align: left">
+      Pre-sale CLOSE AT 04/03/2022 PM17:00 (UTC+09:00)<br />
+      Public-sale START AT 04/03/2022 PM17:10 (UTC+09:00) (FIRST 300 FREE-MINT)
     </p>
-    <a href="https://forms.gle/57tDA3JmGXrKq1wc7" target="_blank"
-      >GO Fill form<br /><br />(CLOSE AT 04/03/2022 PM14:00 UTC+09:00)</a
-    >
-    <div class="close" @click="enter = true">ENTER WEBSITE</div>
+    <a href="https://twitter.com/Jidorinft" target="_blank">FOLLOW TWITTER</a>
+    <div class="close" @click="enter = true">GO！</div>
   </div>
   <div class="error-page" v-if="error">
     <p>
@@ -31,10 +28,7 @@
       <div class="header">
         <h1 class="name">自撮り Jidori</h1>
         <div class="subtitle">あなたに最適な自撮り写真を見つけましょう</div>
-        <!-- <div class="go-mint" @click="gomint = !gomint">GO MINT！</div> -->
-        <div class="go-mint" @click="showAlert('Sale not start!!!')">
-          GO MINT！
-        </div>
+        <div class="go-mint" @click="gomint = !gomint">GO MINT！</div>
       </div>
       <div class="slide">
         <Splide :options="slideOption" :extensions="extensions" ref="slide">
@@ -85,7 +79,6 @@
                     {{ amount }}
                   </div>
                 </div>
-                <p>ITEMS</p>
               </div>
               <div class="mint-button" @click="preSaleMint">Pre-Sale MINT</div>
 
@@ -122,11 +115,14 @@
                   {{ amount }}
                 </div>
               </div>
-              <p>ITEMS</p>
             </div>
             <div class="mint-button" @click="publicSaleMint">
               Public-Sale MINT
             </div>
+            <p class="whitelist-msg">
+              Remaining free-mint :
+              {{ Math.max(0, jidoriConfig.freeSlots - totalSupply) }}
+            </p>
 
             <div class="minted">You have {{ mintedAmount }} Jidori</div>
           </template>
@@ -142,9 +138,9 @@
         <div class="item">
           <h2>販売情報 buy info</h2>
           <p>
-            4000 supply<br />pre-sale ： free mint (max 2)<br />public-sale ：
-            first 300 free, then 0.009 ETH (max 8)<br />reveal ： In 12 hours
-            once soldout
+            4000 supply<br />pre-sale ： free mint (max 2)<br />public-sale
+            (04/03/2022 PM17:10 (UTC+09:00)) ： first 300 free, then 0.009 ETH
+            (max 8)<br />reveal ： In 12 hours once soldout
           </p>
         </div>
         <div class="item">
@@ -173,8 +169,8 @@
         <div class="item">
           <h2>Links</h2>
           <div class="links">
-            <a href="twitter.com" class="link">
-              Twitter (WILL OPENED ONCE PRESALE)
+            <a href="https://twitter.com/jidorinft" class="link">
+              Twitter follow now
             </a>
           </div>
         </div>
@@ -217,15 +213,7 @@
         <rect width="100%" height="100%" filter="url(#noiseFilter)" />
       </svg>
     </div>
-    <!-- <div class="connect-wallet" @click="requestAccount()">
-      <div v-if="connectedWalletAddress">
-        {{ connectedWalletAddress.substring(-5, 7) }}...{{
-          connectedWalletAddress.slice(37)
-        }}
-      </div>
-      <div v-else>Connect Wallect</div>
-    </div> -->
-    <div class="connect-wallet" @click="showAlert('sale not start!!!')">
+    <div class="connect-wallet" @click="requestAccount()">
       <div v-if="connectedWalletAddress">
         {{ connectedWalletAddress.substring(-5, 7) }}...{{
           connectedWalletAddress.slice(37)
@@ -281,7 +269,7 @@ export default {
     });
     const selectedAmount = ref(1);
 
-    const targetNetworkId = ref(4);
+    const targetNetworkId = ref(1);
     const isWhitelistedMsg = ref('');
     const contract = ref();
 
@@ -402,7 +390,7 @@ export default {
         if (addressIndex > -1) {
           isWhitelistedMsg.value = 'You are in whitelist!';
         } else {
-          isWhitelistedMsg.value = 'Not in whitelist';
+          isWhitelistedMsg.value = 'Not in whitelist, you can mint at public later!';
         }
       } else {
         isWhitelistedMsg.value = 'Not connected Metamask';
@@ -421,23 +409,30 @@ export default {
               exceedMaxAmount.value = false;
             }
           } else if (jidoriConfig.value.isPublicSale) {
-            if (amount >= jidoriConfig.value.publicSaleMaxMint) {
-              exceedMaxAmount.value = true;
+            if (whitelistAddressesIndex.value > -1) {
+              if (amount >= jidoriConfig.value.publicSaleMaxMint + jidoriConfig.value.preSaleMaxMint) {
+                exceedMaxAmount.value = true;
+              } else {
+                exceedMaxAmount.value = false;
+              }
             } else {
-              exceedMaxAmount.value = false;
+              if (amount >= jidoriConfig.value.publicSaleMaxMint) {
+                exceedMaxAmount.value = true;
+              } else {
+                exceedMaxAmount.value = false;
+              }
             }
           }
         });
     }
 
     const preSaleMint = () => {
+      let proof = getProof();
       if (exceedMaxAmount.value) {
-
         showAlert("You mint too much.")
         return
       }
 
-      let proof = getProof();
 
       const { ethereum } = window;
 
@@ -448,10 +443,14 @@ export default {
         value: web3.value.utils.toHex(jidoriConfig.value.preSalePrice * selectedAmount.value),
         data: contract.value.methods.preSaleMint(selectedAmount.value, proof).encodeABI()
       };
+
       return ethereum.request({
         method: 'eth_sendTransaction',
         params: [transactionParams]
       })
+        .then((result) => {
+          showFlashlight()
+        })
     }
 
     const publicSaleMint = () => {
@@ -460,19 +459,28 @@ export default {
         return
       }
 
+      let givenValue = jidoriConfig.value.publicSalePrice * selectedAmount.value;
+      if (jidoriConfig.value.freeSlots - totalSupply.value > 0) {
+        givenValue = 0
+      }
+
       const { ethereum } = window;
 
       const transactionParams = {
         to: contractConfig.contract_address,
         from: connectedWalletAddress.value,
         // gasLimit: web3.value.utils.toHex(300000),
-        value: web3.value.utils.toHex(jidoriConfig.value.publicSalePrice * selectedAmount.value),
+        value: web3.value.utils.toHex(givenValue),
         data: contract.value.methods.publicSaleMint(selectedAmount.value).encodeABI()
       };
+
       return ethereum.request({
         method: 'eth_sendTransaction',
         params: [transactionParams]
       })
+        .then((result) => {
+          showFlashlight()
+        })
     }
 
     const showFlashlight = () => {
@@ -489,55 +497,59 @@ export default {
     }
 
     onMounted(() => {
-      // const { ethereum } = window;
+      const { ethereum } = window;
 
-      // if (!ethereum) {
-      //   showAlert('No wallet plugin is available! Please change your browser or install wallet plugin.');
-      //   return;
-      // }
+      if (!ethereum) {
+        showAlert('No wallet plugin is available! Please change your browser or install wallet plugin.');
+        return;
+      }
 
-      // web3.value = new Web3(ethereum);
+      web3.value = new Web3(ethereum);
 
-      // contract.value = new web3.value.eth.Contract(contractConfig.ABI, contractConfig.contract_address)
-      // getConfig();
+      contract.value = new web3.value.eth.Contract(contractConfig.ABI, contractConfig.contract_address)
+      getConfig();
 
-      // ethereum.on('chainChanged', function (id) {
-      //   web3.value.eth.getChainId().then((id) => {
+      ethereum.on('chainChanged', function (id) {
+        web3.value.eth.getChainId().then((id) => {
 
-      //     if (id != targetNetworkId.value) {
-      //       error.value = true;
-      //       clearInterval(interval.value);
-      //     } else {
-      //       window.location.reload();
-      //     }
-      //   })
-      // })
+          if (id != targetNetworkId.value) {
+            error.value = true;
+            clearInterval(interval.value);
+          } else {
+            window.location.reload();
+          }
+        })
+      })
 
-      // web3.value.eth.getChainId().then((id) => {
+      web3.value.eth.getChainId().then((id) => {
 
-      //   if (id != targetNetworkId.value) {
-      //     showAlert('Please Change to mainnet.')
-      //     return
-      //   }
+        if (id != targetNetworkId.value) {
+          showAlert('Please Change to mainnet.')
+          return
+        }
 
 
-      //   ethereum.on('accountsChanged', function (accounts) {
-      //     connectedWalletAddress.value = accounts[0]
-      //     checkWhitelisted();
-      //   })
+        ethereum.on('accountsChanged', function (accounts) {
+          connectedWalletAddress.value = accounts[0]
+          checkWhitelisted();
+        })
 
-      //   requestAccount();
+        requestAccount();
 
-      //   interval.value = setInterval(() => {
-      //     getConfig();
+        ethereum.on('message', function (type, data) {
+          console.log(type, data);
+        })
 
-      //     if (connectedWalletAddress.value) {
-      //       getSupply();
-      //       getMintedAmount();
-      //     }
-      //   }, 1000);
+        interval.value = setInterval(() => {
+          getConfig();
 
-      // })
+          if (connectedWalletAddress.value) {
+            getSupply();
+            getMintedAmount();
+          }
+        }, 1000);
+
+      })
     })
 
     return {
@@ -585,6 +597,11 @@ $family2: "Mochiy Pop P One", sans-serif;
   box-sizing: border-box;
   transition: all 1s;
   animation: enter 1s;
+
+  .jidori {
+    width: 20%;
+    margin-bottom: 20px;
+  }
 
   @keyframes enter {
     from {
@@ -1146,6 +1163,10 @@ $family2: "Mochiy Pop P One", sans-serif;
   .whitelist-popup {
     border: 10px dashed rgb(231, 228, 33);
     padding: 25px;
+
+    .jidori {
+      width: 90%;
+    }
 
     @keyframes enter {
       from {
