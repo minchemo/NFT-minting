@@ -1,12 +1,10 @@
 <template>
   <div class="whitelist-popup" v-bind:class="{ hide: enter }">
     <img class="jidori" src="@/assets/jidori.png" alt="" srcset="" />
-    <h1>先行販売開始 <br />Presale start now!</h1>
+    <h1>公開販売開始 <br />Public-sale start now!</h1>
     <p style="text-align: left">
-      Pre-sale CLOSE AT 04/03/2022 PM17:00 (UTC+09:00)<br />
-      Public-sale START AT 04/03/2022 PM17:10 (UTC+09:00) (FIRST 300 FREE-MINT)
+      Public-sale is now start! (FIRST 300 FREE-MINT)
     </p>
-    <a href="https://twitter.com/Jidorinft" target="_blank">FOLLOW TWITTER</a>
     <div class="close" @click="enter = true">GO！</div>
   </div>
   <div class="error-page" v-if="error">
@@ -138,9 +136,9 @@
         <div class="item">
           <h2>販売情報 buy info</h2>
           <p>
-            4000 supply<br />pre-sale ： free mint (max 2)<br />public-sale
-            (04/03/2022 PM17:10 (UTC+09:00)) ： first 300 free, then 0.009 ETH
-            (max 8)<br />reveal ： In 12 hours once soldout
+            4000 supply<br />pre-sale ： free mint (max 2)<br />public-sale ：
+            first 300 free, then 0.009 ETH (max 8)<br />reveal ： In 12 hours
+            once soldout
           </p>
         </div>
         <div class="item">
