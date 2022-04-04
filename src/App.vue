@@ -165,44 +165,50 @@
             for whitelist stay tuned!
           </p>
         </div>
-        <div class="item">
-          <h2>Links</h2>
-          <div class="links">
-            <a href="https://twitter.com/jidorinft" class="link"> Twitter </a>
-            <a
-              href="https://etherscan.io/address/0x0f7f90a5274ec882597be323f43347bf73e09bce"
-              class="link"
-            >
-              Contract
-            </a>
-            <a href="https://opensea.io/collection/jidori" class="link">
-              Opensea
-            </a>
-          </div>
-        </div>
-        <div class="item">
-          <h2>チーム Team</h2>
-          <div class="team">
-            <div class="member">
-              <img
-                class="image"
-                src="@/assets/images/team1.png"
-                alt=""
-                srcset=""
-              />
-              <p>Artist エリ</p>
-            </div>
-            <div class="member">
-              <img
-                class="image"
-                src="@/assets/images/team2.png"
-                alt=""
-                srcset=""
-              />
-              <p>Dev ジャスミン</p>
+        <div class="item flex">
+          <div>
+            <h2>Links</h2>
+            <div class="links">
+              <a href="https://twitter.com/jidorinft" class="link"> Twitter </a>
+              <a
+                href="https://etherscan.io/address/0x0f7f90a5274ec882597be323f43347bf73e09bce"
+                class="link"
+              >
+                Contract
+              </a>
+              <a href="https://opensea.io/collection/jidori" class="link">
+                Opensea
+              </a>
+              <a href="https://discord.com/invite/yFsaAFCJr2" class="link">
+                Discord
+              </a>
             </div>
           </div>
+          <div>
+            <h2>チーム Team</h2>
+            <div class="team">
+              <div class="member">
+                <img
+                  class="image"
+                  src="@/assets/images/team1.png"
+                  alt=""
+                  srcset=""
+                />
+                <p>Artist エリ</p>
+              </div>
+              <div class="member">
+                <img
+                  class="image"
+                  src="@/assets/images/team2.png"
+                  alt=""
+                  srcset=""
+                />
+                <p>Dev ジャスミン</p>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="item"></div>
       </div>
     </div>
     <div class="bg">
@@ -1089,6 +1095,12 @@ $family2: "Mochiy Pop P One", sans-serif;
             margin-bottom: 10px;
           }
         }
+        &.flex {
+          display: flex;
+          & > div {
+            margin-right: 3vw;
+          }
+        }
       }
     }
   }
@@ -1370,7 +1382,8 @@ $family2: "Mochiy Pop P One", sans-serif;
           margin-bottom: 24px;
           h2 {
             font-size: 28px;
-            margin-bottom: 20px;
+            margin: 20px 0;
+
             color: #000;
             &::after {
               content: "";
@@ -1412,6 +1425,12 @@ $family2: "Mochiy Pop P One", sans-serif;
           .links {
             .link {
               color: #000;
+            }
+          }
+          &.flex {
+            display: block;
+            & > div {
+              margin-right: 0;
             }
           }
         }
