@@ -1,10 +1,11 @@
 <template>
   <div class="whitelist-popup" v-bind:class="{ hide: enter }">
     <img class="jidori" src="@/assets/jidori.png" alt="" srcset="" />
-    <h1>公開販売開始 <br />Public-sale start now!</h1>
-    <p style="text-align: left">
-      Public-sale is now start! (FIRST 300 FREE-MINT)
-    </p>
+    <h1>完売 <br />We sold out!</h1>
+    <p style="text-align: left">You can buy on opensea!</p>
+    <a target="_blank" href="https://opensea.io/collection/jidori"
+      >https://opensea.io/collection/jidori</a
+    >
     <div class="close" @click="enter = true">GO！</div>
   </div>
   <div class="error-page" v-if="error">
@@ -43,7 +44,7 @@
           <!--Loading-->
           <template v-if="loading"> Loading... </template>
           <!--Paused-->
-          <template v-else-if="jidoriConfig.paused"> sale not start </template>
+          <template v-else-if="jidoriConfig.paused"> soldout </template>
           <template
             v-else-if="
               parseInt(totalSupply) >= parseInt(jidoriConfig.maxSupply)
