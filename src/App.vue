@@ -27,7 +27,7 @@
       <div class="header">
         <h1 class="name">自撮り Jidori</h1>
         <div class="subtitle">あなたに最適な自撮り写真を見つけましょう</div>
-        <div class="go-mint" @click="gomint = !gomint">GO MINT！</div>
+        <!-- <div class="go-mint" @click="gomint = !gomint">GO MINT！</div> -->
       </div>
       <div class="slide">
         <Splide :options="slideOption" :extensions="extensions" ref="slide">
