@@ -135,14 +135,6 @@
     <div class="info">
       <div class="about">
         <div class="item">
-          <h2>販売情報 buy info</h2>
-          <p>
-            4000 supply<br />pre-sale ： free mint (max 2)<br />public-sale ：
-            first 300 free, then 0.009 ETH (max 8)<br />reveal ： In 12 hours
-            once soldout
-          </p>
-        </div>
-        <div class="item">
           <h2>概念 Concept</h2>
           <p>
             The creative idea comes from people's usual selfie habits, and maybe
@@ -152,7 +144,7 @@
         <div class="item">
           <h2>収集 Collection</h2>
           <p>
-            This collection is 4000 in total and contains hundreds of fully
+            This collection is 3950 in total and contains hundreds of fully
             hand-painted features.
           </p>
         </div>
@@ -225,14 +217,14 @@
         <rect width="100%" height="100%" filter="url(#noiseFilter)" />
       </svg>
     </div>
-    <div class="connect-wallet" @click="requestAccount()">
+    <!-- <div class="connect-wallet" @click="requestAccount()">
       <div v-if="connectedWalletAddress">
         {{ connectedWalletAddress.substring(-5, 7) }}...{{
           connectedWalletAddress.slice(37)
         }}
       </div>
       <div v-else>Connect Wallect</div>
-    </div>
+    </div> -->
   </div>
   <div class="flash" v-if="!error && takingPicture"></div>
   <div class="bg">
@@ -509,59 +501,59 @@ export default {
     }
 
     onMounted(() => {
-      const { ethereum } = window;
+      // const { ethereum } = window;
 
-      if (!ethereum) {
-        showAlert('No wallet plugin is available! Please change your browser or install wallet plugin.');
-        return;
-      }
+      // if (!ethereum) {
+      //   showAlert('No wallet plugin is available! Please change your browser or install wallet plugin.');
+      //   return;
+      // }
 
-      web3.value = new Web3(ethereum);
+      // web3.value = new Web3(ethereum);
 
-      contract.value = new web3.value.eth.Contract(contractConfig.ABI, contractConfig.contract_address)
-      getConfig();
+      // contract.value = new web3.value.eth.Contract(contractConfig.ABI, contractConfig.contract_address)
+      // getConfig();
 
-      ethereum.on('chainChanged', function (id) {
-        web3.value.eth.getChainId().then((id) => {
+      // ethereum.on('chainChanged', function (id) {
+      //   web3.value.eth.getChainId().then((id) => {
 
-          if (id != targetNetworkId.value) {
-            error.value = true;
-            clearInterval(interval.value);
-          } else {
-            window.location.reload();
-          }
-        })
-      })
+      //     if (id != targetNetworkId.value) {
+      //       error.value = true;
+      //       clearInterval(interval.value);
+      //     } else {
+      //       window.location.reload();
+      //     }
+      //   })
+      // })
 
-      web3.value.eth.getChainId().then((id) => {
+      // web3.value.eth.getChainId().then((id) => {
 
-        if (id != targetNetworkId.value) {
-          showAlert('Please Change to mainnet.')
-          return
-        }
+      //   if (id != targetNetworkId.value) {
+      //     showAlert('Please Change to mainnet.')
+      //     return
+      //   }
 
 
-        ethereum.on('accountsChanged', function (accounts) {
-          connectedWalletAddress.value = accounts[0]
-          checkWhitelisted();
-        })
+      //   ethereum.on('accountsChanged', function (accounts) {
+      //     connectedWalletAddress.value = accounts[0]
+      //     checkWhitelisted();
+      //   })
 
-        requestAccount();
+      //   requestAccount();
 
-        ethereum.on('message', function (type, data) {
-          console.log(type, data);
-        })
+      //   ethereum.on('message', function (type, data) {
+      //     console.log(type, data);
+      //   })
 
-        interval.value = setInterval(() => {
-          getConfig();
+      //   interval.value = setInterval(() => {
+      //     getConfig();
 
-          if (connectedWalletAddress.value) {
-            getSupply();
-            getMintedAmount();
-          }
-        }, 1000);
+      //     if (connectedWalletAddress.value) {
+      //       getSupply();
+      //       getMintedAmount();
+      //     }
+      //   }, 1000);
 
-      })
+      // })
     })
 
     return {
