@@ -10,7 +10,12 @@
       />
       <div class="top100">
         <template v-if="customTokenId == ''">
-          <div v-for="(item, i) in top100" :key="i" class="item">
+          <div
+            v-for="(item, i) in top100"
+            :key="i"
+            class="item"
+            @click="getAttr(item.token_id)"
+          >
             <div class="rank">
               RANK {{ item.rank }} ( #{{ item.token_id }} )
               <a
@@ -22,11 +27,10 @@
             <div class="image">
               <img v-lazy="`tokens/${item.token_id}.jpg`" alt="" srcset="" />
             </div>
-            <div class="tokenid"></div>
           </div>
         </template>
         <template v-else>
-          <div class="item">
+          <div class="item" @click="getAttr(targetToken.token_id)">
             <div class="rank">
               RANK {{ targetToken.rank }} ( #{{ targetToken.token_id }} )
               <a
@@ -42,10 +46,47 @@
                 srcset=""
               />
             </div>
-            <div class="tokenid"></div>
           </div>
         </template>
       </div>
+    </div>
+    <div class="attr" v-bind:class="{ active: showAttr }">
+      <h1>Token detail</h1>
+      <div class="attr-detail">
+        <p>
+          (Score: {{ attr[0]["rarity_score"] }}) {{ attr[0]["trait_type"] }} :
+          {{ attr[0]["value"] }}
+        </p>
+        <p>
+          (Score: {{ attr[1]["rarity_score"] }}) {{ attr[1]["trait_type"] }} :
+          {{ attr[1]["value"] }}
+        </p>
+        <p>
+          (Score: {{ attr[2]["rarity_score"] }}) {{ attr[2]["trait_type"] }} :
+          {{ attr[2]["value"] }}
+        </p>
+        <p>
+          (Score: {{ attr[3]["rarity_score"] }}) {{ attr[3]["trait_type"] }} :
+          {{ attr[3]["value"] }}
+        </p>
+        <p>
+          (Score: {{ attr[4]["rarity_score"] }}) {{ attr[4]["trait_type"] }} :
+          {{ attr[4]["value"] }}
+        </p>
+        <p>
+          (Score: {{ attr[5]["rarity_score"] }}) {{ attr[5]["trait_type"] }} :
+          {{ attr[5]["value"] }}
+        </p>
+        <p>
+          (Score: {{ attr[6]["rarity_score"] }}) {{ attr[6]["trait_type"] }} :
+          {{ attr[6]["value"] }}
+        </p>
+        <p>
+          (Score: {{ attr[7]["rarity_score"] }}) {{ attr[7]["trait_type"] }} :
+          {{ attr[7]["value"] }}
+        </p>
+      </div>
+      <div class="close" @click="showAttr = false">close</div>
     </div>
     <div class="close" @click="enter = !enter">Close</div>
   </div>
@@ -196,6 +237,8 @@ export default {
   setup() {
     const customTokenId = ref('');
     const targetToken = ref({});
+    const attr = ref({});
+    const showAttr = ref(false);
     const enter = ref(false);
     const takingPicture = ref(false);
     const loading = ref(true);
@@ -203,7 +246,6 @@ export default {
     const isShowAlert = ref(false);
     const alertMsg = ref('');
     const slide = ref(null);
-
     const slideOption = reactive({
       type: "loop",
       rewind: true,
@@ -262,7 +304,14 @@ export default {
       let item = rarity.find(item => item['token_id'] == customTokenId.value);
       if (item) {
         targetToken.value = item;
+      }
+    }
 
+    const getAttr = (id) => {
+      let item = rarity.find(item => item['token_id'] == id);
+      if (item) {
+        attr.value = item['attributes'];
+        showAttr.value = true
       }
     }
 
@@ -286,7 +335,10 @@ export default {
       extensions: { AutoScroll, Grid },
       customTokenId,
       setCustomToken,
-      targetToken
+      targetToken,
+      attr,
+      getAttr,
+      showAttr
     }
   },
 }
@@ -380,6 +432,12 @@ $family2: "Mochiy Pop P One", sans-serif;
         justify-content: center;
         align-items: center;
         margin-bottom: 30px;
+        &:hover {
+          cursor: pointer;
+          .rank {
+            font-size: 20px;
+          }
+        }
         .rank {
           margin-bottom: 5px;
           font-size: 16px;
@@ -404,6 +462,30 @@ $family2: "Mochiy Pop P One", sans-serif;
       &::placeholder {
         color: #fff;
       }
+    }
+  }
+
+  .attr {
+    position: absolute;
+    z-index: 1000;
+    width: auto;
+    height: auto;
+    padding: 40px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.95);
+    border-radius: 10px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    text-align: left;
+    .close {
+      position: relative;
+      width: 20%;
+      margin: 0 auto;
+    }
+    &.active {
+      display: block;
     }
   }
 
@@ -1048,6 +1130,29 @@ $family2: "Mochiy Pop P One", sans-serif;
       }
     }
 
+    .attr {
+      position: absolute;
+      z-index: 1000;
+      width: 100%;
+      height: 100%;
+      padding: 40px;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, 0.95);
+      border-radius: 10px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      text-align: left;
+      .close {
+        position: relative;
+        width: 20%;
+        margin: 0 auto;
+      }
+      &.active {
+        display: block;
+      }
+    }
     .jidori {
       width: 90%;
     }
