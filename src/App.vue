@@ -1,12 +1,53 @@
 <template>
-  <div class="whitelist-popup" v-bind:class="{ hide: enter }">
-    <img class="jidori" src="@/assets/jidori.png" alt="" srcset="" />
-    <h1>完売 <br />We sold out!</h1>
-    <p style="text-align: left">You can buy on opensea!</p>
-    <a target="_blank" href="https://opensea.io/collection/jidori"
-      >https://opensea.io/collection/jidori</a
-    >
-    <div class="close" @click="enter = true">GO！</div>
+  <div class="rank-popup" v-bind:class="{ show: enter }">
+    <h1>rarity checker</h1>
+    <div class="rank">
+      <input
+        v-model="customTokenId"
+        class="input"
+        type="text"
+        placeholder="your TokenID"
+      />
+      <div class="top100">
+        <template v-if="customTokenId == ''">
+          <div v-for="(item, i) in top100" :key="i" class="item">
+            <div class="rank">
+              RANK {{ item.rank }} ( #{{ item.token_id }} )
+              <a
+                :href="`https://opensea.io/assets/0x0f7f90a5274ec882597be323f43347bf73e09bce/${item.token_id}`"
+                target="_blank"
+                ><img src="@/assets/os.png" alt="" srcset=""
+              /></a>
+            </div>
+            <div class="image">
+              <img v-lazy="`tokens/${item.token_id}.jpg`" alt="" srcset="" />
+            </div>
+            <div class="tokenid"></div>
+          </div>
+        </template>
+        <template v-else>
+          <div class="item">
+            <div class="rank">
+              RANK {{ targetToken.rank }} ( #{{ targetToken.token_id }} )
+              <a
+                :href="`https://opensea.io/assets/0x0f7f90a5274ec882597be323f43347bf73e09bce/${targetToken.token_id}`"
+                target="_blank"
+                ><img src="@/assets/os.png" alt="" srcset=""
+              /></a>
+            </div>
+            <div class="image">
+              <img
+                v-lazy="`tokens/${targetToken.token_id}.jpg`"
+                alt=""
+                srcset=""
+              />
+            </div>
+            <div class="tokenid"></div>
+          </div>
+        </template>
+      </div>
+    </div>
+    <div class="close" @click="enter = !enter">Close</div>
   </div>
   <div class="error-page" v-if="error">
     <p>
@@ -15,19 +56,13 @@
     </p>
   </div>
   <div class="container" v-else>
-    <div class="main" v-bind:class="{ active: gomint }">
-      <div class="alert-msg" v-if="isShowAlert" @click="isShowAlert = false">
-        {{ alertMsg }}
-      </div>
-      <div
-        class="alert-msg-overlay"
-        v-if="isShowAlert"
-        @click="isShowAlert = false"
-      ></div>
+    <div class="main">
       <div class="header">
         <h1 class="name">自撮り Jidori</h1>
         <div class="subtitle">あなたに最適な自撮り写真を見つけましょう</div>
-        <!-- <div class="go-mint" @click="gomint = !gomint">GO MINT！</div> -->
+        <div class="rarity-checker" @click="enter = !enter">
+          Rarity checker！
+        </div>
       </div>
       <div class="slide">
         <Splide :options="slideOption" :extensions="extensions" ref="slide">
@@ -38,99 +73,6 @@
       </div>
 
       <div class="lens"></div>
-
-      <div class="mint">
-        <template v-if="connectedWalletAddress">
-          <!--Loading-->
-          <template v-if="loading"> Loading... </template>
-          <!--Paused-->
-          <template v-else-if="jidoriConfig.paused"> soldout </template>
-          <template
-            v-else-if="
-              parseInt(totalSupply) >= parseInt(jidoriConfig.maxSupply)
-            "
-          >
-            <div class="sold-out">
-              We sold out.<br /><br />
-              But you can buy it on OpenSea now.
-            </div>
-          </template>
-          <!--Pre-Sale-->
-          <template v-else-if="!jidoriConfig.paused && jidoriConfig.isPreSale">
-            <template v-if="whitelistAddressesIndex >= 0">
-              <div class="supply">
-                {{ totalSupply }} / {{ jidoriConfig.maxSupply }}
-              </div>
-              <p class="whitelist-msg" v-html="isWhitelistedMsg"></p>
-
-              <div class="selection">
-                <p>BUY</p>
-                <div class="item-box">
-                  <div
-                    class="item"
-                    v-for="(amount, i) in parseInt(jidoriConfig.preSaleMaxMint)"
-                    :key="i"
-                    v-bind:class="{
-                      selected: selectedAmount == amount,
-                    }"
-                    @click="selectedAmount = amount"
-                  >
-                    {{ amount }}
-                  </div>
-                </div>
-              </div>
-              <div class="mint-button" @click="preSaleMint">Pre-Sale MINT</div>
-
-              <div class="minted">You have {{ mintedAmount }} Jidori</div>
-            </template>
-            <template v-else>
-              <div class="supply">
-                {{ totalSupply }} / {{ jidoriConfig.maxSupply }}
-              </div>
-              <p class="whitelist-msg" v-html="isWhitelistedMsg"></p>
-            </template>
-          </template>
-          <!--Public-Sale-->
-          <template
-            v-else-if="!jidoriConfig.paused && jidoriConfig.isPublicSale"
-          >
-            <div class="supply">
-              {{ totalSupply }} / {{ jidoriConfig.maxSupply }}
-            </div>
-            <div class="selection">
-              <p>BUY</p>
-              <div class="item-box">
-                <div
-                  class="item"
-                  v-for="(amount, i) in parseInt(
-                    jidoriConfig.publicSaleMaxMint
-                  )"
-                  :key="i"
-                  v-bind:class="{
-                    selected: selectedAmount == amount,
-                  }"
-                  @click="selectedAmount = amount"
-                >
-                  {{ amount }}
-                </div>
-              </div>
-            </div>
-            <div class="mint-button" @click="publicSaleMint">
-              Public-Sale MINT
-            </div>
-            <p class="whitelist-msg">
-              Remaining free-mint :
-              {{ Math.max(0, jidoriConfig.freeSlots - totalSupply) }}
-            </p>
-
-            <div class="minted">You have {{ mintedAmount }} Jidori</div>
-          </template>
-        </template>
-        <template v-else>
-          <div class="init-warning">Please connect to Metamask wallet</div>
-        </template>
-        <div class="go-back" @click="gomint = !gomint">➞</div>
-      </div>
     </div>
     <div class="info">
       <div class="about">
@@ -217,14 +159,6 @@
         <rect width="100%" height="100%" filter="url(#noiseFilter)" />
       </svg>
     </div>
-    <!-- <div class="connect-wallet" @click="requestAccount()">
-      <div v-if="connectedWalletAddress">
-        {{ connectedWalletAddress.substring(-5, 7) }}...{{
-          connectedWalletAddress.slice(37)
-        }}
-      </div>
-      <div v-else>Connect Wallect</div>
-    </div> -->
   </div>
   <div class="flash" v-if="!error && takingPicture"></div>
   <div class="bg">
@@ -233,15 +167,8 @@
 </template>
 
 <script>
-import Web3 from 'web3';
-import contractConfig from '@/utils/contract';
-import whitelist from "@/assets/whitelist.json";
-
-import { MerkleTree } from "merkletreejs";
-import keccak256 from "keccak256";
-
+import rarity from "@/assets/rarity.json";
 import { onMounted, ref, reactive } from "vue";
-
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
 import { Grid } from '@splidejs/splide-extension-grid';
@@ -253,46 +180,30 @@ export default {
     Splide,
     SplideSlide,
   },
+  computed: {
+    top100() {
+      let sorted = rarity.sort(function (a, b) {
+        return a.rank - b.rank
+      })
+      return sorted.slice(0, 100)
+    }
+  },
+  watch: {
+    customTokenId(newV, oldV) {
+      this.setCustomToken()
+    }
+  },
   setup() {
+    const customTokenId = ref('');
+    const targetToken = ref({});
     const enter = ref(false);
-    const connectedWalletAddress = ref();
-    const whitelistAddresses = ref(whitelist);
-    const whitelistAddressesIndex = ref(-1);
-
-    const mintedAmount = ref(0);
-    const totalSupply = ref(0);
-    const jidoriConfig = ref({
-      paused: true,
-      isPublicSale: false,
-      isPreSale: false,
-      preSaleMaxMint: 1,
-      publicSaleMaxMint: 2,
-      publicSalePrice: 0,
-      preSalePrice: 0,
-      maxSupply: 0
-    });
-    const selectedAmount = ref(1);
-
-    const targetNetworkId = ref(1);
-    const isWhitelistedMsg = ref('');
-    const contract = ref();
-
-    const exceedMaxAmount = ref(false);
-
     const takingPicture = ref(false);
-    const web3 = ref();
-
     const loading = ref(true);
     const error = ref(false);
-
     const isShowAlert = ref(false);
     const alertMsg = ref('');
-
-    const interval = ref();
-
-    const gomint = ref(false);
-
     const slide = ref(null);
+
     const slideOption = reactive({
       type: "loop",
       rewind: true,
@@ -334,159 +245,6 @@ export default {
       },
     });
 
-    const requestAccount = () => {
-      if (connectedWalletAddress.value) {
-        return;
-      }
-      const { ethereum } = window;
-
-      ethereum.request({ method: 'eth_requestAccounts' }).then((account) => {
-        connectedWalletAddress.value = account[0];
-        checkWhitelisted();
-        getSupply();
-        getMintedAmount();
-      }).catch(e => {
-        const errorCode = e.code;
-
-        if (errorCode == 4001) {
-          showAlert('User rejected the request, Please connect again.');
-        } else if (errorCode == -32002) {
-          showAlert('Request already pending, please check on your Metamask.');
-        }
-
-      });
-    }
-
-
-    const getConfig = () => {
-      contract.value.methods
-        .jidoriConfig().call().then((config) => {
-          jidoriConfig.value = config;
-
-          if (loading.value) {
-            setTimeout(() => {
-
-              loading.value = false;
-            }, 1000);
-          }
-        });
-    };
-
-    const getSupply = () => {
-      contract.value.methods
-        .totalSupply().call().then((supply) => {
-          totalSupply.value = supply;
-        });
-    }
-
-
-    const getProof = () => {
-      const leafNodes = whitelistAddresses.value.addresses.map((addr) => keccak256(addr))
-      const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true })
-
-      return merkleTree.getHexProof(leafNodes[whitelistAddressesIndex.value]);
-    }
-
-    const checkWhitelisted = () => {
-      if (connectedWalletAddress.value) {
-        let addressIndex = whitelistAddresses.value.addresses.findIndex(item => item.toLowerCase() == connectedWalletAddress.value.toLowerCase());
-        whitelistAddressesIndex.value = addressIndex;
-        if (addressIndex > -1) {
-          isWhitelistedMsg.value = 'You are in whitelist!';
-        } else {
-          isWhitelistedMsg.value = 'Not in whitelist, you can mint at public later!';
-        }
-      } else {
-        isWhitelistedMsg.value = 'Not connected Metamask';
-      }
-    }
-
-    const getMintedAmount = () => {
-      contract.value.methods
-        .addressMinted(connectedWalletAddress.value).call().then((amount) => {
-          mintedAmount.value = amount;
-
-          if (jidoriConfig.value.isPreSale) {
-            if (amount >= jidoriConfig.value.preSaleMaxMint) {
-              exceedMaxAmount.value = true;
-            } else {
-              exceedMaxAmount.value = false;
-            }
-          } else if (jidoriConfig.value.isPublicSale) {
-            if (whitelistAddressesIndex.value > -1) {
-              if (amount >= jidoriConfig.value.publicSaleMaxMint + jidoriConfig.value.preSaleMaxMint) {
-                exceedMaxAmount.value = true;
-              } else {
-                exceedMaxAmount.value = false;
-              }
-            } else {
-              if (amount >= jidoriConfig.value.publicSaleMaxMint) {
-                exceedMaxAmount.value = true;
-              } else {
-                exceedMaxAmount.value = false;
-              }
-            }
-          }
-        });
-    }
-
-    const preSaleMint = () => {
-      let proof = getProof();
-      if (exceedMaxAmount.value) {
-        showAlert("You mint too much.")
-        return
-      }
-
-
-      const { ethereum } = window;
-
-      const transactionParams = {
-        to: contractConfig.contract_address,
-        from: connectedWalletAddress.value,
-        // gasLimit: web3.value.utils.toHex(300000),
-        value: web3.value.utils.toHex(jidoriConfig.value.preSalePrice * selectedAmount.value),
-        data: contract.value.methods.preSaleMint(selectedAmount.value, proof).encodeABI()
-      };
-
-      return ethereum.request({
-        method: 'eth_sendTransaction',
-        params: [transactionParams]
-      })
-        .then((result) => {
-          showFlashlight()
-        })
-    }
-
-    const publicSaleMint = () => {
-      if (exceedMaxAmount.value) {
-        showAlert("You mint too much.")
-        return
-      }
-
-      let givenValue = jidoriConfig.value.publicSalePrice * selectedAmount.value;
-      if (jidoriConfig.value.freeSlots - totalSupply.value > 0) {
-        givenValue = 0
-      }
-
-      const { ethereum } = window;
-
-      const transactionParams = {
-        to: contractConfig.contract_address,
-        from: connectedWalletAddress.value,
-        // gasLimit: web3.value.utils.toHex(300000),
-        value: web3.value.utils.toHex(givenValue),
-        data: contract.value.methods.publicSaleMint(selectedAmount.value).encodeABI()
-      };
-
-      return ethereum.request({
-        method: 'eth_sendTransaction',
-        params: [transactionParams]
-      })
-        .then((result) => {
-          showFlashlight()
-        })
-    }
-
     const showFlashlight = () => {
       takingPicture.value = true;
 
@@ -500,71 +258,35 @@ export default {
       isShowAlert.value = true;
     }
 
+    const setCustomToken = () => {
+      let item = rarity.find(item => item['token_id'] == customTokenId.value);
+      if (item) {
+        targetToken.value = item;
+
+      }
+    }
+
     onMounted(() => {
-      // const { ethereum } = window;
-
-      // if (!ethereum) {
-      //   showAlert('No wallet plugin is available! Please change your browser or install wallet plugin.');
-      //   return;
-      // }
-
-      // web3.value = new Web3(ethereum);
-
-      // contract.value = new web3.value.eth.Contract(contractConfig.ABI, contractConfig.contract_address)
-      // getConfig();
-
-      // ethereum.on('chainChanged', function (id) {
-      //   web3.value.eth.getChainId().then((id) => {
-
-      //     if (id != targetNetworkId.value) {
-      //       error.value = true;
-      //       clearInterval(interval.value);
-      //     } else {
-      //       window.location.reload();
-      //     }
-      //   })
-      // })
-
-      // web3.value.eth.getChainId().then((id) => {
-
-      //   if (id != targetNetworkId.value) {
-      //     showAlert('Please Change to mainnet.')
-      //     return
-      //   }
+      var url_string = window.location.href
+      var url = new URL(url_string);
+      var checkrarity = url.searchParams.get("rarity");
 
 
-      //   ethereum.on('accountsChanged', function (accounts) {
-      //     connectedWalletAddress.value = accounts[0]
-      //     checkWhitelisted();
-      //   })
-
-      //   requestAccount();
-
-      //   ethereum.on('message', function (type, data) {
-      //     console.log(type, data);
-      //   })
-
-      //   interval.value = setInterval(() => {
-      //     getConfig();
-
-      //     if (connectedWalletAddress.value) {
-      //       getSupply();
-      //       getMintedAmount();
-      //     }
-      //   }, 1000);
-
-      // })
+      if (checkrarity) {
+        enter.value = true
+      }
     })
 
     return {
       enter,
-      showAlert, isShowAlert, alertMsg, error, loading, connectedWalletAddress, whitelistAddresses,
-      whitelistAddressesIndex, selectedAmount, mintedAmount, isWhitelistedMsg,
-      contract, totalSupply, jidoriConfig, takingPicture,
-      requestAccount, showFlashlight, getConfig, getSupply, getProof,
-      checkWhitelisted, preSaleMint, publicSaleMint, gomint,
+      showAlert, isShowAlert, alertMsg, error, loading,
+      takingPicture,
+      showFlashlight,
       slideOption, slide,
       extensions: { AutoScroll, Grid },
+      customTokenId,
+      setCustomToken,
+      targetToken
     }
   },
 }
@@ -581,7 +303,7 @@ $hoverColor: #b19f7e;
 $family1: "Rampart One", cursive;
 $family2: "Mochiy Pop P One", sans-serif;
 
-.whitelist-popup {
+.rank-popup {
   position: fixed;
   top: 0;
   left: 0;
@@ -600,24 +322,93 @@ $family2: "Mochiy Pop P One", sans-serif;
   box-shadow: inset 1em 1em rgb(0, 0, 0);
   box-sizing: border-box;
   transition: all 1s;
-  animation: enter 1s;
+  transform: translateY(-100%);
 
-  .jidori {
-    width: 20%;
-    margin-bottom: 20px;
+  .rank {
+    position: relative;
+    height: 80%;
+    width: 80%;
+    margin-top: 10px;
+
+    .top100 {
+      position: relative;
+      height: auto;
+      max-height: 80%;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      margin-top: 50px;
+      overflow-y: scroll;
+      box-sizing: border-box;
+      &::-webkit-scrollbar {
+        width: 2px;
+        height: 2px;
+      }
+      &::-webkit-scrollbar-button {
+        width: 0px;
+        height: 0px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #e1e1e1;
+        border: 0px none #ffffff;
+        border-radius: 50px;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background: #ffffff;
+      }
+      &::-webkit-scrollbar-thumb:active {
+        background: #000000;
+      }
+      &::-webkit-scrollbar-track {
+        background: #666666;
+        border: 0px none #ffffff;
+        border-radius: 50px;
+      }
+      &::-webkit-scrollbar-track:hover {
+        background: #666666;
+      }
+      &::-webkit-scrollbar-track:active {
+        background: #333333;
+      }
+      &::-webkit-scrollbar-corner {
+        background: transparent;
+      }
+
+      .item {
+        font-family: $family1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+        .rank {
+          margin-bottom: 5px;
+          font-size: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          a {
+            margin-left: 10px;
+            img {
+              width: 20px;
+            }
+          }
+        }
+      }
+    }
+    .input {
+      all: unset;
+      font-family: $family1;
+      border-bottom: 2px solid;
+      color: #fff;
+      font-size: 20px;
+      &::placeholder {
+        color: #fff;
+      }
+    }
   }
 
-  @keyframes enter {
-    from {
-      transform: translateY(100%);
-    }
-    to {
-      transform: translateY(0%);
-    }
-  }
-
-  &.hide {
-    transform: translateY(-100%);
+  &.show {
+    transform: translateY(0%);
   }
   h1 {
     font-family: $family1;
@@ -813,15 +604,15 @@ $family2: "Mochiy Pop P One", sans-serif;
         font-size: 1.5vw;
         margin-top: 2vw;
       }
-      .go-mint {
+      .rarity-checker {
         margin-top: 2vw;
         font-size: 2vw;
         transition: all 0.2s;
         transform-origin: left center;
         cursor: pointer;
+        color: rgb(243, 243, 0);
         &:hover {
           transform: scale(1.1);
-          color: #000;
         }
       }
     }
@@ -979,9 +770,6 @@ $family2: "Mochiy Pop P One", sans-serif;
           color: #000;
         }
         .subtitle {
-          color: #000;
-        }
-        .go-mint {
           color: #000;
         }
       }
@@ -1175,9 +963,90 @@ $family2: "Mochiy Pop P One", sans-serif;
 }
 
 @media screen and (max-width: 767px) {
-  .whitelist-popup {
+  .rank-popup {
     border: 10px dashed rgb(231, 228, 33);
     padding: 25px;
+
+    .rank {
+      position: relative;
+      height: 80%;
+      width: 80%;
+
+      .top100 {
+        position: relative;
+        height: auto;
+        max-height: 80%;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        margin-top: 50px;
+        overflow-y: scroll;
+        box-sizing: border-box;
+        &::-webkit-scrollbar {
+          width: 2px;
+          height: 2px;
+        }
+        &::-webkit-scrollbar-button {
+          width: 0px;
+          height: 0px;
+        }
+        &::-webkit-scrollbar-thumb {
+          background: #e1e1e1;
+          border: 0px none #ffffff;
+          border-radius: 50px;
+        }
+        &::-webkit-scrollbar-thumb:hover {
+          background: #ffffff;
+        }
+        &::-webkit-scrollbar-thumb:active {
+          background: #000000;
+        }
+        &::-webkit-scrollbar-track {
+          background: #666666;
+          border: 0px none #ffffff;
+          border-radius: 50px;
+        }
+        &::-webkit-scrollbar-track:hover {
+          background: #666666;
+        }
+        &::-webkit-scrollbar-track:active {
+          background: #333333;
+        }
+        &::-webkit-scrollbar-corner {
+          background: transparent;
+        }
+
+        .item {
+          font-family: $family1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 30px;
+          .rank {
+            margin-bottom: 5px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            a {
+              margin-left: 10px;
+              img {
+                width: 20px;
+              }
+            }
+          }
+        }
+      }
+      .input {
+        all: unset;
+        font-family: $family1;
+        border-bottom: 2px solid;
+        color: #fff;
+        &::placeholder {
+          color: #fff;
+        }
+      }
+    }
 
     .jidori {
       width: 90%;
@@ -1280,7 +1149,7 @@ $family2: "Mochiy Pop P One", sans-serif;
           font-size: 20px;
           margin-top: 18px;
         }
-        .go-mint {
+        .rarity-checker {
           margin-top: 30px;
           font-size: 32px;
         }
