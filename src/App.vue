@@ -50,7 +50,7 @@
         </template>
       </div>
     </div>
-    <div class="attr" v-bind:class="{ active: showAttr }">
+    <div class="attr" v-bind:class="{ active: showAttr }" v-if="showAttr">
       <h1>Token detail</h1>
       <div class="attr-detail">
         <p>
