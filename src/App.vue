@@ -1,5 +1,8 @@
 <template>
   <div class="rank-popup" v-bind:class="{ show: enter }">
+    <a href="https://raritysniper.com/jidori" target="_blank"
+      >See on RaritySniper (rank might different)</a
+    >
     <h1>rarity checker</h1>
     <div class="rank">
       <input
@@ -200,6 +203,46 @@
         <rect width="100%" height="100%" filter="url(#noiseFilter)" />
       </svg>
     </div>
+    <div class="roadmap">
+      <h1>Roadmap</h1>
+      <h2>Males</h2>
+      <p>
+        The males version is working on progress, we keeping release sneak-peeks
+        on twitter and discord, 10% holder will get 1 males airdrop(we will pick
+        395 female tokenId, the owner can get airdrop) and all holder can
+        free-mint 1 males. currently tentatively release in 2 months.
+      </p>
+      <div class="males">
+        <img src="@/assets/images/males/1.jpg" alt="" srcset="" />
+        <img src="@/assets/images/males/2.jpg" alt="" srcset="" />
+      </div>
+      <h2>Official social APP on iOS and Android</h2>
+      <p>
+        Our dev team specializes in web and app development, Jidori is a selfie
+        NFT and we will create a match-dating APP list on ios and android store
+        and all of world can found us on appstore. This app will have
+        Posture-Detection to verify a user to upload their selfie use on app
+        before matching. Jidori's holder can use your NFT as a pass or unlock
+        paid-only features(boost or superlike function like Tinder). What's
+        different with others match-dating app? you can only see the half-face
+        selfie with a user while your are trying match with someone and you will
+        see others photo once you matched with the user you liked, why? because
+        this is jidori.
+      </p>
+      <h2>Instagram Filter / effect</h2>
+      <p>
+        Everyone may see a jidori looks like self or someone, the filter can be
+        used on instagram when someone try to post a feed/story selfie and tag
+        friends or #jidorinft.
+      </p>
+      <h2>Land</h2>
+      <p>
+        we own a XL ArcadeLand, is a NFT project trying to build a game-fi or
+        P2E metaverse, but didnt see any project intergration solution atm, but
+        will follow-up and do what we can do.
+      </p>
+      <h2>leave it to you</h2>
+    </div>
   </div>
   <div class="flash" v-if="!error && takingPicture"></div>
   <div class="bg">
@@ -347,13 +390,14 @@ export default {
 
 <style lang="scss" scoped>
 @import url("./assets/reset.css");
-@import url("https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Rampart+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Noto+Sans+JP:wght@400;900&family=Rampart+One&display=swap");
 
 $secondaryColor: #707070;
 $primaryColor: #e5d9c3;
 $hoverColor: #b19f7e;
 $family1: "Rampart One", cursive;
 $family2: "Mochiy Pop P One", sans-serif;
+$family3: "Noto Sans JP", sans-serif;
 
 .rank-popup {
   position: fixed;
@@ -537,6 +581,7 @@ $family2: "Mochiy Pop P One", sans-serif;
   position: relative;
   height: 100vh;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
   box-sizing: border-box;
@@ -964,6 +1009,87 @@ $family2: "Mochiy Pop P One", sans-serif;
           }
         }
       }
+    }
+  }
+
+  .roadmap {
+    color: #000;
+    flex: 100%;
+    width: 10%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    flex-direction: column;
+    font-family: $family3;
+    padding: 10% 20%;
+    h1 {
+      position: relative;
+      font-size: 46px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+      border: 5px solid #000;
+      align-self: center;
+      padding: 10px 20px;
+      font-family: $family1;
+      background: #fff;
+      color: #000;
+      border-radius: 15px;
+      &::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        border: 1px solid #fff;
+        position: absolute;
+        bottom: -15px;
+        right: -15px;
+        z-index: -1;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.5);
+      }
+    }
+    h2 {
+      position: relative;
+      font-size: 28px;
+      font-weight: 1000;
+      margin-top: 20px;
+      padding-left: 32px;
+      letter-spacing: 0px;
+      text-transform: uppercase;
+
+      &::after {
+        content: "";
+        width: 15px;
+        height: 15px;
+        border-radius: 100%;
+        background: #000;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        border: 2px solid rgb(255, 255, 255);
+        box-sizing: border-box;
+        animation: ani 1s alternate-reverse infinite;
+        @keyframes ani {
+          from {
+            bottom: -10px;
+          }
+          to {
+            bottom: 0;
+          }
+        }
+      }
+    }
+    p {
+      font-size: 18px;
+      margin-bottom: 30px;
+      line-height: 2;
+      border-left: 1px dashed #000;
+      padding-left: 24px;
+      padding-top: 20px;
+      margin-left: 7px;
     }
   }
 
@@ -1400,6 +1526,55 @@ $family2: "Mochiy Pop P One", sans-serif;
             }
           }
         }
+      }
+    }
+
+    .roadmap {
+      width: 100%;
+      padding: 5%;
+      margin-left: -10%;
+      .males {
+        img {
+          width: 100%;
+        }
+      }
+      h1 {
+        margin: 50px 0;
+      }
+      h2 {
+        margin-top: 50px;
+        line-height: 1.5;
+
+        &::after {
+          content: "";
+          width: 15px;
+          height: 15px;
+          border-radius: 100%;
+          background: #000;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          border: 2px solid rgb(255, 255, 255);
+          box-sizing: border-box;
+          animation: ani 1s alternate-reverse infinite;
+          @keyframes ani {
+            from {
+              bottom: -10px;
+            }
+            to {
+              bottom: 0;
+            }
+          }
+        }
+      }
+      p {
+        font-size: 18px;
+        margin-bottom: 30px;
+        line-height: 2;
+        border-left: 1px dashed #000;
+        padding-left: 24px;
+        padding-top: 20px;
+        margin-left: 7px;
       }
     }
 
