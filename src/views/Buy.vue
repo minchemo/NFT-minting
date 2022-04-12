@@ -19,6 +19,10 @@
           </div>
         </template>
         <!-- sale condition -->
+        <div class="minted-info">
+          <p>您已購買：{{ store.state.addressMinted }} 個</p>
+        </div>
+        <!-- sale condition -->
         <div class="sale-info">
           <template v-if="store.state.nftConfig.paused">
             尚未開始販售
@@ -103,15 +107,16 @@ export default defineComponent({
         msg: "",
       };
 
-      const MAX_AMOUNT_PER_WALLET =
-        canPresaleIdx() >= 0
-          ? store.state.nftConfig.preSaleMaxMint +
-            store.state.nftConfig.publicSaleMaxMint
-          : store.state.nftConfig.preSaleMaxMint;
 
-      const MAX_SUPPLY = store.state.nftConfig.maxSupply;
-      const TOTAL_SUPPLY = store.state.totalSupply;
 
+      let MAX_AMOUNT_PER_WALLET = saleStage() == 'presale' ? parseInt(store.state.nftConfig.preSaleMaxMint) : parseInt(store.state.nftConfig.publicSaleMaxMint);
+
+      if (canPresaleIdx() > -1 && saleStage() == 'publicsale') {
+        MAX_AMOUNT_PER_WALLET = parseInt(store.state.nftConfig.preSaleMaxMint) + parseInt(store.state.nftConfig.publicSaleMaxMint);
+      }
+
+      const MAX_SUPPLY = parseInt(store.state.nftConfig.maxSupply);
+      const TOTAL_SUPPLY = parseInt(store.state.totalSupply);
 
       if (store.state.nftConfig.paused) {
         canBuyInfo.can = false;
@@ -121,7 +126,7 @@ export default defineComponent({
           canBuyInfo.can = false;
           canBuyInfo.msg = "不在白名單";
         } else if (
-          store.state.addressMinted + buyAmount.value >
+          parseInt(store.state.addressMinted) + buyAmount.value >
           MAX_AMOUNT_PER_WALLET
         ) {
           canBuyInfo.can = false;
@@ -228,6 +233,14 @@ export default defineComponent({
       .connect-wallet {
         margin-top: 20px;
         font-size: 1.5vw;
+      }
+      .minted-info {
+        margin-bottom: 20px;
+        font-size: 20px;
+      }
+      .sale-info {
+        margin-bottom: 20px;
+        font-size: 20px;
       }
     }
     .desc {
