@@ -1091,6 +1091,35 @@ $family3: "Noto Sans JP", sans-serif;
       padding-top: 20px;
       margin-left: 7px;
     }
+    &:after {
+      content: "";
+      width: 5px;
+      height: 200px;
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      margin-left: -2.5px;
+      background: rgb(0, 0, 0);
+    }
+    &:before {
+      content: "ROADMAP";
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      margin-left: 5px;
+      writing-mode: vertical-lr;
+      letter-spacing: 2px;
+      animation: down 2s alternate-reverse infinite;
+
+      @keyframes down {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(100px);
+        }
+      }
+    }
   }
 
   .connect-wallet {
@@ -1327,6 +1356,7 @@ $family3: "Noto Sans JP", sans-serif;
     height: auto;
     flex-direction: column;
     padding-top: 70px;
+    flex-wrap: nowrap;
 
     .bg {
       position: absolute;
@@ -1533,6 +1563,12 @@ $family3: "Noto Sans JP", sans-serif;
       width: 100%;
       padding: 5%;
       margin-left: -10%;
+      &:after {
+        display: none;
+      }
+      &:before {
+        display: none;
+      }
       .males {
         img {
           width: 100%;
