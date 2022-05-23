@@ -760,12 +760,24 @@ vite@^2.9.9:
   optionalDependencies:
     fsevents "~2.3.2"
 
+vue-demi@^0.12.5:
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.12.5.tgz#8eeed566a7d86eb090209a11723f887d28aeb2d1"
+  integrity sha512-BREuTgTYlUr0zw0EZn3hnhC3I6gPWv+Kwh4MCih6QcAeaTlaIX0DwOVN0wHej7hSvDPecz4jygy/idsgKfW58Q==
+
 vue-router@^4.0.13:
   version "4.0.13"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.0.13.tgz#47f06e2f8ff6120bfff3c27ade1356cc9de7d870"
   integrity sha512-LmXrC+BkDRLak+d5xTMgUYraT3Nj0H/vCbP+7usGvIl9Viqd1UP6AsP0i69pSbn9O0dXK/xCdp4yPw21HqV9Jw==
   dependencies:
     "@vue/devtools-api" "^6.0.0"
+
+vue3-lazyload@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/vue3-lazyload/-/vue3-lazyload-0.3.0.tgz#e3fcbcfd93555d9b3e7ebb2f7e0b58c82f2869a8"
+  integrity sha512-peYm1KrXDCBze6JbS80BdRPeTA1dvBaxXUvnKkbetzfwNzR+k0u3lzcj9cuYwzp+mJopXzl9I7y12Pc1wL1duQ==
+  dependencies:
+    vue-demi "^0.12.5"
 
 vue@^3.2.25:
   version "3.2.36"

@@ -1,3 +1,5 @@
 <template>
-<div class="text-5xl">home</div>
+
+    <div class="text-5xl">home</div>
+
 </template>

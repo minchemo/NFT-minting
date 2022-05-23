@@ -8,6 +8,14 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import "@/plugins/fontawesome";
 
 
+import VueLazyLoad from 'vue3-lazyload'
+
+
 createApp(App)
     .component("font-awesome-icon", FontAwesomeIcon)
-    .use(store).use(router).mount('#app')
+    .use(store).use(router)
+    .use(VueLazyLoad, {
+        loading: 'https://pixo.style/image/catalog/tee/new/TEE-012a.jpg',
+        error: '',
+    })
+    .mount('#app')
