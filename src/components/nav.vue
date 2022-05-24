@@ -1,6 +1,7 @@
 <template>
-  <div class="w-full bottom-12 px-24 absolute">
-    <div class="
+  <div class="container mx-auto w-full bottom-12 px-24 absolute inset-x-0">
+    <div
+      class="
         bg-cyan-700
         py-4
         px-10
@@ -11,44 +12,52 @@
         text-white
         items-center
         justify-between
-      ">
+        drop-shadow-lg
+      "
+    >
       <div class="flex items-end">
         <div class="text-5xl font-black mr-2">jidori</div>
         <div class="text-sm pb-1 font-thin">手描きの自撮りNFT</div>
       </div>
-      <div class="flex flex-col items-end">
-        <div class="text-xs font-thin text-center flex gap-1">
-          <a class="
-              py-2
-              px-2
-              rounded-md
-              hover:bg-cyan-800
-              transition
-              tracking-wider
-            " href="#">
-            <font-awesome-icon :icon="['fab', 'discord']" />
-          </a>
-          <a class="
-              py-2
-              px-4
-              rounded-md
-              hover:bg-cyan-800
-              transition
-              tracking-wider
-            " href="#">
-            <font-awesome-icon :icon="['fab', 'twitter']" />
-          </a>
-          <router-link v-for="(route, i) in router.options.routes" :key="i" class="
-              py-2
-              px-4
-              rounded-md
-              hover:bg-cyan-800
-              transition
-              tracking-wider
-            " v-bind:class="{
-              'bg-cyan-800': router.currentRoute.value.path == route.path,
-            }" :to="route.path">{{ route.name }}</router-link>
-        </div>
+      <div class="font-thin text-center flex gap-1">
+        <a
+          class="
+            py-2
+            px-2
+            mr-2
+            rounded-md
+            hover:text-black
+            transition
+            tracking-wider
+            mr-2
+            text-xs
+          "
+          :href="link.link"
+          v-for="(link, i) in socialLinks"
+          :key="i"
+          target="_blank"
+        >
+          <font-awesome-icon :icon="link.icon" />
+        </a>
+        <router-link
+          v-for="(route, i) in router.options.routes"
+          :key="i"
+          class="
+            py-2
+            px-4
+            rounded-md
+            hover:bg-cyan-800
+            transition
+            tracking-wider
+            mr-2
+            text-xs
+          "
+          v-bind:class="{
+            'bg-cyan-900': router.currentRoute.value.path == route.path,
+          }"
+          :to="route.path"
+          >{{ route.name }}</router-link
+        >
       </div>
     </div>
   </div>
@@ -56,9 +65,21 @@
 
 <script>
 import router from "@/router";
+import { ref } from '@vue/reactivity';
 export default {
   setup() {
+    const socialLinks = ref([
+      {
+        link: 'https://opensea.io',
+        icon: ['fab', 'discord']
+      },
+      {
+        link: 'https://opensea.io',
+        icon: ['fab', 'twitter']
+      }
+    ]);
     return {
+      socialLinks,
       router,
     };
   },
