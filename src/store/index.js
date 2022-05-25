@@ -2,6 +2,7 @@ import { createStore } from "vuex"
 
 export default createStore({
     state: {
+        loading: true,
         init: false,
         ethereum: null,
         web3: null,
@@ -23,6 +24,9 @@ export default createStore({
         addressMinted: 0,
     },
     mutations: {
+        setLoading(state, n) {
+            state.loading = n
+        },
         setInit(state, n) {
             state.init = n
         },
@@ -51,7 +55,7 @@ export default createStore({
     actions: {
         setStateData({ commit }, payload) {
             commit(payload.name, payload.data)
-        }
+        },
     },
     modules: {},
 })
