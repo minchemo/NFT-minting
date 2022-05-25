@@ -13,7 +13,6 @@
           </p>
           <div class="content">
             <p class="title">{{ news[i].title }}</p>
-            <p class="date">發布於 {{ news[i].date }}</p>
           </div>
         </a>
       </div>
@@ -32,9 +31,24 @@ export default defineComponent({
     const store = useStore();
     const news = ref([
       {
-        title: "更多媒體報導即將公告...",
-        url: "",
-        date: "2022/03"
+        title: "經濟日報 台灣好覓NFT融合台灣美食與動物特色 攜手社福團體聯名做公益",
+        url: "https://money.udn.com/money/story/5635/6333240",
+      },
+      {
+        title: "TalkNews 說新聞 台灣好覓NFT融合台灣美食與動物特色 攜手社福團體 聯名做公益",
+        url: "https://reurl.cc/e3G2bj",
+      },
+      {
+        title: "民生好報 台灣好覓NFT融合台灣美食與動物特色 攜手社福團體 聯名做公益",
+        url: "https://reurl.cc/j1QEjZ",
+      },
+      {
+        title: "台灣電報 台灣好覓NFT融合台灣美食與動物特色 攜手社福團體 聯名做公益",
+        url: "https://reurl.cc/p19N0b",
+      },
+      {
+        title: "新民生報 台灣好覓NFT融合台灣美食與動物特色 攜手社福團體 聯名做公益",
+        url: "https://reurl.cc/DyK226",
       }
     ]);
 
