@@ -1,14 +1,12 @@
 <template>
-  <PageTitle title="Jidori" subtitle="your web3 selfie" />
+  <div class="container mx-auto h-full flex flex-col pb-40">
+    <PageTitle title="Jidori" subtitle="Your web3 selfie" />
+
+    <div class="container mx-auto p-8 h-full">3</div>
+  </div>
 </template>
 
-
-<script>
-import PageTitle from "@/components/pagetitle.vue";
-export default {
-  components: { PageTitle },
-  setup() {
-
-  }
-}
+<script setup>
+import PageTitle from "@/components/pagetitle.vue"
+import { ref } from "vue"
 </script>
