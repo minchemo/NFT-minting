@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto w-full bottom-12 px-24 absolute inset-x-0 z-10">
+  <div class="container mx-auto w-full bottom-12 px-8 absolute inset-x-0 z-10">
     <div
       class="
         bg-cyan-700

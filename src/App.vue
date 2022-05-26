@@ -1,6 +1,5 @@
 <template>
-  <div
-    class="
+  <div class="
       fixed
       w-screen
       h-screen
@@ -14,20 +13,15 @@
       text-white
       uppercase
       font-['Nunito']
-    "
-    v-bind:class="{ hide: !store.state.loading }"
-  >
-    <div class="text-5xl font-black drop-shadow-md">jidori 自撮り</div>
-    <div class="text-xl font-normal mt-12">Your web3 selfie</div>
+    " v-bind:class="{ hide: !store.state.loading }">
+    <div class="text-5xl font-black drop-shadow-md" data-aos="fade">jidori 自撮り</div>
+    <div class="text-xl font-normal mt-12" data-aos="fade" data-aos-delay="200">Your web3 selfie</div>
   </div>
-  <div
-    class="w-screen h-screen transition-all duration-1000"
-    v-bind:class="{
-      'bg-sky-100': router.currentRoute.value.path == '/timeline',
-      'bg-amber-100': router.currentRoute.value.path == '/gallery',
-      'bg-orange-100': router.currentRoute.value.path == '/mint',
-    }"
-  >
+  <div class="w-screen h-screen transition-all duration-1000 relative" v-bind:class="{
+    'bg-sky-100': router.currentRoute.value.path == '/timeline',
+    'bg-amber-100': router.currentRoute.value.path == '/gallery',
+    'bg-orange-100': router.currentRoute.value.path == '/mint',
+  }">
     <Nav />
     <router-view class="container"></router-view>
   </div>
@@ -37,6 +31,7 @@
 .bg-jidori {
   background-image: url("@/assets/bg.jpg");
   background-size: cover;
+
   &.hide {
     transform: translateY(100%);
   }
@@ -53,6 +48,8 @@
 import router from "@/router";
 import store from "@/store";
 import Nav from "@/components/nav.vue";
+import AOS from "aos";
+import { onMounted } from "vue";
 export default {
   components: {
     Nav,
@@ -60,7 +57,13 @@ export default {
   setup() {
     setTimeout(() => {
       store.dispatch('setStateData', { name: 'setLoading', data: false });
-    }, 1000);
+    }, 3000);
+
+
+    onMounted(() => {
+      AOS.init();
+    });
+
     return {
       store,
       router,

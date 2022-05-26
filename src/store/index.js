@@ -2,7 +2,7 @@ import { createStore } from "vuex"
 
 export default createStore({
     state: {
-        loading: true,
+        loading: false,
         init: false,
         ethereum: null,
         web3: null,
