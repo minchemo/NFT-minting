@@ -1,8 +1,7 @@
 <template>
   <div
     class="fixed w-screen h-screen bg-jidori z-50 flex flex-col items-center justify-center transition-all duration-1000 text-white uppercase font-['Nunito']"
-    v-bind:class="{ hide: !store.state.loading }"
-  >
+    v-bind:class="{ hide: !store.state.loading }">
     <div class="text-5xl font-black drop-shadow-md" data-aos="fade">
       jidori 自撮り
     </div>
@@ -10,14 +9,11 @@
       Your web3 selfie
     </div>
   </div>
-  <div
-    class="w-screen h-screen transition-all duration-1000 relative"
-    v-bind:class="{
-      'bg-sky-100': router.currentRoute.value.path == '/timeline',
-      'bg-white': router.currentRoute.value.path == '/gallery',
-      'bg-orange-100': router.currentRoute.value.path == '/mint',
-    }"
-  >
+  <div id="router-view" class=" transition-all duration-1000 relative" v-bind:class="{
+    'bg-sky-100': router.currentRoute.value.path == '/timeline',
+    'bg-white': router.currentRoute.value.path == '/gallery',
+    'bg-orange-100': router.currentRoute.value.path == '/mint',
+  }">
     <Nav />
     <router-view class="container"></router-view>
   </div>

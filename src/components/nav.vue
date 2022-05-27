@@ -1,5 +1,18 @@
 <template>
-  <div class="container mx-auto w-full bottom-12 px-8 absolute inset-x-0 z-10">
+  <div
+    class="
+      container
+      mx-auto
+      w-full
+      bottom-0
+      px-8
+      pb-8
+      fixed
+      inset-x-0
+      z-10
+      backdrop-blur-lg
+    "
+  >
     <div
       class="
         bg-cyan-700
@@ -63,25 +76,17 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import router from "@/router";
-import { ref } from '@vue/reactivity';
-export default {
-  setup() {
-    const socialLinks = ref([
-      {
-        link: 'https://opensea.io',
-        icon: ['fab', 'discord']
-      },
-      {
-        link: 'https://opensea.io',
-        icon: ['fab', 'twitter']
-      }
-    ]);
-    return {
-      socialLinks,
-      router,
-    };
+import { ref } from "vue";
+const socialLinks = ref([
+  {
+    link: "https://opensea.io",
+    icon: ["fab", "discord"],
   },
-};
+  {
+    link: "https://opensea.io",
+    icon: ["fab", "twitter"],
+  },
+]);
 </script>
