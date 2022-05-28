@@ -6,7 +6,18 @@ import {
     faRepeat,
     faCheckDouble,
     faArrowRight,
-    faCheck
+    faCheck,
+    faWallet,
 } from "@fortawesome/free-solid-svg-icons"
 
-library.add([faDiscord, faTwitter, faLayerGroup, faArrowRightArrowLeft, faRepeat, faCheckDouble, faCheck, faArrowRight])
+library.add([
+    faDiscord,
+    faTwitter,
+    faLayerGroup,
+    faArrowRightArrowLeft,
+    faRepeat,
+    faCheckDouble,
+    faCheck,
+    faArrowRight,
+    faWallet,
+])

@@ -10,19 +10,12 @@ export default createStore({
         contract: null,
         connectedAddress: "",
         nftConfig: {
-            paused: false,
-            isPublicSale: false,
-            isPreSale: false,
-            preSaleMaxMint: 2,
-            publicSaleMaxMint: 10,
-            publicSalePrice: 0,
-            preSalePrice: 0,
-            maxSupply: 10625,
-            devMintAmount: 625,
             stage: 2,
+            publicSaleMaxMint: 3,
+            publicSalePrice: 25000000000000000,
+            maxSupply: 3950,
         },
         totalSupply: 0,
-        addressMinted: 0,
     },
     mutations: {
         setLoading(state, n) {
@@ -39,9 +32,6 @@ export default createStore({
         },
         setContract(state, n) {
             state.contract = n
-        },
-        setAddressMinted(state, n) {
-            state.addressMinted = n
         },
         setNftConfig(state, n) {
             state.nftConfig = n
