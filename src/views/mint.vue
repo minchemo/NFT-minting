@@ -2,6 +2,24 @@
   <div class="container mx-auto flex flex-col min-h-screen pb-40">
     <PageTitle title="mint & claim 鋳造" subtitle="claim and mint boys" />
     <div class="container mx-auto p-8 pt-0 w-full h-full flex flex-col gap-4">
+      <div
+        class="flex items-center justify-between font-['nunito'] uppercase font-black"
+        v-if="store.state.connectedAddress != ''"
+      >
+        <div class="flex items-center gap-4">
+          <div
+            v-if="store.state.connectedAddress != ''"
+            class="text-lg flex items-center gap-4 font-[nunito] text-md bg-white inline-block px-4 py-2 rounded-md shadow-md"
+          >
+            <font-awesome-icon :icon="['fa', 'wallet']" />
+            {{ store.state.connectedAddress.substring(0, 8) }}
+          </div>
+          <p class="text-lg">You own {{ store.state.balance }} boy</p>
+        </div>
+        <p class="text-3xl">
+          {{ store.state.totalSupply }} / {{ store.state.nftConfig.maxSupply }}
+        </p>
+      </div>
       <div class="w-full flex gap-8">
         <template v-for="(stage, i) in stages">
           <div
@@ -47,15 +65,9 @@
           store.state.connectedAddress == '' && store.state.nftConfig.stage >= 2
         "
       />
-      <div
-        v-else
-        class="flex items-center gap-4 font-[nunito] text-md bg-white inline-block ml-0 mr-auto px-4 py-2 rounded-md shadow-md"
-      >
-        <font-awesome-icon :icon="['fa', 'wallet']" />
-        {{ store.state.connectedAddress.substring(0, 8) }}
-      </div>
       <Airdrop v-if="store.state.nftConfig.stage == 1" />
       <Claim v-else-if="store.state.nftConfig.stage == 2" />
+      <Sale v-else-if="store.state.nftConfig.stage == 3" />
     </div>
   </div>
 </template>
@@ -70,6 +82,7 @@ import Connect from "./mint/connect.vue"
 
 import useEthereum from "@/utils/useEthereum"
 import Airdrop from "./mint/airdrop.vue"
+import Sale from "./mint/sale.vue"
 const { init } = useEthereum()
 
 const stages = ref([

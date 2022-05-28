@@ -13,6 +13,7 @@ const masterKey = "YzeYr56XOXKtIMl0rgu7QQB1vQ62wduKg8uIqEgH"
 const express = require("express")
 const app = express()
 const port = 9876
+const cors = require("cors")
 
 /**
  * web3
@@ -21,6 +22,7 @@ const port = 9876
 const web3 = require("web3")
 
 const initRouter = async() => {
+    app.use(cors())
     app.get("/getGirls", async(req, res) => {
         const query = req.query
 

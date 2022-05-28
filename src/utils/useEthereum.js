@@ -1,6 +1,6 @@
 import Web3 from "web3"
 import contractConfig from "@/utils/contract"
-import contractFemaleConfig from "@/utils/contract_f"
+
 import store from "@/store"
 
 export default function() {
@@ -9,10 +9,10 @@ export default function() {
             .request({ method: "eth_requestAccounts" })
             .then((account) => {
                 store.dispatch("setStateData", {
-                        name: "setConnectedAddress",
-                        data: account[0],
-                    })
-                    // getAddressMinted()
+                    name: "setConnectedAddress",
+                    data: account[0],
+                })
+                getBalance()
             })
             .catch((e) => {
                 const errorCode = e.code
@@ -22,25 +22,6 @@ export default function() {
                 } else if (errorCode == -32002) {
                     alert("Request already pending, please check on your Metamask.")
                 }
-            })
-    }
-
-    const getFemaleBalance = () => {
-        if (store.state.walletAddress == "") {
-            return
-        }
-        const { ethereum } = window
-        let web3 = new Web3(ethereum)
-        let contract = new web3.eth.Contract(
-            contractFemaleConfig.ABI,
-            contractFemaleConfig.contract_address
-        )
-
-        contract.methods
-            .balanceOf(store.state.connectedAddress)
-            .call()
-            .then((data) => {
-                console.log(data)
             })
     }
 
@@ -62,6 +43,30 @@ export default function() {
             })
     }
 
+    const getBuyed = () => {
+        if (store.state.connectedAddress != "") {
+            store.state.contract.methods
+                .buyed(store.state.connectedAddress)
+                .call()
+                .then((amount) => {
+                    store.dispatch("setStateData", { name: "setBuyed", data: amount })
+                })
+        }
+    }
+
+    const sentClaim = (ids) => {
+        const transactionParams = {
+            to: contractConfig.contract_address,
+            from: store.state.connectedAddress,
+            value: 0,
+            data: store.state.contract.methods.claimBoy(ids).encodeABI(),
+        }
+        return store.state.ethereum.request({
+            method: "eth_sendTransaction",
+            params: [transactionParams],
+        })
+    }
+
     const publicSaleMint = (amount) => {
         let value = store.state.web3.utils.toHex(
             store.state.nftConfig.publicSalePrice * amount
@@ -77,6 +82,15 @@ export default function() {
             method: "eth_sendTransaction",
             params: [transactionParams],
         })
+    }
+
+    const getBalance = () => {
+        store.state.contract.methods
+            .balanceOf(store.state.connectedAddress)
+            .call()
+            .then((balance) => {
+                store.dispatch("setStateData", { name: "setBalance", data: balance })
+            })
     }
 
     const init = () => {
@@ -136,7 +150,7 @@ export default function() {
                 getTotalSupply()
 
                 if (store.state.connectedAddress != "") {
-                    // getAddressMinted()
+                    getBalance()
                 }
             }, 1000)
         })
@@ -148,6 +162,7 @@ export default function() {
         init,
         requestAccount,
         publicSaleMint,
-        getFemaleBalance,
+        sentClaim,
+        getBuyed,
     }
 }

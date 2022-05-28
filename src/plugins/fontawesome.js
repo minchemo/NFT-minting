@@ -8,6 +8,9 @@ import {
     faArrowRight,
     faCheck,
     faWallet,
+    faExclamation,
+    faPlus,
+    faMinus,
 } from "@fortawesome/free-solid-svg-icons"
 
 library.add([
@@ -20,4 +23,7 @@ library.add([
     faCheck,
     faArrowRight,
     faWallet,
+    faExclamation,
+    faPlus,
+    faMinus,
 ])

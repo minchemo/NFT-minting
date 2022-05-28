@@ -16,6 +16,12 @@ export default createStore({
             maxSupply: 3950,
         },
         totalSupply: 0,
+        balance: 0,
+        buyed: 0,
+        toast: {
+            show: false,
+            msg: "",
+        },
     },
     mutations: {
         setLoading(state, n) {
@@ -41,6 +47,15 @@ export default createStore({
         },
         setConnectedAddress(state, n) {
             state.connectedAddress = n
+        },
+        setBalance(state, n) {
+            state.balance = n
+        },
+        setBuy(state, n) {
+            state.buy = n
+        },
+        setToast(state, n) {
+            state.toast = n
         },
     },
     actions: {
