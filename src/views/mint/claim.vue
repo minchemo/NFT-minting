@@ -274,6 +274,7 @@ async function checkIsClaimed() {
         if (claimedChecked.value == ownList.length) {
           setTimeout(() => {
             claimedChecking.value = false
+            checkAll()
           }, 1000)
         }
       })
