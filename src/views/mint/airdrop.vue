@@ -3,7 +3,7 @@
     class="mx-auto flex flex-col lg:flex-row items-center justify-center h-60 uppercase text-2xl lg:text-4xl font-black font-['nunito'] gap-8 lg:text-left text-center"
   >
     <font-awesome-icon :icon="['fa', 'rocket']" class="flutter" /> Airdrop is
-    ready to launch
+    ready to launch !
   </div>
 </template>
 
