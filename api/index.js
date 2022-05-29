@@ -70,9 +70,9 @@ const getNFTs = async(address) => {
     await Moralis.start({ serverUrl, appId, masterKey })
 
     const options = {
-        chain: "rinkeby",
+        chain: "eth",
         address: address,
-        token_address: "0xafD7D016E2a29aAFab21F60E5Fef16B017Abdb1c",
+        token_address: "0x0f7f90a5274ec882597be323f43347bf73e09bce",
     }
     const nfts = await Moralis.Web3API.account.getNFTsForContract(options)
     return nfts
