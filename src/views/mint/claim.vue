@@ -226,7 +226,7 @@ const getMyGirls = () => {
   ownList.splice(0)
 
   fetch(
-    `http://localhost:9876/getGirls?address=${store.state.connectedAddress}`
+    `https://api.jidori-nft.com/getGirls?address=${store.state.connectedAddress}`
   )
     .then(function (response) {
       return response.json()
