@@ -1,5 +1,5 @@
 export default {
-    contract_address: "0xafD7D016E2a29aAFab21F60E5Fef16B017Abdb1c",
+    contract_address: "0xbC925b9f86514f655e940a65824fE16a5E352150",
     ABI: [
         { inputs: [], stateMutability: "nonpayable", type: "constructor" },
         { inputs: [], name: "ApprovalCallerNotOwnerNorApproved", type: "error" },

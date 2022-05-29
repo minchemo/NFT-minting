@@ -22,12 +22,18 @@
       <div
         class="bg-white shadow-xl rounded-xl text-orange-700 px-6 py-4 font-semibold"
       >
-        You have buyed
+        You have bought
         <span class="font-black"> {{ store.state.buyed }} </span> boy<br />
         Max to <span class="font-black"> 3 </span>
       </div>
       <div
-        class="hover:cursor-pointer hover:bg-orange-700 hover:text-white bg-white shadow-xl rounded-xl text-orange-700 px-6 py-4 text-2xl font-black"
+        v-bind:class="{
+          'bg-gray-500': store.state.buyed == 3,
+          'bg-orange-700': store.state.buyed < 3,
+          'hover:bg-orange-800': store.state.buyed < 3,
+        }"
+        class="hover:cursor-pointer text-white bg-white shadow-xl rounded-xl px-6 py-4 text-2xl font-black"
+        @click="mint()"
       >
         Buy
       </div>
@@ -40,9 +46,10 @@ import { computed, onMounted, reactive, ref, watch } from "vue"
 import useEthereum from "@/utils/useEthereum"
 import store from "@/store"
 
-const { getBuyed } = useEthereum()
+const { getBuyed, buy } = useEthereum()
+const buyCount = ref(3)
 
-const buyCount = ref(1)
+// const ownBoy = computed(() => store.state.balance)
 
 const plusBuyCount = () => {
   if (buyCount.value + 1 > 3) {
@@ -59,7 +66,19 @@ const minusBuyCount = () => {
   buyCount.value--
 }
 
-// watch(girlBalance, (oldBalance, newBalance) => {})
+const mint = () => {
+  if (parseInt(store.state.buyed) + parseInt(buyCount.value) > 3) {
+    store.dispatch("setStateData", {
+      name: "setToast",
+      data: {
+        show: true,
+        msg: `Exceed max buy quantity.`,
+      },
+    })
+  } else {
+    buy(buyCount.value)
+  }
+}
 
 onMounted(() => {
   setInterval(() => {

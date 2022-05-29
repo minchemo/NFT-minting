@@ -6,11 +6,11 @@ export default createStore({
         init: false,
         ethereum: null,
         web3: null,
-        networkId: 4,
+        networkId: 1,
         contract: null,
         connectedAddress: "",
         nftConfig: {
-            stage: 2,
+            stage: 0,
             publicSaleMaxMint: 3,
             publicSalePrice: 25000000000000000,
             maxSupply: 3950,
@@ -51,8 +51,8 @@ export default createStore({
         setBalance(state, n) {
             state.balance = n
         },
-        setBuy(state, n) {
-            state.buy = n
+        setBuyed(state, n) {
+            state.buyed = n
         },
         setToast(state, n) {
             state.toast = n

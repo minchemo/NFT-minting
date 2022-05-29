@@ -11,6 +11,9 @@ import {
     faExclamation,
     faPlus,
     faMinus,
+    faWater,
+    faPlaneArrival,
+    faRocket,
 } from "@fortawesome/free-solid-svg-icons"
 
 library.add([
@@ -26,4 +29,7 @@ library.add([
     faExclamation,
     faPlus,
     faMinus,
+    faWater,
+    faPlaneArrival,
+    faRocket,
 ])

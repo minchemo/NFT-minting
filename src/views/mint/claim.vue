@@ -1,7 +1,24 @@
 <template>
+  <div
+    class="flex items-center jusitify-center gap-2 font-['Nunito'] mr-auto lg:mr-0 ml-auto"
+  >
+    <div class="text-sm">Can I claim?</div>
+    <input
+      type="text"
+      class="rounded-lg p-2 font-black text-right w-20"
+      placeholder="ID"
+      ref="checkId"
+    />
+    <div
+      @click="isClaimable()"
+      class="text-sm uppercase font-black cursor-pointer hover:text-gray-300"
+    >
+      Check
+    </div>
+  </div>
   <div class="flex items-center justify-center mt-4 gap-2 flex-wrap">
     <div
-      class="font-['Nunito'] uppercase font-black text-black rounded-xl"
+      class="text-center w-full lg:w-auto font-['Nunito'] uppercase font-black text-black rounded-xl"
       v-if="!loading && !claimedChecking"
     >
       You can claim
@@ -28,7 +45,20 @@
       <p>Refresh</p>
     </div>
     <div
-      class="w-full text-sm text-center text-gray-600"
+      class="w-full text-xs lg:text-sm text-left lg:text-center text-gray-600"
+      v-if="!loading && !claimedChecking && canClaimCount == 0"
+    >
+      You can buy Girl on
+      <a
+        target="_blank"
+        class="underline"
+        href="https://opensea.io/collection/jidori"
+        >Opensea</a
+      >
+      to claim Boy.
+    </div>
+    <div
+      class="w-full text-xs lg:text-sm text-left lg:text-center text-gray-600"
       v-if="!loading && !claimedChecking && canClaimCount > 0"
     >
       For saving your gas fee, we recommend to claim all at once.<br />
@@ -102,6 +132,8 @@ const claimedChecked = ref(0)
 const canClaimCount = ref(0)
 
 const refreshLocked = ref(false)
+
+const checkId = ref()
 
 const boyBalance = computed(() => store.state.balance)
 
@@ -217,6 +249,8 @@ const getMyGirls = () => {
 
       if (data.length > 0) {
         checkIsClaimed()
+      } else if (data.length == 0) {
+        claimedChecking.value = false
       }
     })
 }
@@ -259,6 +293,33 @@ const claim = () => {
     const ids = claimList.value.join(",")
     sentClaim(claimList.value)
   }
+}
+
+const isClaimable = () => {
+  let id = checkId.value.value
+
+  if (id > 3950 || id < 0 || isNaN(id)) {
+    store.dispatch("setStateData", {
+      name: "setToast",
+      data: {
+        show: true,
+        msg: `Not valid ID`,
+      },
+    })
+    return
+  }
+  store.state.contract.methods
+    .claimed(id)
+    .call()
+    .then((isClaimed) => {
+      store.dispatch("setStateData", {
+        name: "setToast",
+        data: {
+          show: true,
+          msg: `#${id} ${!isClaimed ? "claimable ✔" : "already claimed ❌"}`,
+        },
+      })
+    })
 }
 
 onMounted(() => {

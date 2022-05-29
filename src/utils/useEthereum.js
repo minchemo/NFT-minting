@@ -67,7 +67,7 @@ export default function() {
         })
     }
 
-    const publicSaleMint = (amount) => {
+    const buy = (amount) => {
         let value = store.state.web3.utils.toHex(
             store.state.nftConfig.publicSalePrice * amount
         )
@@ -76,7 +76,7 @@ export default function() {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
             value: value,
-            data: store.state.contract.methods.publicSaleMint(amount).encodeABI(),
+            data: store.state.contract.methods.mint(amount).encodeABI(),
         }
         return store.state.ethereum.request({
             method: "eth_sendTransaction",
@@ -161,7 +161,7 @@ export default function() {
     return {
         init,
         requestAccount,
-        publicSaleMint,
+        buy,
         sentClaim,
         getBuyed,
     }

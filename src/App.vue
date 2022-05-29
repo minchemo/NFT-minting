@@ -1,20 +1,12 @@
 <template>
   <div
-    class="fixed w-screen h-screen bg-jidori z-50 flex flex-col items-center justify-center transition-all duration-1000 text-white uppercase font-['Nunito']"
-    v-bind:class="{ hide: !store.state.loading }"
-  >
-    <div class="text-5xl font-black drop-shadow-md" data-aos="fade">
-      jidori 自撮り
-    </div>
-    <div class="text-xl font-normal mt-12" data-aos="fade" data-aos-delay="200">
-      Your web3 selfie
-    </div>
-  </div>
-  <div
     id="router-view"
     class="transition-all duration-1000 relative"
     v-bind:class="{
-      'bg-sky-100': router.currentRoute.value.path == '/timeline',
+      'bg-jidori': router.currentRoute.value.path == '/',
+      'w-screen': router.currentRoute.value.path == '/',
+      'h-screen': router.currentRoute.value.path == '/',
+      'bg-sky-100': router.currentRoute.value.path == '/plan',
       'bg-white': router.currentRoute.value.path == '/gallery',
       'bg-orange-100': router.currentRoute.value.path == '/mint',
     }"
@@ -29,10 +21,6 @@
 .bg-jidori {
   background-image: url("@/assets/bg.jpg");
   background-size: cover;
-
-  &.hide {
-    transform: translateY(100%);
-  }
 }
 
 @media screen and (max-width: 500px) {

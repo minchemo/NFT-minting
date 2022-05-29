@@ -18,6 +18,7 @@ specifiers:
   vanilla-lazyload: ^17.8.2
   vite: ^2.9.9
   vue: ^3.2.25
+  vue-mobile-detection: ^2.0.1
   vue-router: ^4.0.13
   vuex: ^4.0.2
   web3: ^1.7.3
@@ -32,6 +33,7 @@ dependencies:
   events: 3.3.0
   vanilla-lazyload: 17.8.2
   vue: 3.2.36
+  vue-mobile-detection: 2.0.1
   vue-router: 4.0.15_vue@3.2.36
   vuex: 4.0.2_vue@3.2.36
   web3: 1.7.3
@@ -3235,6 +3237,12 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /vue-mobile-detection/2.0.1:
+    resolution: {integrity: sha512-ziB0Rp8Snp08+p7E+WCRzeYYYp0ddPaqHlFxWN0kpLAddB5D/PRwgIv18P08hkhwNFRgBQ71T19jNIbttR7P0g==}
+    dependencies:
+      vue: 3.2.36
+    dev: false
 
   /vue-router/4.0.15_vue@3.2.36:
     resolution: {integrity: sha512-xa+pIN9ZqORdIW1MkN2+d9Ui2pCM1b/UMgwYUCZOiFYHAvz/slKKBDha8DLrh5aCG/RibtrpyhKjKOZ85tYyWg==}
