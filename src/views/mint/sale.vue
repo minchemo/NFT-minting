@@ -20,7 +20,7 @@
     </div>
     <div
       class="text text-center my-2 font-black"
-      v-if="parseInt(store.state.totalSupply) <= 2047"
+      v-if="parseInt(store.state.totalSupply) <= 2157"
     >
       You are at free-mint spot (first 350 mint),<br />
       we will transfer eth back to you.
