@@ -18,13 +18,6 @@
     <div class="text-3xl text-center my-12 font-black">
       {{ (buyCount * 0.025).toFixed(3) }} ETH
     </div>
-    <div
-      class="text text-center my-2 font-black"
-      v-if="parseInt(store.state.totalSupply) <= 2157"
-    >
-      You are at free-mint spot (first 350 mint),<br />
-      we will transfer eth back to you.
-    </div>
     <div class="flex justify-center items-center gap-8">
       <div
         class="bg-white shadow-xl rounded-xl text-orange-700 px-6 py-4 font-semibold"
