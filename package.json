@@ -9,6 +9,8 @@
         "deploy": "npm run build && node ./deploy/ghpages.js"
     },
     "dependencies": {
+        "@metamask/detect-provider": "^1.2.0",
+        "@splidejs/splide": "^4.0.6",
         "@splidejs/splide-extension-auto-scroll": "^0.3.7",
         "@splidejs/vue-splide": "^0.5.18",
         "aos": "^2.3.4",
@@ -25,13 +27,12 @@
         "sass-loader": "^10.0.0",
         "vue": "^3.0.0",
         "vue-i18n": "9",
-        "vue-meta": "^3.0.0-alpha.7",
-        "vue-metamask": "^2.1.0",
         "vue-router": "^4.0.0-0",
         "vue3-lazyload": "^0.2.5-beta",
         "vue3-smooth-scroll": "^0.8.1",
         "vuex": "^4.0.0-0",
-        "web3": "^1.7.0"
+        "web3": "^1.7.0",
+        "webpack": "^5.72.1"
     },
     "devDependencies": {
         "@vue/cli-plugin-babel": "~4.5.13",

@@ -1,165 +1,144 @@
-import Web3 from "web3";
-import contractConfig from "@/utils/contract";
-import { ref } from "vue";
-import store from "@/store";
+import Web3 from "web3"
+import contractConfig from "@/utils/contract"
+import { ref } from "vue"
+import store from "@/store"
+import detectEthereumProvider from "@metamask/detect-provider"
 
-export default function () {
-    const requestAccount = () => {
-        if (store.state.connectedAddress != '') {
-            return;
+export default function() {
+    const requestAccount = async() => {
+        if (store.state.connectedAddress != "") {
+            return
         }
-        const { ethereum } = window;
+
+        const ethereum = await detectEthereumProvider()
 
         ethereum
             .request({ method: "eth_requestAccounts" })
             .then((account) => {
+                store.dispatch("setConnectedAddress", account[0])
 
-                store.dispatch('setConnectedAddress', account[0]);
-
-                // getSupply();
-                // getMintedAmount();
+                getSupply()
+                checkMintOpen()
+                getBuyed()
             })
             .catch((e) => {
-                const errorCode = e.code;
+                const errorCode = e.code
+            })
+    }
 
-                if (errorCode == 4001) {
-                    // showAlert("User rejected the request, Please connect again.");
-                } else if (errorCode == -32002) {
-                    // showAlert(
-                    //     "Request already pending, please check on your Metamask."
-                    // );
+    const getSupply = () => {
+        store.state.contract.methods
+            .totalSupply()
+            .call()
+            .then((amount) => {
+                store.dispatch("setStateData", { name: "setTotalSupply", data: amount })
+            })
+    }
+
+    const checkMintOpen = () => {
+        store.state.contract.methods
+            .openCatWay()
+            .call()
+            .then((status) => {
+                store.dispatch("setStateData", { name: "setMintOpen", data: status })
+            })
+    }
+
+    const getBuyed = () => {
+        if (store.state.connectedAddress != "") {
+            store.state.contract.methods
+                .minted(store.state.connectedAddress)
+                .call()
+                .then((amount) => {
+                    store.dispatch("setStateData", { name: "setBuyed", data: amount })
+                })
+        }
+    }
+
+    const mint = (amount) => {
+        if (store.state.mintOpen) {
+            if (store.state.buyed >= 5) {
+                alert("You mint too lot")
+                return
+            }
+            const transactionParams = {
+                to: contractConfig.contract_address,
+                from: store.state.connectedAddress,
+                value: 0,
+                data: store.state.contract.methods.cattttttttt(amount).encodeABI(),
+            }
+            return store.state.ethereum.request({
+                method: "eth_sendTransaction",
+                params: [transactionParams],
+            })
+        }
+    }
+
+    const init = async() => {
+        const ethereum = await detectEthereumProvider()
+        if (!ethereum) {
+            alert(
+                "No wallet plugin is available! Please change your browser or install wallet plugin."
+            )
+            return
+        }
+
+        let web3 = new Web3(ethereum)
+        let contract = new web3.eth.Contract(
+            contractConfig.ABI,
+            contractConfig.contract_address
+        )
+
+        store.dispatch("setStateData", { name: "setEthereum", data: ethereum })
+        store.dispatch("setStateData", { name: "setWeb3", data: web3 })
+        store.dispatch("setStateData", { name: "setContract", data: contract })
+
+        ethereum.on("chainChanged", function(id) {
+            store.state.web3.eth.getChainId().then((id) => {
+                if (id != store.state.networkId) {
+                    alert("Please Change to mainnet.")
+                } else {
+                    window.location.reload()
                 }
-            });
-    };
+            })
+        })
 
-    // const getConfig = () => {
-    //     contract.value.methods
-    //         .nftConfig()
-    //         .call()
-    //         .then((config) => {
-    //             nftConfig.value = config;
+        ethereum.on("accountsChanged", function(accounts) {
+            store.dispatch("setStateData", {
+                name: "setConnectedAddress",
+                data: accounts[0],
+            })
+        })
 
-    //             console.log(config);
+        store.state.web3.eth.getChainId().then((id) => {
+            if (id != store.state.networkId) {
+                alert("Please Change to mainnet.")
+                return
+            }
+            ethereum.on("accountsChanged", function(accounts) {
+                store.dispatch("setStateData", {
+                    name: "setConnectedAddress",
+                    data: accounts[0],
+                })
+            })
 
-    //             if (loading.value) {
-    //                 setTimeout(() => {
-    //                     loading.value = false;
-    //                 }, 1000);
-    //             }
-    //         });
-    // };
+            requestAccount()
 
-    // const getSupply = () => {
-    //     contract.value.methods
-    //         .totalSupply()
-    //         .call()
-    //         .then((supply) => {
-    //             nftConfig.value.totalSupply = supply;
-    //         });
-    // };
+            setInterval(() => {
+                getSupply()
+                checkMintOpen()
+                if (store.state.connectedAddress != "") {
+                    getBuyed()
+                }
+            }, 1000)
+        })
 
-    // const getMintedAmount = () => {
-    //     contract.value.methods
-    //         .addressMinted(connectedAddress.value)
-    //         .call()
-    //         .then((amount) => {
-    //             mintedAmount.value = amount;
-
-    //             if (nftConfig.value.isSale) {
-    //                 if (amount >= nftConfig.value.maxMint) {
-    //                     exceedMaxAmount.value = true;
-    //                 } else {
-    //                     exceedMaxAmount.value = false;
-    //                 }
-    //             }
-    //         });
-    // };
-
-    // const publicSaleMint = () => {
-    //     if (exceedMaxAmount.value) {
-    //         showAlert("Can't mint more.");
-    //         return;
-    //     }
-
-    //     const { ethereum } = window;
-
-    //     let value = 0;
-    //     if (nftConfig.value.totalSupply > 300) {
-    //         value = web3.value.utils.toHex(
-    //             nftConfig.value.salePrice * publicSaleSelectedAmount.value
-    //         );
-    //     }
-
-    //     const transactionParams = {
-    //         to: contractConfig.contract_address,
-    //         from: connectedAddress.value,
-    //         gasLimit: web3.value.utils.toHex(300000),
-    //         value: value,
-    //         data: contract.value.methods
-    //             .mint(publicSaleSelectedAmount.value)
-    //             .encodeABI(),
-    //     };
-    //     return ethereum.request({
-    //         method: "eth_sendTransaction",
-    //         params: [transactionParams],
-    //     });
-    // };
-
-    // const showAlert = (msg) => {
-    //     alertMsg.value = msg;
-    //     isShowAlert.value = true;
-    // };
-
-    // const init = () => {
-
-    //     const { ethereum } = window;
-
-    //     if (!ethereum) {
-    //         showAlert(
-    //             "No wallet plugin is available! Please change your browser or install wallet plugin."
-    //         );
-    //         return;
-    //     }
-
-    //     web3.value = new Web3(ethereum);
-    //     contract.value = new web3.value.eth.Contract(
-    //         contractConfig.ABI,
-    //         contractConfig.contract_address
-    //     );
-    //     getConfig();
-
-    //     ethereum.on("chainChanged", function (id) {
-    //         web3.value.eth.getChainId().then((id) => {
-    //             if (id != networkId.value) {
-    //                 error.value = true;
-    //                 clearInterval(interval.value);
-    //             } else {
-    //                 window.location.reload();
-    //             }
-    //         });
-    //     });
-
-    //     web3.value.eth.getChainId().then((id) => {
-    //         if (id != networkId.value) {
-    //             showAlert("Please Change to mainnet.");
-    //             return;
-    //         }
-    //         ethereum.on("accountsChanged", function (accounts) {
-    //             connectedAddress.value = accounts[0];
-    //         });
-    //         requestAccount();
-    //         interval.value = setInterval(() => {
-    //             getConfig();
-
-    //             if (connectedAddress.value) {
-    //                 getSupply();
-    //                 getMintedAmount();
-    //             }
-    //         }, 1000);
-    //     });
-    // }
+        store.dispatch("setStateData", { name: "setInit", data: true })
+    }
 
     return {
-        requestAccount
-    };
+        mint,
+        requestAccount,
+        init,
+    }
 }

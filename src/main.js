@@ -1,7 +1,6 @@
 import { createApp } from "vue"
 import App from "./App.vue"
 import store from "./store"
-import { createMetaManager } from "vue-meta"
 import router from "./router"
 import VueSmoothScroll from "vue3-smooth-scroll"
 import VueLazyLoad from "vue3-lazyload"
@@ -17,12 +16,9 @@ import { createI18n } from "vue-i18n"
 //     messages: lang,
 // })
 
-const metaManager = createMetaManager()
-
 const app = createApp(App)
     .use(router)
     .use(store)
-    .use(metaManager)
     .use(VueSmoothScroll, {
         duration: 1000,
         updateHistory: false,

@@ -7,50 +7,61 @@
     <div class="title fadejs">The cat on chain</div>
 
     <div class="open-menu">
-      <div @click="go">go</div>
+      <div @click="requestAccount()">
+        {{
+          store.state.connectedAddress == ""
+            ? ""
+            : store.state.connectedAddress.substring(6, 0)
+        }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { useStore } from "vuex";
-import { ref, defineComponent, onMounted } from "vue";
+import useEthereum from "@/utils/useEthereum"
+import { useStore } from "vuex"
+import { ref, defineComponent, onMounted, initCustomFormatter } from "vue"
 // import useEthereum from "@/utils/useEthereum";
 
 export default defineComponent({
   name: "header",
   setup() {
-    const store = useStore();
-    const scrollTop = ref(0);
+    const { requestAccount, init } = useEthereum()
+    const store = useStore()
+    const scrollTop = ref(0)
     const go = () => {
-      alert('Not opened');
+      alert("Not opened")
     }
 
     onMounted(() => {
       window.onbeforeunload = function () {
-        window.scrollTo(0, 0);
-      };
-      document.body.style.overflowY = "hidden";
+        window.scrollTo(0, 0)
+      }
+      document.body.style.overflowY = "hidden"
       document.addEventListener(
         "scroll",
         function (e) {
-          scrollTop.value = window.scrollY;
+          scrollTop.value = window.scrollY
         },
         true
-      );
+      )
 
       setTimeout(() => {
-        document.body.style.overflowY = "auto";
-      }, 4000);
-    });
+        document.body.style.overflowY = "auto"
+      }, 4000)
+
+      init()
+    })
 
     return {
+      requestAccount,
       scrollTop,
       store,
-      go
-    };
+      go,
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

@@ -3,9 +3,8 @@
 </template>
 
 <script>
-import { useMeta } from "vue-meta";
-import { useRoute } from "vue-router";
-import { useStore } from "vuex";
+import { useRoute } from "vue-router"
+import { useStore } from "vuex"
 import {
   getCurrentInstance,
   nextTick,
@@ -13,30 +12,26 @@ import {
   onMounted,
   watch,
   inject,
-} from "vue";
+} from "vue"
 
-import useEthereum from "@/utils/useEthereum";
+import useEthereum from "@/utils/useEthereum"
 
 export default defineComponent({
   name: "Mint",
   components: {},
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const { requestAccount } = useEthereum();
+    const store = useStore()
+    const route = useRoute()
+    const { requestAccount } = useEthereum()
 
-    useMeta({
-      title: "Mint｜",
-      htmlAttrs: { lang: "en", amp: false },
-    });
     return {
       store,
       // init,
       // connectedAddress,
       // requestAccount,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

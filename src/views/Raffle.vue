@@ -19,10 +19,9 @@
 </template>
 
 <script>
-import { useI18n } from 'vue-i18n'
-import { useMeta } from "vue-meta";
-import { useRoute } from "vue-router";
-import { useStore } from "vuex";
+import { useI18n } from "vue-i18n"
+import { useRoute } from "vue-router"
+import { useStore } from "vuex"
 import {
   getCurrentInstance,
   nextTick,
@@ -31,78 +30,77 @@ import {
   watch,
   inject,
   ref,
-} from "vue";
+} from "vue"
 
-import useEthereum from "@/utils/useEthereum";
-import useFirebase from "@/utils/firebase";
+import useEthereum from "@/utils/useEthereum"
+import useFirebase from "@/utils/firebase"
 
 export default defineComponent({
   name: "raffle",
   components: {},
   setup() {
-    const { t } = useI18n();
-    const store = useStore();
-    const inputEmail = ref('');
-    const returnMsg = ref('');
-    const { isSignIn, verifyEmail, signInEmail } = useFirebase();
+    const { t } = useI18n()
+    const store = useStore()
+    const inputEmail = ref("")
+    const returnMsg = ref("")
+    const { isSignIn, verifyEmail, signInEmail } = useFirebase()
 
     const validateEmail = (email) => {
       /* eslint-disable no-useless-escape */
       return email.match(
         /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-    };
+      )
+    }
 
     const startVerify = async () => {
       if (!inputEmail.value) {
-        returnMsg.value = t("raffle.msg1");
+        returnMsg.value = t("raffle.msg1")
         return
       } else if (!validateEmail(inputEmail.value)) {
-        returnMsg.value = t("raffle.msg2");
+        returnMsg.value = t("raffle.msg2")
         setTimeout(() => {
-          returnMsg.value = ''
-        }, 2000);
-        return;
+          returnMsg.value = ""
+        }, 2000)
+        return
       }
 
-      let emailProviders = await isSignIn(inputEmail.value);
+      let emailProviders = await isSignIn(inputEmail.value)
 
       if (emailProviders.indexOf("emailLink") >= 0) {
         returnMsg.value = t("raffle.msg6")
         setTimeout(() => {
-          returnMsg.value = ''
-        }, 5000);
+          returnMsg.value = ""
+        }, 5000)
       } else {
         returnMsg.value = t("raffle.msg3")
-        let res = await verifyEmail(inputEmail.value);
+        let res = await verifyEmail(inputEmail.value)
 
         if (res) {
           returnMsg.value = t("raffle.msg4")
-          alert(t("raffle.msg4"));
+          alert(t("raffle.msg4"))
         } else {
           returnMsg.value = t("raffle.msg5")
-          alert(t("raffle.msg5"));
+          alert(t("raffle.msg5"))
         }
       }
     }
 
     const processUrl = async () => {
-      let url = window.location.href;
-      let continueUrl = new URL(url);
-      continueUrl = continueUrl.searchParams.get("continueUrl");
+      let url = window.location.href
+      let continueUrl = new URL(url)
+      continueUrl = continueUrl.searchParams.get("continueUrl")
 
       if (continueUrl) {
-        let parms = new URL(continueUrl);
-        const method = parms.searchParams.get('method');
-        const email = parms.searchParams.get('email');
+        let parms = new URL(continueUrl)
+        const method = parms.searchParams.get("method")
+        const email = parms.searchParams.get("email")
 
-        if (method == 'verify' && email) {
-          inputEmail.value = email;
+        if (method == "verify" && email) {
+          inputEmail.value = email
           let res = await signInEmail(email)
           returnMsg.value = res
         }
       }
-
     }
 
     onMounted(() => {
@@ -114,9 +112,9 @@ export default defineComponent({
       returnMsg,
       inputEmail,
       startVerify,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

@@ -4,16 +4,10 @@ import Mint from "../views/Mint.vue"
 import Raffle from "../views/Raffle.vue"
 
 const routes = [{
-        path: "/",
-        name: "Home",
-        component: Home,
-    },
-    // {
-    //     path: "/mint",
-    //     name: "Mint",
-    //     component: Mint,
-    // },
-]
+    path: "/",
+    name: "Home",
+    component: Home,
+}, ]
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),

@@ -4,17 +4,6 @@
       <div class="loading" v-bind:class="{ hide: !loading }">
         <p>loading</p>
       </div>
-      <div class="social">
-        <a
-          href="https://discord.com/invite/UCvFvwMTm9"
-          target="_blank"
-          class="link"
-          ><img src="@/assets/images/icon/discord.svg" alt="" srcset=""
-        /></a>
-        <a href="https://twitter.com/TheCatOnChain" target="_blank" class="link"
-          ><img src="@/assets/images/icon/twitter.svg" alt="" srcset=""
-        /></a>
-      </div>
       <div class="info">
         <h2>
           <span class="t">The cat</span><br />
@@ -22,10 +11,7 @@
           but now<br />
           <span class="t">on chain .</span>
         </h2>
-        <p>
-          Real picture with different handpainted properties <br />and will be
-          sold at a random price.
-        </p>
+        <p>Real cat picture with different handpainted properties.</p>
       </div>
       <div class="masonry">
         <img
@@ -46,49 +32,50 @@
 </template>
 
 <script>
-import { useStore } from "vuex";
-import { ref, reactive, defineComponent, onMounted } from "vue";
-import Masonry from "masonry-layout";
+import { useStore } from "vuex"
+import { requestAccount } from "@/utils/useEthereum"
+import { ref, reactive, defineComponent, onMounted } from "vue"
+import Masonry from "masonry-layout"
 
 export default defineComponent({
   name: "s1",
   setup() {
-    const catImagesLength = ref(17);
-    const imagesLoaded = ref(0);
-    const store = useStore();
-    const loading = ref(true);
+    const catImagesLength = ref(17)
+    const imagesLoaded = ref(0)
+    const store = useStore()
+    const loading = ref(true)
 
     const lazyOptions = reactive({
       lifecycle: {
         loaded: (el) => {
-          imagesLoaded.value++;
+          imagesLoaded.value++
 
           if (imagesLoaded.value == catImagesLength.value) {
             new Masonry(".masonry", {
               itemSelector: ".m-item",
               gutter: 10,
               originTop: false,
-            });
+            })
           }
         },
       },
-    });
-
+    })
 
     onMounted(() => {
       setTimeout(() => {
-        loading.value = false;
-      }, 4000);
-    });
+        loading.value = false
+      }, 4000)
+    })
 
     return {
       catImagesLength,
       lazyOptions,
       store,
       loading,
-    };
+      requestAccount,
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>
