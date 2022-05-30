@@ -120,6 +120,7 @@ import useEthereum from "@/utils/useEthereum"
 import Web3 from "web3"
 import store from "@/store"
 import girlContract from "@/utils/contract_girl"
+import detectEthereumProvider from "@metamask/detect-provider"
 
 const { sentClaim } = useEthereum()
 
@@ -200,11 +201,11 @@ const checkAll = () => {
   }
 }
 
-const getGirlBalance = () => {
+const getGirlBalance = async () => {
   if (store.state.walletAddress == "") {
     return
   }
-  const { ethereum } = window
+  const ethereum = await detectEthereumProvider()
   let web3 = new Web3(ethereum)
   let contract = new web3.eth.Contract(
     girlContract.ABI,

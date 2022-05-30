@@ -1,6 +1,6 @@
 import Web3 from "web3"
 import contractConfig from "@/utils/contract"
-
+import detectEthereumProvider from "@metamask/detect-provider"
 import store from "@/store"
 
 export default function() {
@@ -93,8 +93,10 @@ export default function() {
             })
     }
 
-    const init = () => {
-        const { ethereum } = window
+    const init = async() => {
+        // const { ethereum } = window
+        const ethereum = await detectEthereumProvider()
+        console.log(ethereum)
         if (!ethereum) {
             alert(
                 "No wallet plugin is available! Please change your browser or install wallet plugin."
