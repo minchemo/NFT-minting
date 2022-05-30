@@ -148,7 +148,7 @@ export default function() {
             requestAccount()
 
             setInterval(() => {
-                getConfig()
+                // getConfig()
                 getTotalSupply()
 
                 if (store.state.connectedAddress != "") {
