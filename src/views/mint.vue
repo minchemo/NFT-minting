@@ -112,7 +112,7 @@ const stages = ref([
   {
     stage: 3,
     title: "public<br/>sale",
-    desc: "The rest after claiming will be allocated to public sale, you can mint max to 3 per wallet at this stage.<br/><br/> <span class='underline font-black uppercase'>Price: 0.025 ETH (We will transfer eth back to first 350 tokens mint, equal to first 350 ids is freemint)</span>",
+    desc: "The rest after claiming will be allocated to public sale, you can mint max to 3 per wallet at this stage.<br/><br/> <span class='underline font-black uppercase'>Price: 0.025 ETH</span>",
     img: new URL("../assets/boys/3.png", import.meta.url).href,
   },
 ])
