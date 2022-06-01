@@ -16,9 +16,6 @@
           </div>
           <p class="text-lg">You own {{ store.state.balance }} boy</p>
         </div>
-        <p class="text-3xl mt-2 lg:mt-0">
-          {{ store.state.totalSupply }} / {{ store.state.nftConfig.maxSupply }}
-        </p>
       </div>
       <div class="w-full flex gap-8 flex-col lg:flex-row">
         <template v-for="(stage, i) in stages">
@@ -26,7 +23,7 @@
             v-bind:class="{
               'opacity-50': store.state.nftConfig.stage != stage.stage,
             }"
-            class="bg-orange-700 w-full h-60 rounded-xl p-4 font-[nunito] overflow-hidden relative hover:opacity-100 shadow-ji transition-all"
+            class="bg-orange-700 w-full h-60 rounded-xl p-4 font-[nunito] overflow-hidden relative hover:opacity-80 shadow-ji transition-all"
           >
             <div
               class="text-sm pl-12 lg:pl-24 text-white font-thin"
@@ -100,7 +97,7 @@ const stages = ref([
   {
     stage: 1,
     title: "airdrop",
-    desc: "Picking 395 token ids from <b>Jidori Girls</b> which selected token owners will airdropped 1 BOY.",
+    desc: "Picking 395 token ids from <b>Jidori Girls</b> which selected token owners will airdropped 1 BOY. <br/><br/> <span class='uppercase font-black'>Check your opensea hide items for airdropped</span>",
     img: new URL("../assets/boys/1.png", import.meta.url).href,
   },
   {
@@ -112,7 +109,7 @@ const stages = ref([
   {
     stage: 3,
     title: "public<br/>sale",
-    desc: "The rest after claiming will be allocated to public sale, you can mint max to 3 per wallet at this stage.<br/><br/> <span class='underline font-black uppercase'>Price: 0.025 ETH</span>",
+    desc: "The rest after claiming will be allocated to public sale.<br/><br/> <span class='underline font-black uppercase'>First 20% free mint</span>",
     img: new URL("../assets/boys/3.png", import.meta.url).href,
   },
 ])

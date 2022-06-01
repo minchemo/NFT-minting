@@ -6,7 +6,7 @@ export default createStore({
         init: false,
         ethereum: null,
         web3: null,
-        networkId: 1,
+        networkId: 4,
         contract: null,
         connectedAddress: "",
         nftConfig: {
@@ -18,6 +18,7 @@ export default createStore({
         totalSupply: 0,
         balance: 0,
         buyed: 0,
+        freeMintSlots: 0,
         toast: {
             show: false,
             msg: "",
@@ -53,6 +54,9 @@ export default createStore({
         },
         setBuyed(state, n) {
             state.buyed = n
+        },
+        setFreeMintSlots(state, n) {
+            state.freeMintSlots = n
         },
         setToast(state, n) {
             state.toast = n

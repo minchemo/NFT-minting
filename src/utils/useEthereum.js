@@ -54,6 +54,17 @@ export default function() {
         }
     }
 
+    const getFreeMintSlots = () => {
+        if (store.state.connectedAddress != "") {
+            store.state.contract.methods
+                .freeMintSlots()
+                .call()
+                .then((amount) => {
+                    store.dispatch("setStateData", { name: "setFreeMintSlots", data: amount })
+                })
+        }
+    }
+
     const sentClaim = (ids) => {
         const transactionParams = {
             to: contractConfig.contract_address,
@@ -71,6 +82,10 @@ export default function() {
         let value = store.state.web3.utils.toHex(
             store.state.nftConfig.publicSalePrice * amount
         )
+
+        if (parseInt(store.state.freeMintSlots) > 0) {
+            value = 0;
+        }
 
         const transactionParams = {
             to: contractConfig.contract_address,
@@ -150,11 +165,12 @@ export default function() {
             setInterval(() => {
                 getConfig()
                 getTotalSupply()
+                getFreeMintSlots()
 
                 if (store.state.connectedAddress != "") {
                     getBalance()
                 }
-            }, 1000)
+            }, 500)
         })
 
         store.dispatch("setStateData", { name: "setInit", data: true })
