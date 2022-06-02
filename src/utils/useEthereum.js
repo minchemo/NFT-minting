@@ -111,7 +111,6 @@ export default function() {
     const init = async() => {
         // const { ethereum } = window
         const ethereum = await detectEthereumProvider()
-        console.log(ethereum)
         if (!ethereum) {
             alert(
                 "No wallet plugin is available! Please change your browser or install wallet plugin."
