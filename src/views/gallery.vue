@@ -22,7 +22,7 @@
         </div> -->
         <div class="w-full lg:w-1/6">
           <div
-            @click="showAlert()"
+            @click="isGirl = !isGirl"
             v-bind:class="{
               'bg-white': isGirl,
               'text-black': isGirl,
@@ -62,7 +62,9 @@
         <div>
           <div
             class="lazy w-full aspect-square bg-cover rounded-2xl shadow-ji hover:border-gray-700 transition-all border-4 border-white bg-gray-100"
-            :data-bg="`https://jidori-nft.com/tokens/${i - 1}.jpg`"
+            :data-bg="`http://localhost:3000/${isGirl ? 'girls' : 'boys'}/${
+              i - 1
+            }.jpg`"
           ></div>
           <p
             class="font-['Nunito'] uppercase text-sm text-gray-500 tracking-widest text-center pt-2 font-black"
@@ -100,16 +102,6 @@ watch(isGirl, (isGirl, prevIsGirl) => {
 
   reset()
 })
-
-const showAlert = () => {
-  store.dispatch("setStateData", {
-    name: "setToast",
-    data: {
-      show: true,
-      msg: `Boy's gallery not opend yet`,
-    },
-  })
-}
 
 const shuffle = (force) => {
   let array = ids.value
@@ -179,15 +171,15 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .lazy-loaded {
-  animation: zoomIn 0.4s;
+  animation: fade 0.4s;
 
-  @keyframes zoomIn {
+  @keyframes fade {
     from {
-      transform: scale(0);
+      opacity: 0;
     }
 
     to {
-      transform: scale(1);
+      opacity: 1;
     }
   }
 }

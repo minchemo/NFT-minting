@@ -1,10 +1,17 @@
 <template>
   <div class="mt-4 inline-flex mx-auto flex-col font-['nunito']">
-    <div class="text-3xl text-center mt-6 mb-3">
-      {{ store.state.totalSupply }} / {{ store.state.nftConfig.maxSupply }}
+    <div class="text-3xl font-bold text-center mt-6 mb-3">
+      <!-- {{ store.state.totalSupply }} / {{ store.state.nftConfig.maxSupply }} -->
+      SOLD OUT
     </div>
-    <div class="text-3xl text-center my-6 font-black">
-      1 JIDORI BOY = {{ (buyCount * parseInt(store.state.nftConfig.publicSalePrice) / Math.pow(10, 18)).toFixed(4) }}
+    <!-- <div class="text-3xl text-center my-6 font-black">
+      1 JIDORI BOY =
+      {{
+        (
+          (buyCount * parseInt(store.state.nftConfig.publicSalePrice)) /
+          Math.pow(10, 18)
+        ).toFixed(4)
+      }}
       ETH
     </div>
     <div class="flex justify-center items-center gap-8">
@@ -22,7 +29,8 @@
         @click="mint()">
         {{ store.state.freeMintSlots > 0 ? 'FREE MINT':'BUY' }}
       </div>
-    </div>
+      
+    </div> -->
   </div>
 </template>
 
@@ -52,7 +60,10 @@ const buyCount = ref(1)
 // }
 
 const mint = () => {
-  if (parseInt(store.state.buyed) + parseInt(buyCount.value) > store.state.nftConfig.publicSaleMaxMint) {
+  if (
+    parseInt(store.state.buyed) + parseInt(buyCount.value) >
+    store.state.nftConfig.publicSaleMaxMint
+  ) {
     store.dispatch("setStateData", {
       name: "setToast",
       data: {

@@ -91,7 +91,7 @@
         >
           <img
             class="w-8 h-8 object-cover rounded-full xl:w-12 xl:h-12"
-            :src="`https://jidori-nft.com/tokens/${item.id}.jpg`"
+            :src="`https://jidori-nft.com/girls/${item.id}.jpg`"
             alt=""
             srcset=""
           />
