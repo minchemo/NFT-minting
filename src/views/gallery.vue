@@ -62,7 +62,7 @@
         <div>
           <div
             class="lazy w-full aspect-square bg-cover rounded-2xl shadow-ji hover:border-gray-700 transition-all border-4 border-white bg-gray-100"
-            :data-bg="`http://localhost:3000/${isGirl ? 'girls' : 'boys'}/${
+            :data-bg="`https://jidori-nft.com/${isGirl ? 'girls' : 'boys'}/${
               i - 1
             }.jpg`"
           ></div>
