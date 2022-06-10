@@ -45,7 +45,8 @@
                   Math.pow(10, 18)
                 ).toFixed(3)
           }}
-          ETH
+          ETH<br />
+          first 999 is free
         </div>
       </div>
     </div>
