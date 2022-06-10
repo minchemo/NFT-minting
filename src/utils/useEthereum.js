@@ -27,7 +27,7 @@ export default function() {
 
     const getConfig = () => {
         store.state.contract.methods
-            .jidoriConfig()
+            .ghost()
             .call()
             .then((config) => {
                 store.dispatch("setStateData", { name: "setNftConfig", data: config })
@@ -46,7 +46,7 @@ export default function() {
     const getBuyed = () => {
         if (store.state.connectedAddress != "") {
             store.state.contract.methods
-                .buyed(store.state.connectedAddress)
+                .minted(store.state.connectedAddress)
                 .call()
                 .then((amount) => {
                     store.dispatch("setStateData", { name: "setBuyed", data: amount })
@@ -57,34 +57,24 @@ export default function() {
     const getFreeMintSlots = () => {
         if (store.state.connectedAddress != "") {
             store.state.contract.methods
-                .freeMintSlots()
+                .freeMint()
                 .call()
                 .then((amount) => {
-                    store.dispatch("setStateData", { name: "setFreeMintSlots", data: amount })
+                    store.dispatch("setStateData", {
+                        name: "setFreeMintSlots",
+                        data: amount,
+                    })
                 })
         }
     }
 
-    const sentClaim = (ids) => {
-        const transactionParams = {
-            to: contractConfig.contract_address,
-            from: store.state.connectedAddress,
-            value: 0,
-            data: store.state.contract.methods.claimBoy(ids).encodeABI(),
-        }
-        return store.state.ethereum.request({
-            method: "eth_sendTransaction",
-            params: [transactionParams],
-        })
-    }
-
     const buy = (amount) => {
         let value = store.state.web3.utils.toHex(
-            store.state.nftConfig.publicSalePrice * amount
+            store.state.nftConfig.price * amount
         )
 
-        if (parseInt(store.state.freeMintSlots) > 0) {
-            value = 0;
+        if (parseInt(store.state.freeMint) > 0) {
+            value = 0
         }
 
         const transactionParams = {
@@ -179,7 +169,6 @@ export default function() {
         init,
         requestAccount,
         buy,
-        sentClaim,
         getBuyed,
     }
 }

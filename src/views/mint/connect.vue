@@ -1,6 +1,6 @@
 <template>
   <div
-    class="inline-block mx-auto bg-white px-4 py-2 uppercase text-orange-700 drop-shadow-lg font-['nunito'] font-normal tracking-wider rounded-md hover:cursor-pointer hover:bg-orange-700 hover:text-white transition-all mt-8"
+    class="inline-block mx-auto bg-purple-500 px-4 py-2 uppercase text-white drop-shadow-lg font-['Cabin_Sketch'] font-normal tracking-wider rounded-md hover:cursor-pointer"
     @click="init"
   >
     connect wallet

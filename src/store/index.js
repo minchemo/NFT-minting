@@ -10,15 +10,14 @@ export default createStore({
         contract: null,
         connectedAddress: "",
         nftConfig: {
-            stage: 0,
-            publicSaleMaxMint: 1,
-            publicSalePrice: 0,
-            maxSupply: 3950,
+            price: 6000000000000000,
+            maxMint: 6,
+            maxSupply: 4000,
         },
         totalSupply: 0,
         balance: 0,
-        buyed: 0,
-        freeMintSlots: 0,
+        minted: 0,
+        freeMint: 0,
         toast: {
             show: false,
             msg: "",
@@ -53,10 +52,10 @@ export default createStore({
             state.balance = n
         },
         setBuyed(state, n) {
-            state.buyed = n
+            state.minted = n
         },
         setFreeMintSlots(state, n) {
-            state.freeMintSlots = n
+            state.freeMint = n
         },
         setToast(state, n) {
             state.toast = n
