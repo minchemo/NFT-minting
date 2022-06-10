@@ -46,7 +46,7 @@
                 ).toFixed(3)
           }}
           ETH<br />
-          first 999 is free
+          {{ store.state.freeMint }} free miso left
         </div>
       </div>
     </div>
