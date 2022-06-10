@@ -4,6 +4,17 @@
   >
     <Connect v-if="store.state.connectedAddress == ''" />
     <Sale class="z-10" />
+
+    <div class="font-white text-lg">
+      {{
+        store.state.freeMint > 0
+          ? `Remaining ${store.state.freeMint} ghost for free, then ${(
+              (1 * parseInt(store.state.nftConfig.price)) /
+              Math.pow(10, 18)
+            ).toFixed(3)} ETH`
+          : "56"
+      }}
+    </div>
     <div
       class="z-10 text-xl text-white uppercase mt-10 text-center leading-relaxed"
     >

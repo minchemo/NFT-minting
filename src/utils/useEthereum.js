@@ -55,17 +55,15 @@ export default function() {
     }
 
     const getFreeMintSlots = () => {
-        if (store.state.connectedAddress != "") {
-            store.state.contract.methods
-                .freeMint()
-                .call()
-                .then((amount) => {
-                    store.dispatch("setStateData", {
-                        name: "setFreeMintSlots",
-                        data: amount,
-                    })
+        store.state.contract.methods
+            .freeMint()
+            .call()
+            .then((amount) => {
+                store.dispatch("setStateData", {
+                    name: "setFreeMintSlots",
+                    data: amount,
                 })
-        }
+            })
     }
 
     const buy = (amount) => {
@@ -119,6 +117,7 @@ export default function() {
         store.dispatch("setStateData", { name: "setContract", data: contract })
 
         getConfig()
+        getFreeMintSlots()
 
         ethereum.on("chainChanged", function(id) {
             store.state.web3.eth.getChainId().then((id) => {
