@@ -79,7 +79,7 @@ export default function() {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
             value: value,
-            data: store.state.contract.methods.mint(amount).encodeABI(),
+            data: store.state.contract.methods.miso(amount).encodeABI(),
         }
         return store.state.ethereum.request({
             method: "eth_sendTransaction",
