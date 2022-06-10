@@ -52,12 +52,10 @@
     </div>
     <!--Mint-->
     <div
+      @click="mint()"
       class="w-full aspect-square md:aspect-auto md:w-52 h-full flex justify-center items-center text-white bg-yellow-400 text-3xl rounded-full shadow-xl cursor-pointer hover:bg-amber-500 hover:text-4xl transition-all"
     >
-      <div
-        v-if="store.state.totalSupply < store.state.nftConfig.maxSupply"
-        @click="mint()"
-      >
+      <div v-if="store.state.totalSupply < store.state.nftConfig.maxSupply">
         {{ store.state.freeMint > 0 ? "FREE MINT !" : "MINT !" }}
       </div>
       <div v-else>NO MORE MISO!</div>
