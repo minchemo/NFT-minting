@@ -19,6 +19,7 @@
         "vanilla-lazyload": "^17.8.2",
         "vue": "^3.2.25",
         "vue-mobile-detection": "^2.0.1",
+        "vue-number-animation": "^1.1.2",
         "vue-router": "^4.0.13",
         "vuex": "^4.0.2",
         "web3": "^1.7.3"

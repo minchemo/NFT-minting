@@ -20,6 +20,7 @@ specifiers:
   vite: ^2.9.9
   vue: ^3.2.25
   vue-mobile-detection: ^2.0.1
+  vue-number-animation: ^1.1.2
   vue-router: ^4.0.13
   vuex: ^4.0.2
   web3: ^1.7.3
@@ -36,6 +37,7 @@ dependencies:
   vanilla-lazyload: 17.8.2
   vue: 3.2.36
   vue-mobile-detection: 2.0.1
+  vue-number-animation: 1.1.2
   vue-router: 4.0.15_vue@3.2.36
   vuex: 4.0.2_vue@3.2.36
   web3: 1.7.3
@@ -1765,6 +1767,10 @@ packages:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
     dev: false
 
+  /gsap/3.10.4:
+    resolution: {integrity: sha512-6QatdkKxXCMfvCW4rM++0RqyLQAzFX5nwl3yHS0XPgkZBkiSEY3VZVbMltrdtsbER/xZonLtyHt684wRp4erlQ==}
+    dev: false
+
   /har-schema/2.0.0:
     resolution: {integrity: sha1-qUwiJOvKwEeCoNkDVSHyRzW37JI=}
     engines: {node: '>=4'}
@@ -3249,6 +3255,12 @@ packages:
     resolution: {integrity: sha512-ziB0Rp8Snp08+p7E+WCRzeYYYp0ddPaqHlFxWN0kpLAddB5D/PRwgIv18P08hkhwNFRgBQ71T19jNIbttR7P0g==}
     dependencies:
       vue: 3.2.36
+    dev: false
+
+  /vue-number-animation/1.1.2:
+    resolution: {integrity: sha512-3tPgGl8OSWpEVOcoUSl/sikhx8AufYQL+oFAy/xzfQap7o7PeppD3W9WLOn9RvhMi9cXrja5aSeFnfdLS8iFww==}
+    dependencies:
+      gsap: 3.10.4
     dev: false
 
   /vue-router/4.0.15_vue@3.2.36:

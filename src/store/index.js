@@ -11,8 +11,8 @@ export default createStore({
         connectedAddress: "",
         nftConfig: {
             price: 0,
-            maxMint: 6,
-            maxSupply: 4000,
+            maxMint: 3,
+            maxSupply: 5000,
         },
         totalSupply: 0,
         balance: 0,

@@ -1,5 +1,5 @@
 export default {
-    contract_address: "0xEFCEAcEBF3EB2e70731E38BfC3eD8d1da76A2301",
+    contract_address: "0x45f5E863370954115f29f07cA11D370aD0e6deCC",
     ABI: [
         { inputs: [], stateMutability: "nonpayable", type: "constructor" },
         { inputs: [], name: "ApprovalCallerNotOwnerNorApproved", type: "error" },
@@ -122,13 +122,6 @@ export default {
             type: "function",
         },
         {
-            inputs: [{ internalType: "uint256", name: "quantity", type: "uint256" }],
-            name: "devMint",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-        },
-        {
             inputs: [],
             name: "freeMint",
             outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
@@ -150,17 +143,6 @@ export default {
             type: "function",
         },
         {
-            inputs: [],
-            name: "ghost",
-            outputs: [
-                { internalType: "uint256", name: "price", type: "uint256" },
-                { internalType: "uint256", name: "maxMint", type: "uint256" },
-                { internalType: "uint256", name: "maxSupply", type: "uint256" },
-            ],
-            stateMutability: "view",
-            type: "function",
-        },
-        {
             inputs: [
                 { internalType: "address", name: "owner", type: "address" },
                 { internalType: "address", name: "operator", type: "address" },
@@ -171,10 +153,10 @@ export default {
             type: "function",
         },
         {
-            inputs: [{ internalType: "uint256", name: "quantity", type: "uint256" }],
-            name: "mint",
+            inputs: [{ internalType: "uint256", name: "_price", type: "uint256" }],
+            name: "miiisooo",
             outputs: [],
-            stateMutability: "payable",
+            stateMutability: "nonpayable",
             type: "function",
         },
         {
@@ -182,6 +164,52 @@ export default {
             name: "minted",
             outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
             stateMutability: "view",
+            type: "function",
+        },
+        {
+            inputs: [{ internalType: "uint256", name: "quantity", type: "uint256" }],
+            name: "miso",
+            outputs: [],
+            stateMutability: "payable",
+            type: "function",
+        },
+        {
+            inputs: [],
+            name: "misoInfo",
+            outputs: [
+                { internalType: "uint256", name: "price", type: "uint256" },
+                { internalType: "uint256", name: "maxMint", type: "uint256" },
+                { internalType: "uint256", name: "maxSupply", type: "uint256" },
+            ],
+            stateMutability: "view",
+            type: "function",
+        },
+        {
+            inputs: [{ internalType: "uint256", name: "quantity", type: "uint256" }],
+            name: "misooo",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+        },
+        {
+            inputs: [{ internalType: "uint256", name: "_slots", type: "uint256" }],
+            name: "mmiiiiso",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+        },
+        {
+            inputs: [],
+            name: "mmiissoo",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+        },
+        {
+            inputs: [{ internalType: "string", name: "baseURI", type: "string" }],
+            name: "mmisso",
+            outputs: [],
+            stateMutability: "nonpayable",
             type: "function",
         },
         {
@@ -246,27 +274,6 @@ export default {
             type: "function",
         },
         {
-            inputs: [{ internalType: "string", name: "baseURI", type: "string" }],
-            name: "setBaseURI",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-        },
-        {
-            inputs: [{ internalType: "uint256", name: "_slots", type: "uint256" }],
-            name: "setFreeMint",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-        },
-        {
-            inputs: [{ internalType: "uint256", name: "_price", type: "uint256" }],
-            name: "setPrice",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-        },
-        {
             inputs: [{ internalType: "bytes4", name: "interfaceId", type: "bytes4" }],
             name: "supportsInterface",
             outputs: [{ internalType: "bool", name: "", type: "bool" }],
@@ -308,13 +315,6 @@ export default {
         {
             inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
             name: "transferOwnership",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-        },
-        {
-            inputs: [],
-            name: "withdraw",
             outputs: [],
             stateMutability: "nonpayable",
             type: "function",

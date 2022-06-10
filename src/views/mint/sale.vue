@@ -1,68 +1,62 @@
 <template>
-  <div
-    class="mt-4 inline-flex mx-auto flex-col font-['Cabin_Sketch'] text-white"
-  >
-    <div class="text-3xl font-bold text-center mt-6 mb-3">
-      {{ store.state.totalSupply }} / {{ store.state.nftConfig.maxSupply }}
-    </div>
-
-    <div class="flex items-center gap-8">
-      <div
-        class="text-5xl w-10 h-10 rounded-full bg-white text-black flex items-center justify-center cursor-pointer"
-        @click="minusBuyCount()"
-      >
-        -
+  <div class="flex-col md:flex-row flex gap-4 md:gap-8">
+    <!--Info-->
+    <div class="flex flex-col gap-4 md:gap-8 justify-between">
+      <!--Supply-->
+      <div class="text-3xl font-bold text-center">
+        <number :from="0" :to="store.state.totalSupply" :duration="1" /> ~
+        <number :from="0" :to="store.state.nftConfig.maxSupply" :duration="1" />
       </div>
-      <div class="text-xl md:text-3xl text-center my-6 font-black uppercase">
-        {{ buyCount }} undefined ghost =
-        {{
-          store.state.freeMint > 0
-            ? 0
-            : (
-                (buyCount * parseInt(store.state.nftConfig.price)) /
-                Math.pow(10, 18)
-              ).toFixed(3)
-        }}
-        ETH<br />
-        <span
-          class="font-black text-lg"
-          v-html="
+      <div
+        class="flex flex-col shadow-lg bg-white rounded-xl px-4 md:px-6 py-4 md:py-6"
+      >
+        <!--Count-->
+        <div class="flex items-center gap-4">
+          <div
+            class="text-5xl w-10 h-10 text-black flex items-center justify-center cursor-pointer hover:text-6xl"
+            v-bind:class="{
+              'text-gray-200': buyCount == 1,
+            }"
+            @click="minusBuyCount()"
+          >
+            -
+          </div>
+          <div class="text-xl md:text-3xl text-center font-black uppercase">
+            {{ buyCount }}
+          </div>
+          <div
+            class="text-5xl w-10 h-10 text-black flex items-center justify-center cursor-pointer hover:text-6xl"
+            @click="plusBuyCount()"
+            v-bind:class="{
+              'text-gray-200': buyCount == store.state.nftConfig.maxMint,
+            }"
+          >
+            +
+          </div>
+        </div>
+
+        <!--Price-->
+        <div class="text-center text-xl mt-2 md:mt-8">
+          {{
             store.state.freeMint > 0
-              ? `Remaining ${store.state.freeMint} ghost for free, then ${(
-                  (1 * parseInt(store.state.nftConfig.price)) /
+              ? 0
+              : (
+                  (buyCount * parseInt(store.state.nftConfig.price)) /
                   Math.pow(10, 18)
-                ).toFixed(3)} ETH`
-              : ''
-          "
-        >
-        </span>
-      </div>
-      <div
-        class="text-5xl w-10 h-10 rounded-full bg-white text-black flex items-center justify-center cursor-pointer"
-        @click="plusBuyCount()"
-      >
-        +
+                ).toFixed(3)
+          }}
+          ETH
+        </div>
       </div>
     </div>
-
-    <div class="flex justify-center flex-col items-center gap-8">
-      <div class="text-purple-500 px-6 py-4 font-semibold">
-        You own {{ store.state.minted }} /
-        {{ store.state.nftConfig.maxMint }}
+    <!--Mint-->
+    <div
+      class="w-full aspect-square md:aspect-auto md:w-52 h-full flex justify-center items-center text-white bg-yellow-400 text-3xl rounded-full shadow-xl cursor-pointer hover:bg-amber-500 hover:text-4xl transition-all"
+    >
+      <div v-if="store.state.totalSupply < 4000" @click="mint()">
+        {{ store.state.freeMint > 0 ? "FREE MINT !" : "MINT !" }}
       </div>
-      <div
-        v-if="store.state.totalSupply < 4000"
-        class="hover:cursor-pointer text-white border border-white rounded-md px-6 py-4 text-2xl font-black"
-        @click="mint()"
-      >
-        {{ store.state.freeMint > 0 ? "FREE MINT" : "MINT" }}
-      </div>
-      <div
-        v-else
-        class="hover:cursor-pointer text-white border border-white rounded-md px-6 py-4 text-2xl font-black"
-      >
-        ALL GHOST OUT
-      </div>
+      <div v-else>NO MORE MISO!</div>
     </div>
   </div>
 </template>
@@ -73,7 +67,7 @@ import useEthereum from "@/utils/useEthereum"
 import store from "@/store"
 
 const { getBuyed, buy } = useEthereum()
-const buyCount = ref(6)
+const buyCount = ref(store.state.nftConfig.maxMint)
 
 // const ownBoy = computed(() => store.state.balance)
 

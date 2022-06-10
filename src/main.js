@@ -11,9 +11,12 @@ import "aos/dist/aos.css"
 
 import VueMobileDetection from "vue-mobile-detection"
 
+import VueNumber from "vue-number-animation"
+
 createApp(App)
     .component("font-awesome-icon", FontAwesomeIcon)
     .use(store)
     .use(router)
     .use(VueMobileDetection)
+    .use(VueNumber)
     .mount("#app")
