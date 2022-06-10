@@ -99,7 +99,7 @@ const mint = () => {
     parseInt(store.state.minted) + parseInt(buyCount.value) >
     store.state.nftConfig.maxMint
   ) {
-    alert("gₑgₑgₑgₑgₑgₑ  ₙₒ ₘₒᵣₑ gₕₒₛₜ fₒᵣ yₒᵤ")
+    alert("miso , miso.")
   }
 }
 
