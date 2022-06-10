@@ -58,7 +58,11 @@
       <div v-if="store.state.totalSupply < store.state.nftConfig.maxSupply">
         {{ store.state.freeMint > 0 ? "FREE MINT !" : "MINT !" }}
       </div>
-      <div v-else>NO MORE MISO!</div>
+      <div v-else>
+        NO MORE MISO!<br /><a href="https://opensea.io/collection/misonft"
+          >Check on Opensea</a
+        >
+      </div>
     </div>
   </div>
 </template>
