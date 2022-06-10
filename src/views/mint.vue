@@ -25,10 +25,6 @@
         />
       </div>
       <Sale class="z-10 my-12 md:my-40" />
-      <div class="text-sm">
-        Since we changed the minting price to free, those who paid for minting
-        will receive a refund asap
-      </div>
       <img
         class="miso w-full md:w-1/2"
         src="@/assets/miso.png"
