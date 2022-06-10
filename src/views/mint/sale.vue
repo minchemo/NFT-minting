@@ -94,12 +94,12 @@ const minusBuyCount = () => {
 
 const mint = () => {
   if (
-    parseInt(store.state.minted) + parseInt(buyCount.value) <
+    parseInt(store.state.minted) + parseInt(buyCount.value) <=
     store.state.nftConfig.maxMint
   ) {
     buy(buyCount.value)
   } else if (
-    parseInt(store.state.minted) + parseInt(buyCount.value) >=
+    parseInt(store.state.minted) + parseInt(buyCount.value) >
     store.state.nftConfig.maxMint
   ) {
     alert("gₑgₑgₑgₑgₑgₑ  ₙₒ ₘₒᵣₑ gₕₒₛₜ fₒᵣ yₒᵤ")
