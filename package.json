@@ -9,6 +9,7 @@
         "deploy": "npm run build && node ./deploy/ghpages.js"
     },
     "dependencies": {
+        "@splidejs/splide": "^4.0.7",
         "@splidejs/splide-extension-auto-scroll": "^0.3.7",
         "@splidejs/vue-splide": "^0.5.18",
         "aos": "^2.3.4",
