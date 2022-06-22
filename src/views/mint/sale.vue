@@ -1,69 +1,49 @@
 <template>
-  <div class="flex-col md:flex-row flex gap-4 md:gap-8">
+  <div>
     <!--Info-->
-    <div class="flex flex-col gap-4 md:gap-8 justify-between">
+    <div>
       <!--Supply-->
       <div class="text-3xl font-bold text-center">
-        <number :from="0" :to="store.state.totalSupply" :duration="1" /> ~
+        <number :from="0" :to="store.state.totalSupply" :duration="1" /> /
         <number :from="0" :to="store.state.nftConfig.maxSupply" :duration="1" />
       </div>
-      <div
-        class="flex flex-col shadow-lg bg-white rounded-xl px-4 md:px-6 py-4 md:py-6"
-      >
-        <!--Count-->
-        <div class="flex items-center gap-4">
-          <div
-            class="text-5xl w-10 h-10 text-black flex items-center justify-center cursor-pointer hover:text-6xl"
-            v-bind:class="{
-              'text-gray-200': buyCount == 1,
-            }"
-            @click="minusBuyCount()"
-          >
-            -
-          </div>
-          <div class="text-xl md:text-3xl text-center font-black uppercase">
-            {{ buyCount }}
-          </div>
-          <div
-            class="text-5xl w-10 h-10 text-black flex items-center justify-center cursor-pointer hover:text-6xl"
-            @click="plusBuyCount()"
-            v-bind:class="{
-              'text-gray-200': buyCount == store.state.nftConfig.maxMint,
-            }"
-          >
-            +
-          </div>
+      <!--Selection-->
+      <div v-if="store.state.minted <= 1">
+        <div class="text-3xl uppercase text-teal-700 font-black">
+          select your mint set: 
         </div>
-
-        <!--Price-->
-        <div class="text-center text-xl mt-2 md:mt-8">
-          {{
-            store.state.freeMint > 0
-              ? 0
-              : (
-                  (buyCount * parseInt(store.state.nftConfig.price)) /
-                  Math.pow(10, 18)
-                ).toFixed(3)
-          }}
-          ETH<br />
-          {{ store.state.freeMint }} free miso left
-        </div>
+        <template v-if="store.state.minted == 0">
+          <div class="flex text-2xl">
+            <div>1 x Satosan (0 ETH + Gas fee)</div>
+          </div>
+          <div class="flex text-2xl">
+            <div>2 x Satosan (0 ETH + {{ store.state.nftConfig.price / Math.pow(10, 18) }} ETH + Gas fee)</div>
+          </div>
+        </template>
+        <template v-else-if="store.state.minted == 1">
+          <div class="flex text-2xl line-through">
+            <div>1 x Satosan (0 ETH + Gas fee)</div>
+          </div>
+          <div class="flex text-2xl">
+            <div>1 x Satosan ({{ store.state.nftConfig.price / Math.pow(10, 18) }} ETH + Gas fee)</div>
+          </div>
+        </template>
+      </div>
+      <div v-else>
+        You have reached the maximum number of mints.
       </div>
     </div>
     <!--Mint-->
-    <div
-      @click="mint()"
-      class="w-full aspect-square md:aspect-auto md:w-52 h-full flex justify-center items-center text-white bg-yellow-400 text-3xl rounded-full shadow-xl cursor-pointer hover:bg-amber-500 hover:text-4xl transition-all"
-    >
+    <div @click="mint()" class="cursor-pointer hover:bg-teal-800 bg-teal-700 text-white text-center py-2 text-3xl font-bold rounded-md">
       <div v-if="store.state.totalSupply < store.state.nftConfig.maxSupply">
-        {{ store.state.freeMint > 0 ? "FREE MINT !" : "MINT !" }}
+        NEXT
       </div>
       <div v-else>
-        NO MORE MISO!<br /><a href="https://opensea.io/collection/misonft"
-          >Check on Opensea</a
-        >
+        ALL SATOSAN GONE!<br /><a href="https://opensea.io/collection/satosan">Check on Opensea</a>
       </div>
     </div>
+    <!-- Tip -->
+    <p>Each wallet has 1 free-mint quota.</p>
   </div>
 </template>
 
@@ -74,23 +54,7 @@ import store from "@/store"
 
 const { getBuyed, buy } = useEthereum()
 const buyCount = ref(store.state.nftConfig.maxMint)
-
-// const ownBoy = computed(() => store.state.balance)
-
-const plusBuyCount = () => {
-  if (buyCount.value + 1 > store.state.nftConfig.maxMint) {
-    return
-  }
-
-  buyCount.value++
-}
-const minusBuyCount = () => {
-  if (buyCount.value - 1 < 1) {
-    return
-  }
-
-  buyCount.value--
-}
+const finalPrice = ref(0);
 
 const mint = () => {
   if (
@@ -102,7 +66,7 @@ const mint = () => {
     parseInt(store.state.minted) + parseInt(buyCount.value) >
     store.state.nftConfig.maxMint
   ) {
-    alert("miso , miso.")
+    alert("Arigato gozaimasu.")
   }
 }
 

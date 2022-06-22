@@ -27,7 +27,7 @@ export default function() {
 
     const getConfig = () => {
         store.state.contract.methods
-            .misoInfo()
+            .satosanConfig()
             .call()
             .then((config) => {
                 store.dispatch("setStateData", { name: "setNftConfig", data: config })
@@ -54,32 +54,16 @@ export default function() {
         }
     }
 
-    const getFreeMintSlots = () => {
-        store.state.contract.methods
-            .freeMint()
-            .call()
-            .then((amount) => {
-                store.dispatch("setStateData", {
-                    name: "setFreeMintSlots",
-                    data: amount,
-                })
-            })
-    }
-
     const buy = (amount) => {
         let value = store.state.web3.utils.toHex(
             store.state.nftConfig.price * amount
         )
 
-        if (parseInt(store.state.freeMint) > 0) {
-            value = 0
-        }
-
         const transactionParams = {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
             value: value,
-            data: store.state.contract.methods.miso(amount).encodeABI(),
+            data: store.state.contract.methods.getSatosan(amount).encodeABI(),
         }
         return store.state.ethereum.request({
             method: "eth_sendTransaction",
@@ -117,7 +101,6 @@ export default function() {
         store.dispatch("setStateData", { name: "setContract", data: contract })
 
         getConfig()
-        getFreeMintSlots()
 
         ethereum.on("chainChanged", function(id) {
             store.state.web3.eth.getChainId().then((id) => {
@@ -153,7 +136,6 @@ export default function() {
             setInterval(() => {
                 getConfig()
                 getTotalSupply()
-                getFreeMintSlots()
 
                 if (store.state.connectedAddress != "") {
                     getBalance()
