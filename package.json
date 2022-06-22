@@ -9,6 +9,7 @@
         "deploy": "npm run build && node ./deploy/ghpages.js"
     },
     "dependencies": {
+        "@metamask/detect-provider": "^1.2.0",
         "@splidejs/splide": "^4.0.7",
         "@splidejs/splide-extension-auto-scroll": "^0.3.7",
         "@splidejs/vue-splide": "^0.5.18",

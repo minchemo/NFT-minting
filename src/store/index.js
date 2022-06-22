@@ -5,9 +5,10 @@ export default createStore({
         init: false,
         ethereum: null,
         web3: null,
-        networkId: 4,
+        networkId: 5,
         contract: null,
         connectedAddress: "",
+        accountBalance: 0,
         nftConfig: {
             paused: false,
             isPublicSale: false,
@@ -25,6 +26,9 @@ export default createStore({
     mutations: {
         setInit(state, n) {
             state.init = n
+        },
+        setBalance(state, n) {
+            state.accountBalance = parseInt(n)
         },
         setEthereum(state, n) {
             state.ethereum = n

@@ -7,15 +7,15 @@
       </div>
       <div class="mint">
         <!-- amount -->
-        <template v-if="store.state.connectedAddress != ''">
+        <template v-if="store.state.connectedAddress != '' && !store.state.nftConfig.paused">
           <div class="mint-info">
             {{ store.state.totalSupply }} /
             {{ store.state.nftConfig.maxSupply }}
           </div>
           <div class="mint-amount">
-            <span class="de btn" @click="buyAmount--">－</span>
+            <span class="de btn" @click="changeAmount('-')">－</span>
             <span class="current">{{ buyAmount }}</span>
-            <span class="in btn" @click="buyAmount++">＋</span>
+            <span class="in btn" @click="changeAmount('+')">＋</span>
           </div>
         </template>
         <!-- sale condition -->
@@ -23,38 +23,39 @@
           <template v-if="store.state.nftConfig.paused">
             尚未開始販售
           </template>
-          <template v-else-if="store.state.nftConfig.isPreSale">
-            目前為白名單販售期間
+          <template v-else-if="!store.state.nftConfig.paused && store.state.nftConfig.isPreSale">
+            <p>目前為白名單販售期間</p>
+            <p>價格：{{ (store.state.nftConfig.preSalePrice * buyAmount) / Math.pow(10, 18) }} ETH</p>
+            <p>您已購買：{{ store.state.addressMinted }} 個</p>
           </template>
-          <template v-else-if="store.state.nftConfig.isPublicSale">
-            目前為公開販售期間
+          <template v-else-if="!store.state.nftConfig.paused && store.state.nftConfig.isPublicSale">
+            <p>目前為公開販售期間</p>
+            <p>價格：{{ (store.state.nftConfig.publicSalePrice * buyAmount) / Math.pow(10, 18) }} ETH</p>
+            <p>您已購買：{{ store.state.addressMinted }} 個</p>
           </template>
         </div>
         <!-- buy section -->
-        <!-- <div class="mint-button" @click="processBuy()">
-          <template v-if="store.state.connectedAddress != ''">
+        <div class="mint-button" @click="processBuy()" v-if="!store.state.nftConfig.paused && store.state.init">
+          <template v-if="!store.state.nftConfig.paused">
             <p>購買</p>
           </template>
-          <template v-else>
+          <template v-else-if="store.state.connectedAddress == ''">
             <p>連接錢包</p>
           </template>
-        </div> -->
-        <div class="mint-button">
-          <p>尚未開始販售</p>
         </div>
         <!-- connect wallet -->
-        <!-- <div class="connect-wallet" >
+        <div class="connect-wallet">
           <template v-if="store.state.connectedAddress != ''">
             <p>
-              {{ store.state.connectedAddress.substring(0, 6) }}.....{{
-                store.state.connectedAddress.substr(-5)
+              已連接：{{ store.state.connectedAddress.substring(0, 6) }}.....{{
+                  store.state.connectedAddress.substr(-5)
               }}
             </p>
           </template>
-          <template v-else>
+          <template v-else-if="store.state.init">
             <p>請先連接錢包</p>
           </template>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
@@ -62,7 +63,7 @@
 
 <script>
 import useEthereum from "@/utils/useEthereum";
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 
@@ -70,9 +71,18 @@ export default defineComponent({
   name: "Buy",
   setup() {
     const store = useStore();
-    const { init, canPresaleIdx, publicSaleMint, preSaleMint } = useEthereum();
+    const { init, getConfig, canPresaleIdx, publicSaleMint, preSaleMint } = useEthereum();
 
-    const buyAmount = ref(0);
+    const buyAmount = ref(1);
+
+    const changeAmount = (type) => {
+      let maxBuy = store.state.nftConfig.isPreSale ? store.state.nftConfig.preSaleMaxMint : store.state.nftConfig.publicSaleMaxMint;
+      if (type == '+' && buyAmount.value + 1 <= maxBuy) {
+        buyAmount.value++
+      } else if (type == '-' && buyAmount.value - 1 >= 1) {
+        buyAmount.value--
+      }
+    }
 
     const processBuy = () => {
       if (!store.state.init) {
@@ -100,21 +110,18 @@ export default defineComponent({
       }
     };
 
+
     const canBuy = () => {
       let canBuyInfo = {
         can: true,
         msg: "",
       };
-
-      const MAX_AMOUNT_PER_WALLET =
-        canPresaleIdx() >= 0
-          ? store.state.nftConfig.preSaleMaxMint +
-            store.state.nftConfig.publicSaleMaxMint
-          : store.state.nftConfig.preSaleMaxMint;
-
-      const MAX_SUPPLY = store.state.nftConfig.maxSupply;
-      const TOTAL_SUPPLY = store.state.totalSupply;
-
+      let MAX_AMOUNT_PER_WALLET = saleStage() == 'presale' ? parseInt(store.state.nftConfig.preSaleMaxMint) : parseInt(store.state.nftConfig.publicSaleMaxMint);
+      if (canPresaleIdx() > -1 && saleStage() == 'publicsale') {
+        MAX_AMOUNT_PER_WALLET = parseInt(store.state.nftConfig.preSaleMaxMint) + parseInt(store.state.nftConfig.publicSaleMaxMint);
+      }
+      const MAX_SUPPLY = parseInt(store.state.nftConfig.maxSupply);
+      const TOTAL_SUPPLY = parseInt(store.state.totalSupply);
       if (store.state.nftConfig.paused) {
         canBuyInfo.can = false;
         canBuyInfo.msg = "販售尚未開始";
@@ -123,17 +130,16 @@ export default defineComponent({
           canBuyInfo.can = false;
           canBuyInfo.msg = "不在白名單";
         } else if (
-          store.state.addressMinted + buyAmount.value >
+          parseInt(store.state.addressMinted) + buyAmount.value >
           MAX_AMOUNT_PER_WALLET
         ) {
           canBuyInfo.can = false;
           canBuyInfo.msg = "超出可購買數量";
-        } else if (TOTAL_SUPPLY + buyAmount.value > MAX_SUPPLY) {
+        } else if ((TOTAL_SUPPLY + buyAmount.value) > MAX_SUPPLY) {
           canBuyInfo.can = false;
           canBuyInfo.msg = "超出最大供應量";
         }
       }
-
       return canBuyInfo;
     };
 
@@ -151,7 +157,12 @@ export default defineComponent({
       }
     };
 
+    onMounted(() => {
+      init();
+    });
+
     return {
+      changeAmount,
       store,
       processBuy,
       buyAmount,
@@ -162,6 +173,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import "~@/assets/variable.scss";
+
 .section {
   position: relative;
   width: 100%;
@@ -183,12 +195,19 @@ export default defineComponent({
     padding: 5vw 10vw;
     border-radius: 50px;
     backdrop-filter: blur(3px);
+
     .mint {
       width: 30%;
       text-align: center;
+
       .mint-info {
         font-family: $font2;
         font-size: 3vw;
+      }
+
+      .sale-info {
+        margin-bottom: 1.5vw;
+        line-height: 1.5;
       }
 
       .mint-amount {
@@ -196,6 +215,7 @@ export default defineComponent({
         align-items: center;
         justify-content: space-around;
         margin: 5vw 0;
+
         .btn {
           display: inline-flex;
           width: 3vw;
@@ -211,10 +231,12 @@ export default defineComponent({
             background-color: $primaryOrange;
           }
         }
+
         .current {
           font-size: 2vw;
         }
       }
+
       .mint-button {
         font-size: 1.5vw;
         background-color: $primaryYellow;
@@ -227,22 +249,26 @@ export default defineComponent({
           background-color: $primaryOrange;
         }
       }
+
       .connect-wallet {
         margin-top: 20px;
         font-size: 1.5vw;
       }
     }
+
     .desc {
       width: 65%;
       text-align: left;
       border: 1px solid #fff;
       padding: 20px 30px;
       border-radius: 30px;
+
       h1 {
         font-size: 2.5vw;
         font-weight: 900;
         margin-bottom: 3vw;
       }
+
       p {
         font-size: 1.2vw;
         line-height: 2;
@@ -256,6 +282,7 @@ export default defineComponent({
 @media screen and (max-width: 767px) {
   .section {
     padding-top: 120px;
+
     .box {
       display: flex;
       flex-direction: column-reverse;
@@ -268,6 +295,7 @@ export default defineComponent({
         margin-left: 0;
         width: 80%;
         text-align: center;
+
         .mint-info {
           font-family: $font2;
           font-size: 24px;
@@ -278,6 +306,7 @@ export default defineComponent({
           align-items: center;
           justify-content: space-around;
           margin: 30px 0;
+
           .btn {
             display: inline-flex;
             width: 40px;
@@ -293,10 +322,12 @@ export default defineComponent({
               background-color: $primaryOrange;
             }
           }
+
           .current {
             font-size: 20px;
           }
         }
+
         .mint-button {
           font-size: 24px;
           background-color: $primaryYellow;
@@ -310,16 +341,19 @@ export default defineComponent({
           }
         }
       }
+
       .desc {
         text-align: left;
         margin-top: 50px;
         width: 100%;
         padding: 10px 20px;
+
         h1 {
           font-size: 20px;
           font-weight: 900;
           margin-bottom: 20px;
         }
+
         p {
           font-size: 14px;
           line-height: 2;
