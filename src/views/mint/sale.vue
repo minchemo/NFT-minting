@@ -65,7 +65,7 @@
   </div>
   <div v-else>
     <div class="text-3xl">sato-san,</div>
-    <div class="text-3xl">chotto matte kudasai.</div>
+    <div class="text-3xl">chotto matte kudasai ┏( ._. ┏ ) ┓</div>
   </div>
 </template>
 
@@ -165,7 +165,10 @@ const mint = async () => {
 onMounted(() => {
   setInterval(() => {
     getBuyed()
+    setTimeout(() => {
+      
     loading.value = false;
+    }, 1000);
   }, 1000)
 })
 </script>
