@@ -2,6 +2,7 @@ import { createStore } from "vuex"
 
 export default createStore({
     state: {
+        minting: false,
         loading: false,
         init: false,
         ethereum: null,
@@ -10,6 +11,7 @@ export default createStore({
         contract: null,
         connectedAddress: "",
         nftConfig: {
+            pause: false,
             price: 0,
             maxMint: 2,
             maxSupply: 5000,
@@ -17,14 +19,13 @@ export default createStore({
         totalSupply: 0,
         balance: 0,
         minted: 0,
-        toast: {
-            show: false,
-            msg: "",
-        },
     },
     mutations: {
         setLoading(state, n) {
             state.loading = n
+        },
+        setMinting(state, n) {
+            state.minting = n
         },
         setInit(state, n) {
             state.init = n
@@ -39,25 +40,25 @@ export default createStore({
             state.contract = n
         },
         setNftConfig(state, n) {
+            for (const key in n) {
+                if (Object.hasOwnProperty.call(n, key)) {
+                    const element = n[key];
+                    n[key] = parseInt(element);
+                }
+            }
             state.nftConfig = n
         },
         setTotalSupply(state, n) {
-            state.totalSupply = n
+            state.totalSupply = parseInt(n)
         },
         setConnectedAddress(state, n) {
             state.connectedAddress = n
         },
         setBalance(state, n) {
-            state.balance = n
+            state.balance = parseInt(n)
         },
         setBuyed(state, n) {
-            state.minted = n
-        },
-        setFreeMintSlots(state, n) {
-            state.freeMint = n
-        },
-        setToast(state, n) {
-            state.toast = n
+            state.minted = parseInt(n)
         },
     },
     actions: {

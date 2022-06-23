@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute left-20 top-20 inline-block mx-auto px-8 py-4 uppercase text-gray-500 border border-transparent hover:border-gray-500 font-thin text-2xl tracking-wider rounded-full hover:cursor-pointer"
+    class="text-center mx-auto bg-teal-700 py-4 text-3xl uppercase text-white rounded-md cursor-pointer hover:bg-teal-800 font-black"
     @click="init"
   >
     connect wallet

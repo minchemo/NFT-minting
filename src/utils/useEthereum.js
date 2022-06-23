@@ -3,7 +3,7 @@ import contractConfig from "@/utils/contract"
 import detectEthereumProvider from "@metamask/detect-provider"
 import store from "@/store"
 
-export default function() {
+export default function () {
     const requestAccount = () => {
         store.state.ethereum
             .request({ method: "eth_requestAccounts" })
@@ -55,9 +55,22 @@ export default function() {
     }
 
     const buy = (amount) => {
+        let buyCount = amount;
         let value = store.state.web3.utils.toHex(
             store.state.nftConfig.price * amount
         )
+
+        if (store.state.minted == 0) {
+            let priceCount = buyCount - 1
+            
+            value = store.state.web3.utils.toHex(
+                store.state.nftConfig.price * priceCount
+            )
+        } else if (store.state.minted >= 1) {            
+            value = store.state.web3.utils.toHex(
+                store.state.nftConfig.price
+            )
+        }
 
         const transactionParams = {
             to: contractConfig.contract_address,
@@ -65,10 +78,23 @@ export default function() {
             value: value,
             data: store.state.contract.methods.getSatosan(amount).encodeABI(),
         }
-        return store.state.ethereum.request({
-            method: "eth_sendTransaction",
-            params: [transactionParams],
-        })
+        return store.state.web3.eth.sendTransaction(transactionParams, (err, hash) => {
+
+            const interval = setInterval(function () {
+                store.state.web3.eth.getTransactionReceipt(hash, function (err, rec) {
+                    if (rec) {
+                        store.dispatch("setStateData", { name: "setMinting", data: false })
+                        getBuyed()
+                        clearInterval(interval);
+                    }
+                });
+            }, 1000);
+
+            if (err) {
+                store.dispatch("setStateData", { name: "setMinting", data: false })
+                clearInterval(interval);
+            }
+        });
     }
 
     const getBalance = () => {
@@ -80,8 +106,7 @@ export default function() {
             })
     }
 
-    const init = async() => {
-        // const { ethereum } = window
+    const init = async () => {
         const ethereum = await detectEthereumProvider()
         if (!ethereum) {
             alert(
@@ -102,7 +127,7 @@ export default function() {
 
         getConfig()
 
-        ethereum.on("chainChanged", function(id) {
+        ethereum.on("chainChanged", function (id) {
             store.state.web3.eth.getChainId().then((id) => {
                 if (id != store.state.networkId) {
                     alert("Please Change to mainnet.")
@@ -112,7 +137,7 @@ export default function() {
             })
         })
 
-        ethereum.on("accountsChanged", function(accounts) {
+        ethereum.on("accountsChanged", function (accounts) {
             store.dispatch("setStateData", {
                 name: "setConnectedAddress",
                 data: accounts[0],
@@ -124,7 +149,7 @@ export default function() {
                 alert("Please Change to mainnet.")
                 return
             }
-            ethereum.on("accountsChanged", function(accounts) {
+            ethereum.on("accountsChanged", function (accounts) {
                 store.dispatch("setStateData", {
                     name: "setConnectedAddress",
                     data: accounts[0],
