@@ -2,14 +2,9 @@
   <div v-if="!loading">
     <!--Info-->
     <div>
-      <!--Supply-->
-      <!-- <div class="text-3xl font-bold text-center">
-        <number :from="0" :to="store.state.totalSupply" :duration="1" /> /
-        <number :from="0" :to="store.state.nftConfig.maxSupply" :duration="1" />
-      </div> -->
       <!--Selection-->
       <div class="my-2" v-if="store.state.minted <= 1">
-        <div class="text-3xl text-center uppercase text-teal-700 font-black">
+        <div class="text-center text-3xl uppercase text-teal-700 font-black">
           select a set
         </div>
         <template v-if="store.state.minted == 0">
@@ -39,6 +34,11 @@
         You have reached the maximum number of mints.
       </div>
     </div>
+    <!--Supply-->
+    <div class="my-4 text-3xl font-bold text-center">
+      <number :from="0" :to="store.state.totalSupply" :duration="1" /> /
+      <number :from="0" :to="store.state.nftConfig.maxSupply" :duration="1" />
+    </div>
     <!--Mint-->
     <div class="cursor-pointer hover:bg-teal-800 bg-teal-700 text-white text-center py-2 text-3xl font-bold rounded-md"
       v-if="store.state.connectedAddress != ''">
@@ -64,7 +64,7 @@
     <p class="mt-4 text-center text-lg underline">Each wallet has 1 free-mint quota.</p>
   </div>
   <div v-else>
-    <div class="text-3xl">sato-san,</div>
+    <div class="text-3xl">This is sato-san,</div>
     <div class="text-3xl">chotto matte kudasai ┏( ._. ┏ ) ┓</div>
   </div>
 </template>
@@ -166,8 +166,8 @@ onMounted(() => {
   setInterval(() => {
     getBuyed()
     setTimeout(() => {
-      
-    loading.value = false;
+
+      loading.value = false;
     }, 1000);
   }, 1000)
 })
