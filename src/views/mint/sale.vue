@@ -61,8 +61,8 @@
     </div>
     <Connect v-else="store.state.connectedAddress == ''" class="z-20" />
     <!-- Tip -->
-    <p class="mt-4 text-center text-lg underline">Each wallet has 1 free-mint quota.<br>1000 satosan reserved for
-      ourselves</p>
+    <p class="mt-4 text-center text-lg underline">Each wallet has 1 free-mint quota.<br>1000 x satosan reserved for
+      our team, we love the art!</p>
   </div>
   <div v-else>
     <div class="text-3xl">This is sato-san,</div>
