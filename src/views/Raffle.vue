@@ -3,13 +3,8 @@
     <div class="main">
       <h1>{{ $t("raffle.title") }}</h1>
       <p v-html="$t('raffle.desc')"></p>
-      <input
-        autocomplete
-        class="email-input"
-        type="text"
-        v-model="inputEmail"
-        :placeholder="$t('raffle.input_placeholder')"
-      />
+      <input autocomplete class="email-input" type="text" v-model="inputEmail"
+        :placeholder="$t('raffle.input_placeholder')" />
       <div class="error-msg" v-if="returnMsg != ''">{{ returnMsg }}</div>
       <div class="send-verify" @click="startVerify()" v-if="!loading">
         {{ $t("raffle.send") }}
@@ -55,30 +50,32 @@ export default defineComponent({
     };
 
     const startVerify = async () => {
-      if (!validateEmail(inputEmail.value)) {
-        returnMsg.value = "Email 格式錯誤";
+      returnMsg.value = "白名單登記已截止";
 
-        setTimeout(() => {
-          returnMsg.value = "";
-        }, 1000);
-        return;
-      }
+      // if (!validateEmail(inputEmail.value)) {
+      //   returnMsg.value = "Email 格式錯誤";
 
-      loading.value = true;
+      //   setTimeout(() => {
+      //     returnMsg.value = "";
+      //   }, 1000);
+      //   return;
+      // }
 
-      returnMsg.value = "請稍候，信件發送中";
-      let res = await send(inputEmail.value);
+      // loading.value = true;
 
-      if (res.code == 10) {
-        returnMsg.value = "信件已發送，請前往收件夾驗證";
-      } else if (res.code == 1) {
-        returnMsg.value = "此信箱已經驗證過";
-        setTimeout(() => {
-          returnMsg.value = "";
-        }, 3000);
-      }
+      // returnMsg.value = "請稍候，信件發送中";
+      // let res = await send(inputEmail.value);
 
-      loading.value = false;
+      // if (res.code == 10) {
+      //   returnMsg.value = "信件已發送，請前往收件夾驗證";
+      // } else if (res.code == 1) {
+      //   returnMsg.value = "此信箱已經驗證過";
+      //   setTimeout(() => {
+      //     returnMsg.value = "";
+      //   }, 3000);
+      // }
+
+      // loading.value = false;
     };
 
     const processUrl = async () => {
@@ -108,7 +105,7 @@ export default defineComponent({
             returnMsg.value = "驗證失敗，請重新申請一次";
           } else if (res.code == 0) {
             returnMsg.value = "驗證失敗，請重新申請一次";
-          } 
+          }
 
         }
       }
@@ -131,6 +128,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import "~@/assets/variable.scss";
+
 .section {
   position: relative;
   width: 100%;
@@ -143,20 +141,24 @@ export default defineComponent({
   background-size: cover;
   color: #fff;
   font-family: $font1;
+
   .main {
     text-align: center;
+
     h1 {
       font-size: 48px;
       font-weight: 600;
       text-transform: uppercase;
       margin: 30px 0;
     }
+
     p {
       font-size: 18px;
       line-height: 1.5;
       text-align: left;
       font-weight: 300;
     }
+
     .email-input {
       margin-top: 1vw;
       background: rgba($color: #fff, $alpha: 0.5);
@@ -166,11 +168,13 @@ export default defineComponent({
       font-weight: 300;
       letter-spacing: 1.5px;
     }
+
     .error-msg {
       line-height: 1.5;
       margin-top: 1vw;
       color: $primaryYellow;
     }
+
     .send-verify {
       display: inline-block;
       padding: 1vw;
@@ -195,25 +199,30 @@ export default defineComponent({
     .main {
       text-align: center;
       padding: 0 30px;
+
       h1 {
         font-size: 24px;
         font-weight: 600;
         text-transform: uppercase;
         margin: 20px 0;
       }
+
       p {
         font-size: 14px;
         line-height: 2;
         text-align: left;
         font-weight: 300;
       }
+
       .email-input {
         margin-top: 30px;
         padding: 10px;
       }
+
       .error-msg {
         margin: 10px 0;
       }
+
       .send-verify {
         padding: 10px;
         margin-top: 30px;

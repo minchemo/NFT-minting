@@ -86,7 +86,7 @@ export const lang = {
             中獎者將公告於 Discord 與 Email 通知，有興趣的購買者僅需於官網登記您的 Email 即可，<br/>
             歡迎大家一起來登記參與。`,
             input_placeholder: "請輸入您的 EMAIL",
-            send: "驗證登記",
+            send: "登記已截止",
             sent: "Email 已經寄出，請到信箱查看 (或垃圾郵件)",
             msg1: "請輸入 Email",
             msg2: "Email 格式錯誤",
