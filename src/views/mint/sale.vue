@@ -27,7 +27,7 @@
           </div>
         </template>
         <div class="text-center">
-          Total Cost: {{ calcPrice() }} ETH + Gas
+          Total Cost: {{ calcPrice() }} ETH + Gas (average 0.005 ETH)
         </div>
       </div>
       <div class="my-2" v-else>
@@ -114,8 +114,8 @@ import store from "@/store"
 import Connect from "@/views/mint/connect.vue"
 
 const { getBuyed, buy } = useEthereum()
-const buyCount = ref(2)
-const selectedSet = ref(1)
+const buyCount = ref(1)
+const selectedSet = ref(0)
 const loading = ref(true);
 
 const calcPrice = () => {
@@ -136,8 +136,8 @@ watch(minted, (newVal, oldVal) => {
   let lastMinted = newVal;
 
   if (lastMinted < 1) {
-    buyCount.value = 2;
-    selectedSet.value = 1;
+    buyCount.value = 1;
+    selectedSet.value = 0;
   } else if (lastMinted == 1) {
     buyCount.value = 1;
     selectedSet.value = 1;

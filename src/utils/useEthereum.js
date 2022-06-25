@@ -159,7 +159,7 @@ export default function() {
                 })
             })
 
-            // requestAccount()
+            requestAccount()
 
             setInterval(() => {
                 getConfig()
