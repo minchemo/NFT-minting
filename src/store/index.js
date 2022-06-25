@@ -5,7 +5,7 @@ export default createStore({
         init: false,
         ethereum: null,
         web3: null,
-        networkId: 5,
+        networkId: 1,
         contract: null,
         connectedAddress: "",
         accountBalance: 0,
@@ -55,7 +55,7 @@ export default createStore({
     actions: {
         setStateData({ commit }, payload) {
             commit(payload.name, payload.data)
-        }
+        },
     },
     modules: {},
 })
