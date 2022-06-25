@@ -24,8 +24,8 @@
 
   </div>
 
-  <a class="font-['VT323'] underline absolute left-1/2 -translate-x-1/2 bottom-12 text-xl"
-    href="https://twitter.com/satosanxyz" target="_blank">Twitter</a>
+  <!-- <a class="font-['VT323'] underline absolute left-1/2 -translate-x-1/2 bottom-12 text-xl"
+    href="https://twitter.com/satosanxyz" target="_blank">Twitter</a> -->
 </template>
 
 <style lang="scss" scoped>
