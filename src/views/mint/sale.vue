@@ -27,7 +27,7 @@
           </div>
         </template>
         <div class="text-center">
-          Total Cost: {{ calcPrice() }} ETH + Gas (average 0.005 ETH)
+          Total Cost: {{ calcPrice() }} ETH + Gas (average 0.003 to 0.005 ETH)
         </div>
       </div>
       <div class="my-2" v-else>
