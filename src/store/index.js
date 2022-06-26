@@ -2,6 +2,7 @@ import { createStore } from "vuex"
 
 export default createStore({
     state: {
+        register: false,
         init: false,
         ethereum: null,
         web3: null,
@@ -24,6 +25,9 @@ export default createStore({
         addressMinted: 0,
     },
     mutations: {
+        setRegister(state, n) {
+            state.register = n
+        },
         setInit(state, n) {
             state.init = n
         },

@@ -20,10 +20,14 @@ export default function() {
 
                 if (register) {
                     fetch(
-                        "https://script.google.com/macros/s/AKfycbwxDZ1NnCYZ7Kx3TjzELxMR713-a-C-Ar5T1P7QGuyy8_JLMjpa4xEwm_4Buf_XD46K/exec?address=" +
+                        "https://script.google.com/macros/s/AKfycbzTtOYOdogq974mEE_6VvhGVL5Px_uJqYDwGNbzaaohMxcxquSGzpWLuNblpp8eOtQ/exec?address=" +
                         account[0]
                     ).then(() => {
-                        alert("成功")
+                        store.dispatch("setStateData", {
+                            name: "setRegister",
+                            data: false,
+                        })
+                        alert(account[0] + "已成功登記，白名單請於 6/28 申購")
                     })
                 }
             })
