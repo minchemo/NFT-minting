@@ -35,7 +35,7 @@
           </template>
         </div>
         <!-- buy section -->
-        <div class="mint-button" @click="processBuy()" v-if="!store.state.nftConfig.paused && store.state.init">
+        <div class="mint-button" @click="processBuy()">
           <template v-if="!store.state.nftConfig.paused">
             <p>購買</p>
           </template>
