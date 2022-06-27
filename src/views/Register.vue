@@ -2,7 +2,7 @@
   <div class="section" id="buy">
     <h1 class="title">錢包登記</h1>
     <div class="info">請先連接錢包完成白名單登記，並將於 2022/6/28 00:00 開始白名單申購</div>
-    <div class="connect" @click="register"> {{ store.state.register ? '請稍後...' : '登記錢包' }}</div>
+    <div class="connect">登記已截止</div>
   </div>
 </template>
 
