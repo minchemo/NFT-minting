@@ -1,5 +1,5 @@
 export default {
-    contract_address: "0x81c52ab803CE1Bb18D78aeE52A467DF8e6458047",
+    contract_address: "0xC0F76654BDf45E876be23EF6644693Aee51FCA7a",
     ABI: [
         { inputs: [], stateMutability: "nonpayable", type: "constructor" },
         { inputs: [], name: "ApprovalCallerNotOwnerNorApproved", type: "error" },
@@ -162,10 +162,15 @@ export default {
             type: "function",
         },
         {
-            inputs: [{ internalType: "uint256", name: "quantity", type: "uint256" }],
-            name: "getSatosan",
-            outputs: [],
-            stateMutability: "payable",
+            inputs: [],
+            name: "hashimotocatConfig",
+            outputs: [
+                { internalType: "bool", name: "pause", type: "bool" },
+                { internalType: "uint256", name: "price", type: "uint256" },
+                { internalType: "uint256", name: "maxMint", type: "uint256" },
+                { internalType: "uint256", name: "maxSupply", type: "uint256" },
+            ],
+            stateMutability: "view",
             type: "function",
         },
         {
@@ -180,9 +185,16 @@ export default {
         },
         {
             inputs: [{ internalType: "uint256", name: "quantity", type: "uint256" }],
-            name: "makeSatosan",
+            name: "makeHashimotocat",
             outputs: [],
             stateMutability: "nonpayable",
+            type: "function",
+        },
+        {
+            inputs: [{ internalType: "uint256", name: "quantity", type: "uint256" }],
+            name: "mint",
+            outputs: [],
+            stateMutability: "payable",
             type: "function",
         },
         {
@@ -244,18 +256,6 @@ export default {
             type: "function",
         },
         {
-            inputs: [],
-            name: "satosanConfig",
-            outputs: [
-                { internalType: "bool", name: "pause", type: "bool" },
-                { internalType: "uint256", name: "price", type: "uint256" },
-                { internalType: "uint256", name: "maxMint", type: "uint256" },
-                { internalType: "uint256", name: "maxSupply", type: "uint256" },
-            ],
-            stateMutability: "view",
-            type: "function",
-        },
-        {
             inputs: [
                 { internalType: "address", name: "operator", type: "address" },
                 { internalType: "bool", name: "approved", type: "bool" },
@@ -274,14 +274,14 @@ export default {
         },
         {
             inputs: [{ internalType: "uint256", name: "_price", type: "uint256" }],
-            name: "setSatosanPrice",
+            name: "setPrice",
             outputs: [],
             stateMutability: "nonpayable",
             type: "function",
         },
         {
             inputs: [{ internalType: "string", name: "baseURI", type: "string" }],
-            name: "setSatosanURI",
+            name: "setURI",
             outputs: [],
             stateMutability: "nonpayable",
             type: "function",

@@ -1,34 +1,71 @@
 <template>
   <div
-    class="overflow-x-hidden overflow-y-scroll w-screen h-screen flex flex-col bg-white items-center justify-center font-['VT323'] select-none">
+    class="overflow-x-hidden overflow-y-scroll w-screen min-h-screen md:h-screen py-10 md:py-0 flex flex-col bg-[#e16e28] items-center justify-center font-['Rubik_Bubbles'] select-none">
 
-    <div class="mb-12 flex items-center font-['VT323']">
-      <img class="w-32" src="@/assets/logo.gif" alt="" srcset="">
-      <div class="uppercase">
-        <div class="text-5xl font-bold">SATO-SAN</div>
-        <div class="text-xl">{{ Math.floor(Math.random() * 32) + 18 }}, {{ city[Math.floor(Math.random() * city.length)]
-        }}</div>
+    <div class="font-['Rubik_Bubbles'] my-12 md:my-0 md:fixed right-20 bottom-12 z-10 text-right z-20">
+      <!--Supply-->
+      <div class="mb-4 text-2xl text-right">
+        <number :from="0" :to="store.state.totalSupply" :duration="1" /> /
+        <number :from="0" :to="store.state.nftConfig.maxSupply" :duration="1" />
       </div>
+      <a class="font-['Rubik_Bubbles'] underline text-sm" href="https://twitter.com/hashimotoscat"
+        target="_blank">Twitter</a>
+      <div class="text-3xl">Hashimoto Cat</div>
+      <div class="text-sm">Try to click a cat!</div>
     </div>
 
-    <Sale class="px-8" />
-
-    <div class="mt-24">
-      <div class="hover:opacity-90 cursor-pointer justify-center gap-5 flex" @click="generateSatosan()">
-        <template v-for="i in gen_nums">
-          <img class="rounded-xl select-none" :src="`/preview/${i}.png`" alt="" srcset="">
-        </template>
-      </div>
-      <div class="mt-4 text-center text-lg font-['VT323'] uppercase select-none">click to load other satosan</div>
+    <!-- CATs -->
+    <div class="fixed w-full h-full z-10 cats">
+      <img v-bind:class="{ 'move': moving == i, 'speed': speed == i }" @click="catchCat()" @mouseover="speed = i"
+        :style="`--bottom: ${7 * i}%`" :class="`-right-[10%] md:w-[10%] w-[30%]`" :src="`/1of1/${i}.png`" alt=""
+        srcset="" v-for="i in 12">
     </div>
+
+    <Sale class="px-8 z-20" />
 
   </div>
 
-  <!-- <a class="font-['VT323'] underline absolute left-1/2 -translate-x-1/2 bottom-12 text-xl"
-    href="https://twitter.com/satosanxyz" target="_blank">Twitter</a> -->
+
 </template>
 
 <style lang="scss" scoped>
+.cats {
+  img {
+    position: absolute;
+    height: auto;
+    bottom: var(--bottom);
+    transition: all 2s;
+    opacity: 0;
+    cursor: pointer;
+
+    &.move {
+      animation: move ease-in-out;
+      animation-duration: 4s;
+
+      @keyframes move {
+        0% {
+          transform: translateX(0%);
+          opacity: 1;
+        }
+
+        90% {
+          transform: translateX(-120vw);
+          opacity: 1;
+        }
+
+        100% {
+          transform: translateX(-120vw);
+          opacity: 0;
+        }
+      }
+    }
+
+    &.speed {
+      right: 100%;
+    }
+
+  }
+}
 </style>
 
 <script setup>
@@ -40,38 +77,27 @@ import Sale from "./mint/sale.vue"
 
 import AOS from "aos"
 
-const city = ["hokkaido", "aomoriken", "iwateken", "miyagiken", "akitaken", "yamagataken", "fukushimaken", "tokyoto", "kanagawaken", "saitamaken", "chibaken", "ibaragiken", "tochigiken", "gunmaken", "yamanashiken", "nigataken", "naganoken", "toyamaken", "ishikawaken", "fukuiken", "aichiken", "gifuken", "shizuokaken", "mieken", "osakakfu", "hyogoken", "kyotofu", "shigaken", "naraken", "wakayamaken", "tottoriken", "shimaneken", "okayamaken", "hiroshimaken", "yamaguchiken", "tokushimaken", "kagawaken", "ehimeken", "kochiken", "fukuokaken", "sagaken", "nagasakiken", "kumamotoken", "oitaken", "miyazakiken", "kagoshimaken", "okinawaken"];
 
 const { init } = useEthereum()
 
-const nums = Array.from(Array(355).keys());
-const gen_nums = ref([]);
+const moving = ref(0);
+const speed = ref(0)
 
-function in_array(array, el) {
-  for (var i = 0; i < array.length; i++)
-    if (array[i] == el) return true;
-  return false;
+const moveCat = () => {
+  moving.value = Math.floor(Math.random() * 12) + 1;
+  speed.value = 0
 }
 
-function get_rand(array) {
-  var rand = array[Math.floor(Math.random() * array.length)];
-  if (!in_array(gen_nums.value, rand)) {
-    gen_nums.value.push(rand);
-    return rand;
-  }
-  return get_rand(array);
-}
-
-const generateSatosan = () => {
-  gen_nums.value = [];
-  for (var i = 0; i < 3; i++) {
-    console.log(get_rand(nums));
-  }
+const catchCat = () => {
+  alert('memeeew... You clicked me, I am 1/1!');
 }
 
 onMounted(() => {
   AOS.init()
   init()
-  generateSatosan()
+
+  setInterval(() => {
+    moveCat()
+  }, 4000);
 })
 </script>
