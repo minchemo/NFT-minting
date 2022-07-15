@@ -7,7 +7,7 @@ export default createStore({
         init: false,
         ethereum: null,
         web3: null,
-        networkId: 5,
+        networkId: 1,
         contract: null,
         connectedAddress: "",
         nftConfig: {
@@ -43,7 +43,12 @@ export default createStore({
             for (const key in n) {
                 if (Object.hasOwnProperty.call(n, key)) {
                     const element = n[key]
-                    n[key] = parseInt(element)
+
+                    if (key == "pause") {
+                        n[key] = element
+                    } else {
+                        n[key] = parseInt(element)
+                    }
                 }
             }
             state.nftConfig = n

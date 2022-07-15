@@ -159,6 +159,10 @@ const mint = async () => {
   if (store.state.minting) {
     return;
   }
+  if (store.state.nftConfig.pause) {
+    alert('Unable to mint, its paused now.')
+    return;
+  }
   if (
     parseInt(store.state.minted) + parseInt(buyCount.value) <=
     store.state.nftConfig.maxMint
