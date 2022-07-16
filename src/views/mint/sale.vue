@@ -120,7 +120,7 @@ import store from "@/store"
 import Connect from "@/views/mint/connect.vue"
 
 const { getBuyed, buy } = useEthereum()
-const buyCount = ref(5)
+const buyCount = ref(1)
 const loading = ref(true);
 
 const plusBuyCount = () => {
