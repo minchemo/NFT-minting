@@ -1,54 +1,68 @@
 <template>
-  <div class="bg-white border flex md:flex-wrap md:flex-row flex-col gap-[10vw] md:gap-[5vw] items-center md:items-end justify-center"
+  <div
+    class="bg-white py-8 flex md:flex-wrap md:flex-row flex-col gap-[10vw] md:gap-[5vw] items-center md:items-end justify-center"
     v-if="!loading">
     <div>
-      <!--Info-->
-      <div>
-        <!--Selection-->
-        <div class="mb-4  w-full" v-if="store.state.minted <= store.state.nftConfig.maxMint">
-          <div class="flex justify-between items-center mb-8">
-            <div class="text-3xl bg-white rounded-full w-12 h-12 flex items-center justify-center cursor-pointer"
-              @click="minusBuyCount()">-</div>
-            <div class="text-xl">{{ buyCount }}</div>
-            <div class="text-3xl bg-white rounded-full w-12 h-12 flex items-center justify-center cursor-pointer"
-              @click="plusBuyCount()">+</div>
-          </div>
-          <div class="text-center">
-            Cost: {{ calcPrice() }} ETH + Gas
-          </div>
-        </div>
-        <div class="my-2" v-else>
-          You have reached the maximum number of mints.
-        </div>
+      <!--Supply-->
+      <div class="mb-4 text-2xl text-center text-black">
+        <number :from="0" :to="store.state.totalSupply" :duration="1" /> /
+        <number :from="0" :to="store.state.nftConfig.maxSupply" :duration="1" />
       </div>
-      <!--Mint-->
-      <div class="cursor-pointer text-black bg-white hover:text-[#e16e28] text-center py-2 text-xl rounded-md"
-        v-if="store.state.connectedAddress != ''">
-        <div @click="mint()" class="flex items-center justify-center"
-          v-if="store.state.totalSupply < store.state.nftConfig.maxSupply">
-          <div v-if="store.state.minting">
-            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-              viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-              </path>
-            </svg>
+      <!--Info-->
+      <div class="flex justify-around items-center" v-if="store.state.connectedAddress != ''">
+        <div>
+          <!--Selection-->
+          <div class="mb-4 w-full" v-if="store.state.minted == 0">
+            <div class="flex justify-between items-center">
+              <div class="border text-sm px-2 hover:text-pink-500 cursor-pointer" @click="buyCount = 1">MIN</div>
+              <div class="hover:text-pink-500 text-3xl w-12 h-12 flex items-center justify-center cursor-pointer"
+                @click="minusBuyCount()">-</div>
+              <div class="text-xl">{{ buyCount }}</div>
+              <div class="hover:text-pink-500 text-3xl w-12 h-12 flex items-center justify-center cursor-pointer"
+                @click="plusBuyCount()">+</div>
+              <div class="border text-sm px-2 hover:text-pink-500 cursor-pointer"
+                @click="buyCount = store.state.nftConfig.maxMint">MAX</div>
+            </div>
+            <div class="text-center">
+              Gas fee + {{ calcPrice() }} ETH
+            </div>
           </div>
-          <div>{{ store.state.minting ? 'Minting...' : 'MINT' }}</div>
+          <div class="my-2 text-center" v-else>
+            You have minted.
+          </div>
         </div>
-        <div v-else>
-          No cat left.<br /><a href="https://opensea.io/collection/hashimotocat">Check on Opensea</a>
+        <!--Mint-->
+        <div class="cursor-pointer text-black bg-white hover:text-pink-500 text-center py-2 text-xl rounded-md">
+          <div class="line-through" v-if="store.state.minted > 0">
+            MINT
+          </div>
+          <div @click="mint()" class="border inline-flex px-4 py-2 items-center justify-center"
+            v-if="store.state.totalSupply < store.state.nftConfig.maxSupply && store.state.minted == 0">
+            <div v-if="store.state.minting">
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
+            </div>
+            <div>{{ store.state.minting ? 'loading...' : 'MINT' }}</div>
+          </div>
+          <div v-else-if="store.state.totalSupply == store.state.nftConfig.maxSupply">
+            Nothing left.<br /><a href="https://opensea.io/collection/">Check on Opensea</a>
+          </div>
         </div>
       </div>
       <Connect v-else="store.state.connectedAddress == ''" class="z-20" />
       <!-- Tip -->
-      <p class="mt-4 text-center text-sm">First mint is free for everyone</p>
-      <p v-if="store.state.connectedAddress != ''" class="mt-1 text-center text-sm">Wallet: {{
+      <p class="mt-4 text-center text-md">Each wallet can only be minted once, please select the quantity.<br /> max to
+        10, one free quota for everyone</p>
+      <p v-if="store.state.connectedAddress != ''" class="mt-5 text-center text-sm text-pink-500">{{
           store.state.connectedAddress.substring(0, 5)
       }}...{{
     store.state.connectedAddress.substr(store.state.connectedAddress.length - 4)
-}}</p>
+}}, {{ store.state.minted }} Noiser</p>
     </div>
 
   </div>
@@ -189,7 +203,7 @@ onMounted(() => {
     setTimeout(() => {
 
       loading.value = false;
-    }, 1000);
-  }, 1000)
+    }, 200);
+  }, 500)
 })
 </script>

@@ -1,8 +1,8 @@
 <template>
   <div
-    class="text-center mx-auto bg-white py-4 text-xl uppercase rounded-md cursor-pointer0 text-black hover:text-[#e16e28] cursor-pointer"
+    class="text-center mx-auto bg-white py-2 px-2 text-xl uppercase cursor-pointer border block text-black hover:text-pink-500 cursor-pointer"
     @click="requestAccount">
-    connect
+    connect wallet
   </div>
 </template>
 

@@ -1,9 +1,16 @@
 <template>
-    <p class="title font-['Bungee_Shade']" data-text="THE NOISER">THE NOISER</p>
+    <div>
+        <p class="title font-['Bungee_Shade']" data-text="THE NOISER">THE NOISER</p>
+        <p class="text-white mt-8 text-lg ">9999 Noiser with Pure pixel art.<br />Noise is everywhere, and each Noiser
+            represent those who are annoyed by
+            the
+            noise.
+        </p>
+    </div>
+
 </template>
 
 <style lang="scss" scoped>
-
 :root {
     --f-size: 12;
     --f-unit: 1vmin;
@@ -12,7 +19,7 @@
 }
 
 .title {
-    font-size: 40px;
+    font-size: 2rem;
     line-height: .75;
     margin: auto;
     color: #fff;
