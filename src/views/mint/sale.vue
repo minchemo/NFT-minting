@@ -1,18 +1,6 @@
 <template>
-  <div class="flex md:flex-wrap md:flex-row flex-col gap-[10vw] md:gap-[5vw] items-center md:items-end justify-center"
+  <div class="bg-white border flex md:flex-wrap md:flex-row flex-col gap-[10vw] md:gap-[5vw] items-center md:items-end justify-center"
     v-if="!loading">
-    <div class="text-md pointer-events-none">Hashimoto tried to catch his cat, but he couldn't. <br />Can
-      you
-      help?
-
-      <br /><br />
-      <div class="bg-white/25 px-4 py-2 shadow-xl rounded-md">
-
-        9999 hand painted cats by an amateur painter who came from Osaka.<br />
-        Some are ugly, but if you can get the full colorway, you're lucky.<br />
-        Additionally, there are 12 unique cats in collections.
-      </div>
-    </div>
     <div>
       <!--Info-->
       <div>
@@ -62,17 +50,7 @@
     store.state.connectedAddress.substr(store.state.connectedAddress.length - 4)
 }}</p>
     </div>
-    <div class="basis-full">
-      <div class="text-center text-sm mb-4 uppercase">Preview</div>
-      <div class="flex items-center justify-center gap-5 cursor-pointer" @click="generateCats()">
-        <img v-for="num in gen_nums" class="w-32 rounded-xl shadow-xl border-black hover:-translate-y-2 transition-all"
-          :src="`preview/${num}.png`" alt="" srcset="">
-      </div>
-    </div>
-  </div>
-  <div class="text-left md:text-center" v-else>
-    <div class="text-3xl">( ͡° ͜ʖ ͡°) Grabbed Hashimoto's cat and do not let it go.</div>
-    <div class="text-md mt-4">Loading...</div>
+
   </div>
 </template>
 

@@ -27,7 +27,7 @@ export default function() {
 
     const getConfig = () => {
         store.state.contract.methods
-            .hashimotocatConfig()
+            .theNoiserSetting()
             .call()
             .then((config) => {
                 store.dispatch("setStateData", { name: "setNftConfig", data: config })
