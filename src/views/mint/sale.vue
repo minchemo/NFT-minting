@@ -57,7 +57,7 @@
       <Connect v-else="store.state.connectedAddress == ''" class="z-20" />
       <!-- Tip -->
       <p class="mt-4 text-center text-md">Each wallet can only be minted once, please select the quantity.<br /> max to
-        10, one free quota for everyone</p>
+        5, one free quota for everyone</p>
       <p v-if="store.state.connectedAddress != ''" class="mt-5 text-center text-sm text-pink-500">{{
           store.state.connectedAddress.substring(0, 5)
       }}...{{

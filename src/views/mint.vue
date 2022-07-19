@@ -1,6 +1,6 @@
 <template>
   <div
-    class="overflow-x-hidden overflow-y-scroll w-screen min-h-screen md:h-screen py-10 md:py-0 flex flex-col bg-black items-center justify-center font-['koulen'] select-none">
+    class="overflow-x-hidden overflow-y-scroll w-screen min-h-screen py-10 flex flex-col bg-black items-center justify-center font-['koulen'] select-none">
     <video autoplay muted loop class="bg-video">
       <source src="https://i.imgur.com/USCHX9Q.mp4" type="video/mp4">
     </video>
