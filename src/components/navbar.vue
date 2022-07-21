@@ -1,17 +1,17 @@
 <template>
-    <div class="float fixed h-20 w-5/6 bg-[#fafafa] bottom-12 rounded-lg shadow-xl flex items-center justify-between px-12">
+    <div data-aos="fade-left" data-aos-delay="200" data-aos-duration="500"
+        class="container fixed h-20 w-5/6 bg-[#fafafa] bottom-12 drop-shadow-xl flex items-center justify-between px-28">
         <div class="h-1/2">
             <img class="h-full logo" src="@/assets/logo.gif" alt="">
         </div>
         <div class="link uppercase flex gap-2">
-            <a class="px-2 py-1 border-transparent border hover:border-gray-500 rounded-md" href="">mint</a>
-            <a class="px-2 py-1 border-transparent border hover:border-gray-500 rounded-md" href="">culture</a>
-            <a class="px-2 py-1 border-transparent border hover:border-gray-500 rounded-md" href="">art</a>
-            <a class="px-2 py-1 border-transparent border hover:border-gray-500 rounded-md" href="">Twitter</a>
-            <a class="px-2 py-1 border-transparent border hover:border-gray-500 rounded-md" href="">opensea</a>
+            <a class="px-2 py-1 border-transparent hover:text-blue-800 transition-all" :href="link.link"
+                v-for="link in links">{{
+                        link.name
+                }}</a>
         </div>
         <!-- Babys -->
-        <img class="z-[5] w-40 right-[5%] absolute bottom-full -scale-x-100 drop-shadow-xl hover:z-10 hover:scale-125 origin-bottom transition-all"
+        <img class="z-[5] w-40 right-[6%] absolute bottom-full -scale-x-100 drop-shadow-xl hover:z-10 hover:scale-125 origin-bottom transition-all"
             src="@/assets/preview/1.png">
         <img class=" z-[4] w-40 right-[12%] absolute bottom-full -scale-x-100 drop-shadow-xl hover:z-10 hover:scale-125 origin-bottom transition-all"
             src="@/assets/preview/2.png">
@@ -25,19 +25,34 @@
 </template>
 
 <style lang="scss" scoped>
-.float {
-    animation: float 2s alternate-reverse infinite;
-
-    @keyframes float {
-        from {
-            transform: translateY(10%);
-        } to {
-            transform: translateY(0%);
-
-        }
-    }
-}
 .logo {
     filter: invert(100%) sepia(6%) saturate(19%) hue-rotate(275deg) brightness(114%) contrast(96%);
 }
 </style>
+
+<script setup>
+import { ref } from 'vue';
+
+const links = ref([
+    {
+        name: "mint",
+        link: '#'
+    },
+    {
+        name: "culture",
+        link: '#'
+    },
+    {
+        name: "art",
+        link: '#'
+    },
+    {
+        name: "Twitter",
+        link: '#'
+    },
+    {
+        name: "opensea",
+        link: '#'
+    }
+])
+</script>
