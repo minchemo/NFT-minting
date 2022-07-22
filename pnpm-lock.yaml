@@ -7,6 +7,7 @@ specifiers:
   '@fortawesome/free-solid-svg-icons': ^6.1.1
   '@fortawesome/vue-fontawesome': ^3.0.0-5
   '@metamask/detect-provider': ^1.2.0
+  '@splidejs/vue-splide': ^0.6.7
   '@types/events': ^3.0.0
   '@types/node': ^17.0.35
   '@vitejs/plugin-vue': ^2.3.3
@@ -32,6 +33,7 @@ dependencies:
   '@fortawesome/free-solid-svg-icons': 6.1.1
   '@fortawesome/vue-fontawesome': 3.0.0-5_ra36apx7k7u2r4lnz24hnvxtpe
   '@metamask/detect-provider': 1.2.0
+  '@splidejs/vue-splide': 0.6.7
   aos: 2.3.4
   events: 3.3.0
   vanilla-lazyload: 17.8.2
@@ -321,6 +323,16 @@ packages:
   /@sindresorhus/is/0.14.0:
     resolution: {integrity: sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==}
     engines: {node: '>=6'}
+    dev: false
+
+  /@splidejs/splide/4.0.7:
+    resolution: {integrity: sha512-aJAOGJN2lwjwou3mxQofc3uhe+RXpw9in0WfysFX7AMT/mj7wSqoetfm41s7J8jU6FJ3ZWaLYgSJIpBAQ5wyqw==}
+    dev: false
+
+  /@splidejs/vue-splide/0.6.7:
+    resolution: {integrity: sha512-VWT03R6EOd58+klcAUCboR7FF0yNWon93ddBy8VqO4a/TbYgpx+LOBQLFovFFm7VBdXlRd+XzkxIi705XZVeFQ==}
+    dependencies:
+      '@splidejs/splide': 4.0.7
     dev: false
 
   /@szmarczak/http-timer/1.1.2:

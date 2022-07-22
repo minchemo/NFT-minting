@@ -1,11 +1,13 @@
 <template>
-    <div data-aos="fade-left" data-aos-delay="200" data-aos-duration="500"
-        class="container fixed h-20 w-5/6 bg-[#fafafa] bottom-12 drop-shadow-xl flex items-center justify-between px-28">
-        <div class="h-1/2">
+    <div
+        class="container fixed h-20 w-5/6 bg-[#fafafa] bottom-12 drop-shadow-xl flex items-center justify-between px-28 z-[10] left-1/2 -translate-x-1/2">
+        <div class="h-1/2 cursor-pointer" @click="goSlide(0)">
             <img class="h-full logo" src="@/assets/logo.gif" alt="">
         </div>
         <div class="link uppercase flex gap-2">
-            <a class="px-2 py-1 border-transparent hover:text-blue-800 transition-all" :href="link.link"
+            <a class="px-2 py-1 border-transparent hover:text-gray-400 transition-all border-b"
+                @click="goSlide(link.id)"
+                v-bind:class="{ 'border-black': store.state.currentSlideIndex == link.id }" :href="link.link"
                 v-for="link in links">{{
                         link.name
                 }}</a>
@@ -31,28 +33,45 @@
 </style>
 
 <script setup>
+import store from "@/store"
+
 import { ref } from 'vue';
 
 const links = ref([
     {
-        name: "mint",
+        id: 0,
+        name: "new blood",
         link: '#'
     },
     {
+        id: 1,
         name: "culture",
         link: '#'
     },
     {
+        id: 2,
         name: "art",
         link: '#'
     },
     {
+        id: 3,
+        name: "mint",
+        link: '#'
+    },
+    {
+        id: 4,
         name: "Twitter",
         link: '#'
     },
     {
+        id: 5,
         name: "opensea",
         link: '#'
     }
 ])
+
+const goSlide = (idx) => {
+    // console.log(idx);
+    store.state.splide.go(idx)
+}
 </script>

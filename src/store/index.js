@@ -19,6 +19,8 @@ export default createStore({
         totalSupply: 0,
         balance: 0,
         minted: 0,
+        splide: null,
+        currentSlideIndex: 0,
     },
     mutations: {
         setLoading(state, n) {
@@ -65,6 +67,12 @@ export default createStore({
         setBuyed(state, n) {
             state.minted = parseInt(n)
         },
+        setSplide(state, n) {
+            state.splide = n
+        },
+        setSlideIndex(state, n) {
+            state.currentSlideIndex = n
+        }
     },
     actions: {
         setStateData({ commit }, payload) {

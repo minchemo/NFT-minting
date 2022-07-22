@@ -8,42 +8,102 @@
     <div class="absolute w-1/4 h-[2px] bg-gray-700"></div>
   </div>
   <!--Loading end-->
-  <div
-    class="overflow-x-hidden overflow-y-scroll w-screen min-h-screen py-10 flex flex-col bg-gray-300 items-center justify-center font-['Josefin_Sans','sans-serif'] select-none">
+  <div class="font-['Josefin_Sans','sans-serif'] select-none h-screen w-screen overflow-hidden">
     <!-- <Sale class="line relative px-8 z-20 hover:-translate-y-4 transition-all" /> -->
     <Navbar />
+    <Splide ref="splide" @splide:move="move" :options="{
+      autoWidth: true,
+      arrows: false,
+      wheel: true,
+      pagination: true,
+      wheelMinThreshold: 50
+    }">
+      <SplideSlide>
+        <S1 />
+      </SplideSlide>
+      <SplideSlide>
+        <S2 />
+      </SplideSlide>
+      <SplideSlide>
+        <S3 />
+      </SplideSlide>
+      <SplideSlide>
+        <S4 />
+      </SplideSlide>
+    </Splide>
   </div>
 
 </template>
 
 <style lang="scss">
-.logo {
+.splide__pagination {
+  position: absolute;
+  top: 5%;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 12px;
 
+  .splide__pagination__page {
+    width: 10px;
+    height: 2px;
+    background-color: rgba($color: #000000, $alpha: .2);
+    transition: all .5s;
+
+    &.is-active {
+      width: 20px;
+      background-color: #000;
+    }
+
+    &:hover {
+
+      width: 20px;
+    }
+  }
+}
+
+.logo {
   filter: invert(100%) sepia(6%) saturate(19%) hue-rotate(275deg) brightness(114%) contrast(96%);
 }
 </style>
 
 
 <script setup>
-import { ref, onMounted } from "vue"
 import store from "@/store"
+import { ref, onMounted } from "vue"
 
 import useEthereum from "@/utils/useEthereum"
-import Sale from "./mint/sale.vue"
 
 import AOS from "aos"
 import Navbar from "../components/navbar.vue"
-
-const loading = ref(true)
-
+import S1 from "./screens/s1.vue"
+import S2 from "./screens/s2.vue"
+import S3 from "./screens/s3.vue"
+import S4 from "./screens/s4.vue"
 
 const { init } = useEthereum()
+const loading = ref(true)
+const splide = ref()
+
+const move = (newIdx, prevIdx, destIdx) => {
+  store.dispatch("setStateData", {
+    name: "setSlideIndex",
+    data: prevIdx,
+  })
+}
+
 onMounted(() => {
 
   setTimeout(() => {
     loading.value = false
     AOS.init()
+    store.dispatch("setStateData", {
+      name: "setSplide",
+      data: splide.value,
+    })
     // init()
-  }, 3000);
+  }, 1000);
 })
 </script>
