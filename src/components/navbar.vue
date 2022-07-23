@@ -6,8 +6,9 @@
         </div>
         <div class="link uppercase flex gap-2">
             <a class="px-2 py-1 border-transparent hover:text-gray-400 transition-all border-b"
-                @click="goSlide(link.id)" v-bind:class="{ 'border-black': store.state.currentSlideIndex == link.id }"
-                :href="link.link" v-for="link in links">{{
+                :target="link.link != '#' ? '_blank' : ''" @click="goSlide(link.id)"
+                v-bind:class="{ 'border-black': store.state.currentSlideIndex == link.id }" :href="link.link"
+                v-for="link in links">{{
                         link.name
                 }}</a>
         </div>
@@ -60,7 +61,7 @@ const links = ref([
     {
         id: 4,
         name: "opensea",
-        link: '#'
+        link: 'https://opensea.io/collection/nextgenbaby'
     }
 ])
 
