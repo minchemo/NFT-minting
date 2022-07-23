@@ -38,7 +38,7 @@
         </div>
         <!--Mint-->
         <div
-          class="cursor-pointer text-black hover:text-blue-700 text-center py-2 text-xl mt-8 bg-white hover:bg-blue-700 hover:text-white transition-all">
+          class="cursor-pointer text-black hover:text-white text-center py-2 text-xl mt-8 bg-white hover:bg-blue-800 hover:text-white transition-all">
           <div @click="mint()" class="inline-flex px-4 py-2 items-center justify-center"
             v-if="store.state.totalSupply < store.state.nftConfig.maxSupply && store.state.minted == 0">
             <div v-if="store.state.minting">
