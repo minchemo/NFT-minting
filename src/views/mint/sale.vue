@@ -180,7 +180,7 @@ function get_rand(array) {
 
 
 onMounted(() => {
-  generateCats()
+
   setInterval(() => {
     // getBuyed()
     setTimeout(() => {
