@@ -155,7 +155,7 @@ const mint = async () => {
     parseInt(store.state.minted) + parseInt(buyCount.value) >
     store.state.nftConfig.maxMint
   ) {
-    alert("Arigato gozaimasu.")
+    console.log('...');
   }
 }
 
@@ -180,6 +180,7 @@ function get_rand(array) {
 
 
 onMounted(() => {
+  generateCats()
   setInterval(() => {
     // getBuyed()
     setTimeout(() => {
