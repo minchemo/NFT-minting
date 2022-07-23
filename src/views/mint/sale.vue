@@ -178,15 +178,8 @@ function get_rand(array) {
   return get_rand(array);
 }
 
-const generateCats = () => {
-  gen_nums.value = [];
-  for (var i = 1; i < 4; i++) {
-    get_rand(nums)
-  }
-}
 
 onMounted(() => {
-  generateCats();
   setInterval(() => {
     // getBuyed()
     setTimeout(() => {
