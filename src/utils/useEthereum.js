@@ -27,7 +27,7 @@ export default function() {
 
     const getConfig = () => {
         store.state.contract.methods
-            .theNoiserSetting()
+            .ngbConfig()
             .call()
             .then((config) => {
                 store.dispatch("setStateData", { name: "setNftConfig", data: config })
@@ -60,24 +60,11 @@ export default function() {
             store.state.nftConfig.price * amount
         )
 
-        if (store.state.minted == 0) {
-            let priceCount = buyCount - 1
-
-            value = store.state.web3.utils.toHex(
-                store.state.nftConfig.price * priceCount
-            )
-        } else if (store.state.minted >= 1) {
-            let priceCount = buyCount
-            value = store.state.web3.utils.toHex(
-                store.state.nftConfig.price * priceCount
-            )
-        }
-
         const transactionParams = {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
             value: value,
-            data: store.state.contract.methods.mint(amount).encodeABI(),
+            data: store.state.contract.methods.mintBaby(amount).encodeABI(),
         }
         return store.state.web3.eth.sendTransaction(
             transactionParams,

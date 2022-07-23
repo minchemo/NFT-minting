@@ -13,7 +13,7 @@ export default createStore({
         nftConfig: {
             pause: false,
             price: 0,
-            maxMint: 5,
+            maxMint: 3,
             maxSupply: 10000,
         },
         totalSupply: 0,
@@ -72,7 +72,7 @@ export default createStore({
         },
         setSlideIndex(state, n) {
             state.currentSlideIndex = n
-        }
+        },
     },
     actions: {
         setStateData({ commit }, payload) {

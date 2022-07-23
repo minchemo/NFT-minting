@@ -6,9 +6,8 @@
         </div>
         <div class="link uppercase flex gap-2">
             <a class="px-2 py-1 border-transparent hover:text-gray-400 transition-all border-b"
-                @click="goSlide(link.id)"
-                v-bind:class="{ 'border-black': store.state.currentSlideIndex == link.id }" :href="link.link"
-                v-for="link in links">{{
+                @click="goSlide(link.id)" v-bind:class="{ 'border-black': store.state.currentSlideIndex == link.id }"
+                :href="link.link" v-for="link in links">{{
                         link.name
                 }}</a>
         </div>
@@ -40,7 +39,7 @@ import { ref } from 'vue';
 const links = ref([
     {
         id: 0,
-        name: "new blood",
+        name: "intro",
         link: '#'
     },
     {
@@ -60,11 +59,6 @@ const links = ref([
     },
     {
         id: 4,
-        name: "Twitter",
-        link: '#'
-    },
-    {
-        id: 5,
         name: "opensea",
         link: '#'
     }

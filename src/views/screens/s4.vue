@@ -1,3 +1,10 @@
 <template>
-    <div class="w-screen h-screen bg-red-200">s4</div>
+    <div class="w-screen h-screen bg-[#eee] flex items-center justify-center">
+        <Sale class="relative" />
+    </div>
 </template>
+
+<script setup>
+
+import Sale from "@/views/mint/sale.vue";
+</script>

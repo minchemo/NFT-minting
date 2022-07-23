@@ -1,4 +1,10 @@
 <template>
+  <!--Not allow-->
+  <div
+    class="font-['Josefin_Sans','sans-serif'] fixed z-[1000] w-full h-full bg-[#fafafa] flex flex-col items-center justify-center transition-all duration-500"
+    v-if="$isMobile()">
+    Your device is not allow,<br /> Only PC or Mac accepted.
+  </div>
   <!--Loading-->
   <div
     class="fixed z-[100] w-full h-full bg-[#fafafa] flex flex-col items-center justify-center transition-all duration-500"
@@ -9,7 +15,6 @@
   </div>
   <!--Loading end-->
   <div class="font-['Josefin_Sans','sans-serif'] select-none h-screen w-screen overflow-hidden">
-    <!-- <Sale class="line relative px-8 z-20 hover:-translate-y-4 transition-all" /> -->
     <Navbar />
     <Splide ref="splide" @splide:move="move" :options="{
       autoWidth: true,
@@ -103,7 +108,8 @@ onMounted(() => {
       name: "setSplide",
       data: splide.value,
     })
-    // init()
+    init()
+
   }, 1000);
 })
 </script>
