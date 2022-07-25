@@ -13,7 +13,7 @@
                 }}</a>
         </div>
         <!-- Babys -->
-        <img class="z-[5] w-40 right-[6%] absolute bottom-full -scale-x-100 drop-shadow-xl hover:z-10 hover:scale-125 origin-bottom transition-all"
+        <!-- <img class="z-[5] w-40 right-[6%] absolute bottom-full -scale-x-100 drop-shadow-xl hover:z-10 hover:scale-125 origin-bottom transition-all"
             src="@/assets/preview/1.png">
         <img class=" z-[4] w-40 right-[12%] absolute bottom-full -scale-x-100 drop-shadow-xl hover:z-10 hover:scale-125 origin-bottom transition-all"
             src="@/assets/preview/2.png">
@@ -22,7 +22,7 @@
         <img class="z-[2] w-40 right-[24%] absolute bottom-full -scale-x-100 drop-shadow-xl hover:z-10 hover:scale-125 origin-bottom transition-all"
             src="@/assets/preview/5.png">
         <img class="z-[1] w-40 right-[30%] absolute bottom-full -scale-x-100 drop-shadow-xl hover:z-10 hover:scale-125 origin-bottom transition-all"
-            src="@/assets/preview/4.png">
+            src="@/assets/preview/4.png"> -->
     </div>
 </template>
 
@@ -60,8 +60,13 @@ const links = ref([
     },
     {
         id: 4,
-        name: "opensea",
+        name: "OS",
         link: 'https://opensea.io/collection/nextgenbaby'
+    },
+    {
+        id: 4,
+        name: "OS(Glitched)",
+        link: 'https://opensea.io/collection/glitchbaby'
     }
 ])
 
