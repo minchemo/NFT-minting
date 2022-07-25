@@ -40,7 +40,7 @@
         <div
           class="cursor-pointer text-black hover:text-white text-center py-2 text-xl mt-8 bg-white hover:bg-blue-800 hover:text-white transition-all">
           <div @click="mint()" class="inline-flex px-4 py-2 items-center justify-center"
-            v-if="store.state.totalSupply < store.state.nftConfig.maxSupply && store.state.minted == 0">
+            v-if="store.state.totalSupply < store.state.nftConfig.maxSupply">
             <div v-if="store.state.minting">
               <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24">
