@@ -123,7 +123,14 @@ const minusBuyCount = () => {
 }
 
 const calcPrice = () => {
-  let price = (store.state.nftConfig.price / Math.pow(10, 18)) * buyCount.value
+  let price = 0
+
+  if (store.state.minted == 0) {
+    let priceCount = buyCount.value - 1
+    price = (store.state.nftConfig.price / Math.pow(10, 18)) * priceCount
+  } else if (store.state.minted >= 1) {
+    price = (store.state.nftConfig.price / Math.pow(10, 18)) * buyCount.value
+  }
 
   return price;
 }
