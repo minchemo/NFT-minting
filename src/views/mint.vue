@@ -295,8 +295,7 @@ onMounted(() => {
   setTimeout(() => {
     loading.value = false
     AOS.init()
-    // init()
-
+    // init()/
     new Parallax(parallax_scene.value);
   }, 1000);
 })
