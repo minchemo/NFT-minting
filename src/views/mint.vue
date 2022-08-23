@@ -53,12 +53,17 @@
         <div class="text-sm md:text-xl py-4">Ready to make 3+ diffirent instagram filter and spread on social media.
         </div>
         <div class="flex flex-wrap gap-4">
-          <div class="w-full md:w-1/6 text-center">
-            <video class="rounded-xl" loop="true" autoplay="autoplay" muted>
-              <source src="https://i.imgur.com/Zz4iMXy.mp4" type="video/mp4" />
+          <div class="w-full md:w-1/6 text-center relative">
+            <video class="rounded-xl" loop="true" autoplay="autoplay" muted playsinline>
+              <source src="https://i.imgur.com/Zz4iMXy.mp4#t=0.001" type="video/mp4" />
             </video>
-            <div class="mt-4">REKT ME</div>
-            <a class="mt-4 underline cursor-pointer">TRY IT NOW</a>
+            <div class="absolute bottom-12 left-2">
+              <div class="flex items-center gap-2">
+                <img class="w-10 h-10 rounded-full" src="@/assets/filter/rektme.jpg" alt="" srcset="">
+                <div class="text-md">REKT ME</div>
+              </div>
+            </div>
+            <a class="block mt-4 underline cursor-pointer">TRY IT NOW</a>
           </div>
           <div class="w-full md:w-1/6 flex items-center justify-center bg-gray-500 rounded-xl text-black">
             coming..
