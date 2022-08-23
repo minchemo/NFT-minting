@@ -54,7 +54,7 @@
             <div>{{ store.state.minting ? 'loading...' : 'MINT Rekt Kids' }}</div>
           </div>
           <div v-else-if="store.state.totalSupply == store.state.nftConfig.maxSupply">
-            Nothing left.<br /><a href="https://opensea.io/collection/">Check on Opensea</a>
+            Nothing left.<br /><a href="https://opensea.io/collection/rektkidsnft">Check on Opensea</a>
           </div>
         </div>
       </div>
