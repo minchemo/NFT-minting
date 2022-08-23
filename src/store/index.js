@@ -13,8 +13,8 @@ export default createStore({
         nftConfig: {
             pause: false,
             price: 0,
-            maxMint: 3,
-            maxSupply: 10000,
+            maxMint: 2,
+            maxSupply: 4000,
         },
         totalSupply: 0,
         balance: 0,
