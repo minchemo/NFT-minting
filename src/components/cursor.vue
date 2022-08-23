@@ -73,9 +73,9 @@ onMounted(() => {
     document.addEventListener('mouseleave', goAway);
     document.addEventListener('touchend', goAway);
 
-    document.addEventListener('click', function (e) {
-        console.log(JSON.stringify(cursorTrail));
-    });
+    // document.addEventListener('click', function (e) {
+    //     console.log(JSON.stringify(cursorTrail));
+    // });
 
     function frame(time) {
         var hue = (time * settings.colorChangeSpeedFactor) % 360;
