@@ -297,7 +297,7 @@ onMounted(() => {
     AOS.init()
     // init()
 
-    var parallaxInstance = new Parallax(parallax_scene.value);
+    new Parallax(parallax_scene.value);
   }, 1000);
 })
 </script>
