@@ -55,7 +55,7 @@
         <div class="flex flex-wrap gap-4">
           <div class="w-full md:w-1/6 text-center relative">
             <video class="rounded-xl" loop="true" autoplay="autoplay" muted playsinline>
-              <source src="https://i.imgur.com/Zz4iMXy.mp4#t=0.001" type="video/mp4" />
+              <source src="https://i.imgur.com/DpwLbRi.mp4#t=0.001" type="video/mp4" />
             </video>
             <div class="absolute bottom-12 left-2">
               <div class="flex items-center gap-2">
