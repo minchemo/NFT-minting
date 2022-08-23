@@ -29,7 +29,8 @@
                 @click="buyCount = store.state.nftConfig.maxMint">MAX</div>
             </div>
             <div class="text-center text-xl font-bold mt-4">
-              {{ calcPrice().toFixed(3) }} ETH
+              <!-- {{ calcPrice().toFixed(3) }} ETH -->
+              FREE and MAX 2
             </div>
           </div>
           <div class="my-2 text-center" v-else>
