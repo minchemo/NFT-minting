@@ -14,6 +14,7 @@ specifiers:
   aos: ^2.3.4
   autoprefixer: ^10.4.7
   events: ^3.3.0
+  parallax-js: ^3.1.0
   postcss: ^8.4.14
   sass: ^1.52.1
   tailwindcss: ^3.0.24
@@ -37,6 +38,7 @@ dependencies:
   '@splidejs/vue-splide': 0.6.7
   aos: 2.3.4
   events: 3.3.0
+  parallax-js: 3.1.0
   typewriter-effect: 2.19.0_biqbaboplfbrettd7655fr4n2y
   vanilla-lazyload: 17.8.2
   vue: 3.2.36
@@ -2494,6 +2496,13 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       p-finally: 1.0.0
+    dev: false
+
+  /parallax-js/3.1.0:
+    resolution: {integrity: sha512-UONoPKSQykeNvFcemDPxYYDU/T89LSffoaZAwOMhDp0ABhmFPwthgn2GrfB7An9Qo+8nPZIuQeZsh2pWn1qN3A==}
+    dependencies:
+      object-assign: 4.1.1
+      raf: 3.4.1
     dev: false
 
   /parse-asn1/5.1.6:
