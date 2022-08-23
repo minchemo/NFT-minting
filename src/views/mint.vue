@@ -32,9 +32,9 @@
       </div>
       <div class="text-white font-black py-12 uppercase px-4 md:px-0">
         <div class="text-5xl">COLLECTION</div>
-        <div class="text-sm md:text-xl py-4">2000 REKT KIDS and 5 skins with multiple daily accessory changes ( some
-          with
-          background )</div>
+        <div class="text-sm md:text-xl py-4">4000 REKT KIDS and 5 skins with multiple daily accessory traits <span
+            class="underline">(Not
+            instant reveal, will announce on Twitter)</span></div>
         <div class="flex flex-wrap gap-4 bg-gray-500 p-8 rounded-xl">
           <img class="work-img" src="@/assets/works/1.png" alt="" srcset="">
           <img class="work-img" src="@/assets/works/2.png" alt="" srcset="">
@@ -63,26 +63,34 @@
                 <div class="text-md">REKT ME</div>
               </div>
             </div>
-            <a class="block mt-4 underline cursor-pointer">TRY IT NOW</a>
+            <a class="block mt-4 underline cursor-pointer" target="_blank"
+              href="https://www.instagram.com/ar/1248029719361930/">OPEN ON INSTAGRAM</a>
           </div>
-          <div class="w-full md:w-1/6 flex items-center justify-center bg-gray-500 rounded-xl text-black">
+          <div class="w-full md:w-1/6 flex items-center justify-center bg-white rounded-xl text-black">
             coming..
           </div>
-          <div class="w-full md:w-1/6 flex items-center justify-center bg-gray-500 rounded-xl text-black">
+          <div class="w-full md:w-1/6 flex items-center justify-center bg-white rounded-xl text-black">
             coming..
           </div>
-          <div class="w-full md:w-1/6 flex items-center justify-center bg-gray-500 rounded-xl text-black">
+          <div class="w-full md:w-1/6 flex items-center justify-center bg-white rounded-xl text-black">
             coming..
           </div>
         </div>
       </div>
       <div class="text-white font-black py-12 uppercase px-4 md:px-0">
+        <div class="text-5xl mb-4">GET YOUR REKT KIDS</div>
+        <Sale />
+      </div>
+      <div class="text-white font-black py-12 uppercase px-4 md:px-0">
         <div class="text-5xl mb-4">OFFICIAL LINK</div>
         <div class="flex flex-col md:flex-row gap-4">
-          <a class="underline cursor-pointer">TWITTER</a>
-          <a class="underline cursor-pointer">INSTAGRAM</a>
-          <a class="underline cursor-pointer">ETHERSCAN</a>
-          <a class="underline cursor-pointer">OPENSEA</a>
+          <a class="underline cursor-pointer" target="_blank" href="https://twitter.com/rektkids_nft">TWITTER</a>
+          <a class="underline cursor-pointer" target="_blank"
+            href="https://www.instagram.com/rektkidsnft/">INSTAGRAM</a>
+          <a class="underline cursor-pointer" target="_blank"
+            href="https://etherscan.io/address/0xdd887ed281e2717d5831189f5d73ef77b8e48379">ETHERSCAN</a>
+          <a class="underline cursor-pointer" target="_blank"
+            href="https://opensea.io/collection/rektkidsnft">OPENSEA</a>
         </div>
       </div>
       <div class="text-white text-center text-sm py-8 mb-32 md:mb-0 ">
@@ -289,6 +297,7 @@ import useEthereum from "@/utils/useEthereum"
 import AOS from "aos"
 import Parallax from 'parallax-js'
 import Cursor from "../components/cursor.vue"
+import Sale from "./mint/sale.vue"
 
 const { init } = useEthereum()
 const loading = ref(true)
@@ -300,7 +309,7 @@ onMounted(() => {
   setTimeout(() => {
     loading.value = false
     AOS.init()
-    // init()/
+    init()
     new Parallax(parallax_scene.value);
   }, 1000);
 })

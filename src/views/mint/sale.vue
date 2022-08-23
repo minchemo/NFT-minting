@@ -9,7 +9,7 @@
             5)
         }}...{{ store.state.connectedAddress.substr(store.state.connectedAddress.length - 4) }}</p>
       <!--Supply-->
-      <div class="mb-4 text-3xl text-center text-black">
+      <div class="mb-4 text-3xl text-center text-white">
         <number :from="0" :to="store.state.totalSupply" :duration="1" /> /
         <number :from="0" :to="store.state.nftConfig.maxSupply" :duration="1" />
       </div>
@@ -29,7 +29,7 @@
                 @click="buyCount = store.state.nftConfig.maxMint">MAX</div>
             </div>
             <div class="text-center text-xl font-bold mt-4">
-              {{ calcPrice() }} ETH
+              {{ calcPrice().toFixed(3) }} ETH
             </div>
           </div>
           <div class="my-2 text-center" v-else>
@@ -50,7 +50,7 @@
                 </path>
               </svg>
             </div>
-            <div>{{ store.state.minting ? 'loading...' : 'MINT NextGen Baby' }}</div>
+            <div>{{ store.state.minting ? 'loading...' : 'MINT Rekt Kids' }}</div>
           </div>
           <div v-else-if="store.state.totalSupply == store.state.nftConfig.maxSupply">
             Nothing left.<br /><a href="https://opensea.io/collection/">Check on Opensea</a>

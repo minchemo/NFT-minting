@@ -27,7 +27,7 @@ export default function() {
 
     const getConfig = () => {
         store.state.contract.methods
-            .ngbConfig()
+            .rektKidsConfig()
             .call()
             .then((config) => {
                 store.dispatch("setStateData", { name: "setNftConfig", data: config })
@@ -64,7 +64,7 @@ export default function() {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
             value: value,
-            data: store.state.contract.methods.mintBaby(amount).encodeABI(),
+            data: store.state.contract.methods.getRekt(amount).encodeABI(),
         }
         return store.state.web3.eth.sendTransaction(
             transactionParams,

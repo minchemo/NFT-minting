@@ -1,5 +1,5 @@
 export default {
-    contract_address: "0x358D374F597Ef63A2160153De49550dBa011E471",
+    contract_address: "0xdd887ed281e2717d5831189F5d73ef77B8E48379",
     ABI: [
         { inputs: [], stateMutability: "nonpayable", type: "constructor" },
         { inputs: [], name: "ApprovalCallerNotOwnerNorApproved", type: "error" },
@@ -148,6 +148,13 @@ export default {
             type: "function",
         },
         {
+            inputs: [{ internalType: "uint256", name: "quantity", type: "uint256" }],
+            name: "devMint",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+        },
+        {
             inputs: [{ internalType: "address", name: "owner", type: "address" }],
             name: "getAddressBuyed",
             outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
@@ -162,6 +169,13 @@ export default {
             type: "function",
         },
         {
+            inputs: [{ internalType: "uint256", name: "quantity", type: "uint256" }],
+            name: "getRekt",
+            outputs: [],
+            stateMutability: "payable",
+            type: "function",
+        },
+        {
             inputs: [
                 { internalType: "address", name: "owner", type: "address" },
                 { internalType: "address", name: "operator", type: "address" },
@@ -169,20 +183,6 @@ export default {
             name: "isApprovedForAll",
             outputs: [{ internalType: "bool", name: "", type: "bool" }],
             stateMutability: "view",
-            type: "function",
-        },
-        {
-            inputs: [{ internalType: "uint256", name: "quantity", type: "uint256" }],
-            name: "makeBaby",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-        },
-        {
-            inputs: [{ internalType: "uint256", name: "quantity", type: "uint256" }],
-            name: "mintBaby",
-            outputs: [],
-            stateMutability: "payable",
             type: "function",
         },
         {
@@ -201,18 +201,6 @@ export default {
         },
         {
             inputs: [],
-            name: "ngbConfig",
-            outputs: [
-                { internalType: "uint256", name: "price", type: "uint256" },
-                { internalType: "uint256", name: "maxMint", type: "uint256" },
-                { internalType: "uint256", name: "maxSupply", type: "uint256" },
-                { internalType: "uint256", name: "freeSlot", type: "uint256" },
-            ],
-            stateMutability: "view",
-            type: "function",
-        },
-        {
-            inputs: [],
             name: "owner",
             outputs: [{ internalType: "address", name: "", type: "address" }],
             stateMutability: "view",
@@ -222,6 +210,17 @@ export default {
             inputs: [{ internalType: "uint256", name: "tokenId", type: "uint256" }],
             name: "ownerOf",
             outputs: [{ internalType: "address", name: "", type: "address" }],
+            stateMutability: "view",
+            type: "function",
+        },
+        {
+            inputs: [],
+            name: "rektKidsConfig",
+            outputs: [
+                { internalType: "uint256", name: "price", type: "uint256" },
+                { internalType: "uint256", name: "maxMint", type: "uint256" },
+                { internalType: "uint256", name: "maxSupply", type: "uint256" },
+            ],
             stateMutability: "view",
             type: "function",
         },
@@ -261,13 +260,6 @@ export default {
                 { internalType: "bool", name: "approved", type: "bool" },
             ],
             name: "setApprovalForAll",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-        },
-        {
-            inputs: [{ internalType: "uint256", name: "_slots", type: "uint256" }],
-            name: "setFreeSlot",
             outputs: [],
             stateMutability: "nonpayable",
             type: "function",
