@@ -33,8 +33,6 @@ import Sale from "./mint/sale.vue"
 
 import AOS from "aos"
 
-const city = ["hokkaido", "aomoriken", "iwateken", "miyagiken", "akitaken", "yamagataken", "fukushimaken", "tokyoto", "kanagawaken", "saitamaken", "chibaken", "ibaragiken", "tochigiken", "gunmaken", "yamanashiken", "nigataken", "naganoken", "toyamaken", "ishikawaken", "fukuiken", "aichiken", "gifuken", "shizuokaken", "mieken", "osakakfu", "hyogoken", "kyotofu", "shigaken", "naraken", "wakayamaken", "tottoriken", "shimaneken", "okayamaken", "hiroshimaken", "yamaguchiken", "tokushimaken", "kagawaken", "ehimeken", "kochiken", "fukuokaken", "sagaken", "nagasakiken", "kumamotoken", "oitaken", "miyazakiken", "kagoshimaken", "okinawaken"];
-
 const { init } = useEthereum()
 
 const nums = Array.from(Array(355).keys());
