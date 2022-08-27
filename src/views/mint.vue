@@ -27,7 +27,6 @@
 
 <script setup>
 import { ref, onMounted } from "vue"
-import store from "@/store"
 
 import useEthereum from "@/utils/useEthereum"
 import Sale from "./mint/sale.vue"
