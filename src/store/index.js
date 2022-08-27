@@ -15,10 +15,12 @@ export default createStore({
             price: 0,
             maxMint: 2,
             maxSupply: 10000,
+            maxFree: 0,
         },
         totalSupply: 0,
         balance: 0,
         minted: 0,
+        freeSlots: 0,
     },
     mutations: {
         setLoading(state, n) {
@@ -59,6 +61,9 @@ export default createStore({
         },
         setBuyed(state, n) {
             state.minted = parseInt(n)
+        },
+        setFreeSlots(state, n) {
+            state.freeSlots = parseInt(n)
         },
     },
     actions: {

@@ -27,7 +27,7 @@ export default function() {
 
     const getConfig = () => {
         store.state.contract.methods
-            .satosanConfig()
+            .nangoHentaiConfig()
             .call()
             .then((config) => {
                 store.dispatch("setStateData", { name: "setNftConfig", data: config })
@@ -55,26 +55,19 @@ export default function() {
     }
 
     const buy = (amount) => {
-        let buyCount = amount
         let value = store.state.web3.utils.toHex(
             store.state.nftConfig.price * amount
         )
 
-        if (store.state.minted == 0) {
-            let priceCount = buyCount - 1
-
-            value = store.state.web3.utils.toHex(
-                store.state.nftConfig.price * priceCount
-            )
-        } else if (store.state.minted >= 1) {
-            value = store.state.web3.utils.toHex(store.state.nftConfig.price)
+        if (store.state.freeSlots > 0) {
+            value = 0
         }
 
         const transactionParams = {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
             value: value,
-            data: store.state.contract.methods.getSatosan(amount).encodeABI(),
+            data: store.state.contract.methods.mint(amount).encodeABI(),
         }
         return store.state.web3.eth.sendTransaction(
             transactionParams,
@@ -87,6 +80,7 @@ export default function() {
                                 data: false,
                             })
                             getBuyed()
+                            getFreeSlots()
                             clearInterval(interval)
                         }
                     })
@@ -106,6 +100,15 @@ export default function() {
             .call()
             .then((balance) => {
                 store.dispatch("setStateData", { name: "setBalance", data: balance })
+            })
+    }
+
+    const getFreeSlots = () => {
+        store.state.contract.methods
+            .freeSlots()
+            .call()
+            .then((slots) => {
+                store.dispatch("setStateData", { name: "setFreeSlots", data: slots })
             })
     }
 
@@ -129,6 +132,7 @@ export default function() {
         store.dispatch("setStateData", { name: "setContract", data: contract })
 
         getConfig()
+        getFreeSlots()
 
         ethereum.on("chainChanged", function(id) {
             store.state.web3.eth.getChainId().then((id) => {
@@ -163,6 +167,7 @@ export default function() {
 
             setInterval(() => {
                 getConfig()
+                getFreeSlots()
                 getTotalSupply()
 
                 if (store.state.connectedAddress != "") {
@@ -179,5 +184,6 @@ export default function() {
         requestAccount,
         buy,
         getBuyed,
+        getFreeSlots,
     }
 }

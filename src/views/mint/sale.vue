@@ -1,72 +1,78 @@
 <template>
-  <div v-if="!loading">
-    <!--Info-->
+  <div
+    class="py-8 flex md:flex-wrap md:flex-row flex-col gap-[10vw] md:gap-[5vw] items-center md:items-end justify-center"
+    v-if="!loading">
     <div>
-      <!--Selection-->
-      <div class="my-2" v-if="store.state.minted <= 1">
-        <div class="text-center text-3xl uppercase text-teal-700 font-black">
-          select a set
+      <!-- Tip -->
+      <p v-if="store.state.connectedAddress != ''" class="mb-8 text-center text-lg text-green-700">
+        {{ store.state.connectedAddress.substring(0,
+            5)
+        }}...{{ store.state.connectedAddress.substr(store.state.connectedAddress.length - 4) }}</p>
+      <!--Supply-->
+      <div class="mb-4 text-3xl text-center text-black font-black">
+        <number :from="0" :to="store.state.totalSupply" :duration="1" /> /
+        <number :from="0" :to="store.state.nftConfig.maxSupply" :duration="1" />
+      </div>
+      <!--Info-->
+      <div class="flex flex-col justify-around items-center" v-if="store.state.connectedAddress != ''">
+        <div>
+          <!--Selection-->
+          <div class="mb-4 w-full" v-if="store.state.minted < store.state.nftConfig.maxMint">
+            <div class="flex justify-between items-center">
+              <div class="text-sm px-2 mr-4 hover:text-blue-700 cursor-pointer" @click="buyCount = 1">MIN</div>
+              <div class="hover:text-blue-700 text-3xl w-12 h-12 flex items-center justify-center cursor-pointer"
+                @click="minusBuyCount()">-</div>
+              <div class="text-xl">{{ buyCount }}</div>
+              <div class="hover:text-blue-700 text-3xl w-12 h-12 flex items-center justify-center cursor-pointer"
+                @click="plusBuyCount()">+</div>
+              <div class="text-sm px-2 ml-4 hover:text-blue-700 cursor-pointer" @click="setMax()">MAX</div>
+            </div>
+            <div class="text-center text-xl font-bold mt-4 underline" v-if="store.state.freeSlots == 0">
+              {{ Number(calcPrice().toFixed(4)) }} ETH + gas
+            </div>
+            <div class="text-center text-xl font-bold mt-4 underline" v-else>
+              FREE + gas
+            </div>
+            <div class="text-left text-xl font-bold mt-4">
+              <div>
+                STEP 1 > FREE MINT ({{ 600 - store.state.freeSlots }} /
+                600) (MAX {{
+                    store.state.nftConfig.maxFree
+                }})<span v-if="store.state.freeSlots > 0">✔️</span>
+              </div>
+              <div>
+                STEP 2 > MINT 0.0075 ETH per Nango Hentai (MAX 20)<span v-if="store.state.freeSlots == 0">✔️</span>
+              </div>
+            </div>
+          </div>
+          <div class="my-2 text-center" v-else>
+            You can't mint more.
+          </div>
         </div>
-        <template v-if="store.state.minted == 0">
-          <div class="selectButton" v-bind:class="{ selected: selectedSet == 0 }"
-            @click="selectedSet = 0; buyCount = 1;">
-            <div>Satosan x 1 (FREE)</div>
+        <!--Mint-->
+        <div
+          class="cursor-pointer text-white hover:text-white text-center py-2 text-xl mt-8 bg-green-900 hover:bg-green-800 hover:text-white transition-all rounded">
+          <div @click="mint()" class="inline-flex px-4 py-2 items-center justify-center"
+            v-if="store.state.totalSupply < store.state.nftConfig.maxSupply && store.state.minted == 0">
+            <div v-if="store.state.minting">
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
+            </div>
+            <div>{{ store.state.minting ? '' : 'GET HENTAI' }}</div>
           </div>
-          <div class="selectButton" v-bind:class="{ selected: selectedSet == 1 }"
-            @click="selectedSet = 1; buyCount = 2;">
-            <div>Satosan x 2 (FREE + {{ store.state.nftConfig.price / Math.pow(10, 18) }} ETH)</div>
+          <div v-else-if="store.state.totalSupply == store.state.nftConfig.maxSupply">
+            Nothing left.<br /><a href="https://opensea.io/collection/rektkidsnft">Check on Opensea</a>
           </div>
-        </template>
-        <template v-else-if="store.state.minted == 1">
-          <div class="selectButton line-through">
-            <div>Satosan x 1 (FREE)</div>
-          </div>
-          <div class="selectButton" v-bind:class="{ selected: selectedSet == 1 }"
-            @click="selectedSet = 1; buyCount = 1;">
-            <div>Satosan x 1 ({{ store.state.nftConfig.price / Math.pow(10, 18) }} ETH)</div>
-          </div>
-        </template>
-        <div class="text-center">
-          Total Cost: {{ calcPrice() }} ETH + Gas (average 0.003 to 0.005 ETH)
         </div>
       </div>
-      <div class="my-2" v-else>
-        You have reached the maximum number of mints.
-      </div>
+      <Connect v-else="store.state.connectedAddress == ''" class="z-20" />
     </div>
-    <!--Supply-->
-    <div class="my-4 text-3xl font-bold text-center">
-      <number :from="0" :to="store.state.totalSupply" :duration="1" /> /
-      <number :from="0" :to="store.state.nftConfig.maxSupply" :duration="1" />
-    </div>
-    <!--Mint-->
-    <div class="cursor-pointer hover:bg-teal-800 bg-teal-700 text-white text-center py-2 text-3xl font-bold rounded-md"
-      v-if="store.state.connectedAddress != ''">
-      <div @click="mint()" class="flex items-center justify-center"
-        v-if="store.state.totalSupply < store.state.nftConfig.maxSupply">
-        <div v-if="store.state.minting">
-          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-            viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-            </path>
-          </svg>
-        </div>
-        <div>{{ store.state.minting ? 'Confirming...' : 'MINT' }}</div>
-      </div>
-      <div v-else>
-        ALL SATOSAN SOLD-OUT!<br /><a href="https://opensea.io/collection/satosan">Check on Opensea</a>
-      </div>
-    </div>
-    <Connect v-else="store.state.connectedAddress == ''" class="z-20" />
-    <!-- Tip -->
-    <p class="mt-4 text-center text-lg underline">Each wallet has 1 free-mint quota.<br>1350 x satosan reserved for
-      our team, because we love satosan!</p>
-  </div>
-  <div v-else>
-    <div class="text-3xl">This is sato-san,</div>
-    <div class="text-3xl">chotto matte kudasai ┏( ._. ┏ ) ┓</div>
+
   </div>
 </template>
 
@@ -115,17 +121,37 @@ import Connect from "@/views/mint/connect.vue"
 
 const { getBuyed, buy } = useEthereum()
 const buyCount = ref(1)
-const selectedSet = ref(0)
 const loading = ref(true);
 
-const calcPrice = () => {
-  let price = 0;
-  if (store.state.minted == 0) {
-    let priceCount = buyCount.value - 1
-    price = (store.state.nftConfig.price / Math.pow(10, 18)) * priceCount
-  } else if (store.state.minted >= 1) {
-    price = (store.state.nftConfig.price / Math.pow(10, 18)) * 1
+const plusBuyCount = () => {
+  if (store.state.freeSlots > 0) {
+    if (buyCount.value + 1 + store.state.minted <= store.state.nftConfig.maxFree) {
+      buyCount.value++
+    }
+  } else {
+    if (buyCount.value + 1 + store.state.minted <= store.state.nftConfig.maxMint) {
+      buyCount.value++
+    }
   }
+
+}
+
+const minusBuyCount = () => {
+  if (buyCount.value - 1 >= 1) {
+    buyCount.value--
+  }
+}
+
+const setMax = () => {
+  if (store.state.freeSlots > 0) {
+    buyCount.value = store.state.nftConfig.maxFree - store.state.minted;
+  } else {
+    buyCount.value = store.state.nftConfig.maxMint - store.state.minted;
+  }
+}
+
+const calcPrice = () => {
+  let price = (store.state.nftConfig.price / Math.pow(10, 18)) * buyCount.value
 
   return price;
 }
@@ -135,17 +161,15 @@ const minted = computed(() => store.state.minted);
 watch(minted, (newVal, oldVal) => {
   let lastMinted = newVal;
 
-  if (lastMinted < 1) {
-    buyCount.value = 1;
-    selectedSet.value = 0;
-  } else if (lastMinted == 1) {
-    buyCount.value = 1;
-    selectedSet.value = 1;
-  }
+  buyCount.value = store.state.nftConfig.maxMint - lastMinted;
 })
 
 const mint = async () => {
   if (store.state.minting) {
+    return;
+  }
+  if (store.state.nftConfig.pause) {
+    alert('Unable to mint, its paused now.')
     return;
   }
   if (
@@ -159,17 +183,38 @@ const mint = async () => {
     parseInt(store.state.minted) + parseInt(buyCount.value) >
     store.state.nftConfig.maxMint
   ) {
-    alert("Arigato gozaimasu.")
+    console.log('...');
   }
 }
 
+
+const nums = Array.from(Array(100).keys());
+const gen_nums = ref([]);
+
+function in_array(array, el) {
+  for (var i = 0; i < array.length; i++)
+    if (array[i] == el) return true;
+  return false;
+}
+
+function get_rand(array) {
+  var rand = array[Math.floor(Math.random() * array.length)];
+  if (!in_array(gen_nums.value, rand)) {
+    gen_nums.value.push(rand);
+    return rand;
+  }
+  return get_rand(array);
+}
+
+
 onMounted(() => {
+
   setInterval(() => {
-    getBuyed()
+    // getBuyed()
     setTimeout(() => {
 
       loading.value = false;
-    }, 1000);
-  }, 1000)
+    }, 200);
+  }, 500)
 })
 </script>
