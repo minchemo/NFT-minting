@@ -41,7 +41,7 @@
                 }})<span v-if="store.state.freeSlots > 0">✔️</span>
               </div>
               <div>
-                STEP 2 > MINT {{ (store.state.nftConfig.price / Math.pow(10, 18)) }} ETH per Nango Hentai (MAX
+                STEP 2 > MINT {{ (store.state.nftConfig.price / Math.pow(10, 18)) }} ETH per  (MAX
                 {{ store.state.nftConfig.maxMint }})<span v-if="store.state.freeSlots == 0">✔️</span>
               </div>
             </div>
