@@ -30,7 +30,7 @@
             class="underline">TOKENS</span>
           that
           will be used in the game. All tokens id will pick up randomly on chain and reveal instantly.<br />Max supply:
-          2000</div>
+          7000</div>
 
         <div class="text-xl md:text-2xl 2xl:text-5xl text-[#ffde36] uppercase mt-10 flex items-center gap-4">alpha test
           <label for="game-manual"
