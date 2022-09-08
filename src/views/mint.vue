@@ -55,7 +55,7 @@
           <p class="text-center">Loading...</p>
         </div>
         <iframe v-if="gameOpen" class="rounded-lg relative w-full h-full z-[2]"
-          src="https://notaland-web.vercel.app/"></iframe>
+          src="https://alpha.notaland.games/"></iframe>
         <div v-else class="h-full flex flex-col items-center justify-center">
           <div @click="gameOpen = true"
             class="text-3xl text-[#b86212] bg-white px-8 py-4 cursor-pointer hover:bg-[#b86212] hover:text-white transition-all text-center">
