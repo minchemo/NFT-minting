@@ -9,7 +9,7 @@
 
         <div class="text-center text-sm md:text-md 2xl:text-lg w-full text-gray-600 my-4">
             The token uri was overrided for our token logic and all metadatas was generated onchain, you can read our
-            verified code on <a target="_blank" href="https://etherscan.io/" class="underline">Etherscan</a>.
+            verified code on <a target="_blank" href="https://etherscan.io/address/0xd590aaf48eae15c9ba0e893692e0d639869272ba" class="underline">Etherscan</a>.
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-3 md:grid-cols-8 lg:grid-cols-10 2xl:grid-cols-10 gap-y-4">
