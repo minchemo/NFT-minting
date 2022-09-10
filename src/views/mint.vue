@@ -52,8 +52,8 @@
           links
         </div>
         <div class="text-md md:text-md 2xl:text-xl">
-          The twitter will be updated while sold out and all official news will announce there in the future.
           <div class="flex gap-4">
+            <a class="underline" target="_blank" href="https://twitter.com/notaland_games">Twitter</a>
             <a class="underline" target="_blank" href="https://opensea.io/collection/notaland">Opensea</a>
             <a class="underline" target="_blank" href="https://etherscan.io/address/0xd590aaf48eae15c9ba0e893692e0d639869272ba">Etherscan</a>
           </div>
