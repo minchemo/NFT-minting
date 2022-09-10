@@ -14,13 +14,15 @@ export default createStore({
             pause: false,
             price: 0,
             maxMint: 2,
-            maxSupply: 10000,
-            maxFree: 0,
+            maxSupply: 3333,
+            maxFree: 1,
         },
         totalSupply: 0,
         balance: 0,
         minted: 0,
-        freeSlots: 0,
+        freeMinted: 0,
+        freeRemain: 0,
+        ownTokens: [],
     },
     mutations: {
         setLoading(state, n) {
@@ -60,10 +62,20 @@ export default createStore({
             state.balance = parseInt(n)
         },
         setBuyed(state, n) {
-            state.minted = parseInt(n)
+            state.minted = n
         },
-        setFreeSlots(state, n) {
-            state.freeSlots = parseInt(n)
+        setfreeRemain(state, n) {
+            state.freeRemain = n
+        },
+        setfreeMinted(state, n) {
+            if (n == false) {
+                state.freeMinted = 0
+            } else {
+                state.freeMinted = n
+            }
+        },
+        setOwnTokens(state, n) {
+            state.ownTokens = n
         },
     },
     actions: {

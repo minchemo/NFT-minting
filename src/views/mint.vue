@@ -3,49 +3,61 @@
     class="overflow-y-scroll w-screen md:h-screen flex flex-col bg-white items-center justify-center font-['Blocktopia'] select-none">
     <!-- <Sale class="px-8" /> -->
     <!-- logo -->
-    <div class="flex items-center relative md:absolute z-[1] text-white top-0 mt-20 md:mt-0 md:top-10 2xl:top-20">
+    <div
+      class="flex flex-col md:flex-row justify-center gap-4 items-center relative md:absolute z-[15] text-white top-0 md:left-16 2xl:left-40 mt-20 md:mt-0 md:top-10 2xl:top-20">
       <img class="w-20 md:w-24 2xl:w-32 logo" src="@/assets/logo.gif" alt="" srcset="">
       <div class="leading-none">
-        <h1 class="text-3xl 2xl:text-5xl">NOT A LAND</h1>
-        <p class="text-sm 2xl:text-xl">notaland.games</p>
+        <h1 class="text-3xl 2xl:text-5xl text-center md:text-left">NOT A LAND</h1>
+        <p class="text-sm 2xl:text-xl text-center md:text-left">notaland.games</p>
       </div>
+      <div
+        class="bg-[#50ffab] text-black text-xl px-6 py-2 rounded-md md:ml-12 hover:cursor-pointer hover:bg-[#ffde36] btn normal-case tracking-wide font-normal"
+        @click="mintOpen = true">MINT PAGE</div>
+      <label for="my-tokens" class="bg-[#50ffab] text-black text-xl px-6 py-2 rounded-md md:ml-6 hover:cursor-pointer hover:bg-[#ffde36] btn normal-case tracking-wide font-normal">STORAGE</label>
     </div>
     <!-- main -->
     <div
-      class="flex flex-col md:flex-row gap-20 items-center justify-between z-10 w-full h-full md:px-40 text-white px-10 md:px-40 pt-12 md:pt-20">
+      class="flex flex-col md:flex-row gap-10 2xl:gap-20 items-center justify-between z-10 w-full h-full md:px-40 text-white px-10 md:px-20 2xl:px-40 pt-12 md:pt-20">
       <!-- intro -->
-      <div class="drop-shadow-2xl">
+      <div class="drop-shadow-2xl md:max-h-[80%] md:overflow-y-scroll 2xl:overflow-y-auto relative">
         <div class="text-xl md:text-2xl 2xl:text-5xl text-[#ffde36] uppercase">What is "Not a land"</div>
-        <div class="text-md md:text-md 2xl:text-xl">We are creating a cross-platform multiplayer game that allows
+        <div class="text-md md:text-md 2xl:text-xl">This is a stealth launch NFT project and we are creating a
+          cross-platform multiplayer game that allows
           players to
-          survive, build or more of the fun of playing together.<br />In this world, land is shared, resources are
+          survive, <br />build or more of the fun of playing together.<br /><br />In this world, land is shared,
+          resources are
           shared,
           But what you have will not be shared.<br /><br />It will be a free-to-play game, and the gameplay includes
           characters, vegetation ecology, buildings, planting systems and your neighbors (?).<br />Blockchain was a
           landing spot for us and had already
-          started alpha testing at the moment. More information will be disclosed soon.<br /></div>
+          started alpha testing right now.<br /></div>
 
         <div class="text-xl md:text-2xl 2xl:text-5xl text-[#ffde36] uppercase mt-10">Tokens</div>
-        <div class="text-md md:text-md 2xl:text-xl">"Not a land" NFTs is not PFP, not land, nor pass, but <span
+        <div class="text-md md:text-md 2xl:text-xl">"Not a land" is not PFP / land / pass, but <span
             class="underline">TOKENS</span>
           that
-          will be used in the game. All tokens id will pick up randomly on chain and reveal instantly.<br />Max supply:
-          7000</div>
+          will be used in the game. For more detail, please check our <span class="underline cursor-pointer"
+            @click="mintOpen = true">mint page</span>.</div>
 
         <div class="text-xl md:text-2xl 2xl:text-5xl text-[#ffde36] uppercase mt-10 flex items-center gap-4">alpha test
           <label for="game-manual"
-            class="uppercase btn-sm text-sm md:text-sm 2xl:text-xl btn font-normal bg-[#ffde36] text-black hover:bg-white border-0 modal-button">game
+            class="uppercase btn-sm text-sm md:text-sm 2xl:text-xl btn rounded-md font-normal bg-[#50ffab] text-black hover:bg-white border-0 modal-button">game
             manual</label>
         </div>
-        <div class="text-md md:text-md 2xl:text-xl mt-2">We have already done lot of things before public sale. We have prepared all requirements for alpha testing. <br/>You can join the game on the right side !
+        <div class="text-md md:text-md 2xl:text-xl mt-2">We have already done lot of things before public sale. We have
+          prepared all requirements for alpha testing. <br />You can join the game on the right side !
         </div>
 
-        <div class="text-xl md:text-2xl 2xl:text-5xl text-[#ffde36] uppercase mt-10 flex items-center gap-4">Official links
+        <div class="text-xl md:text-2xl 2xl:text-5xl text-[#ffde36] uppercase mt-10 flex items-center gap-4">Official
+          links
         </div>
         <div class="text-md md:text-md 2xl:text-xl">
           The twitter will be updated while sold out and all official news will announce there in the future.
+          <div class="flex gap-4">
+            <a class="underline" href="https://opensea.io/collection/notaland">Opensea</a>
+            <a class="underline" href="https://etherscan.io/">Etherscan</a>
+          </div>
         </div>
-
       </div>
       <!-- game -->
       <div
@@ -103,6 +115,11 @@
       </div>
     </div>
   </div>
+  <Mintpage v-if="mintOpen" />
+  <MyTokens />
+  <div
+    class="fixed left-1/2 -translate-x-[50%] bottom-[3%] rounded-full z-[101] font-['Blocktopia'] tracking-wide font-normal px-4 py-2 bg-[#ffde36] text-black cursor-pointer text-xl"
+    v-if="mintOpen" @click="mintOpen = false">CLOSE</div>
 </template>
 
 <style lang="scss" scoped>
@@ -170,14 +187,16 @@
 <script setup>
 import { ref, onMounted } from "vue"
 import useEthereum from "@/utils/useEthereum"
-import Sale from "./mint/sale.vue"
 import AOS from "aos"
+import Mintpage from "./mintpage.vue"
+import MyTokens from "./myTokens.vue"
 
 const { init } = useEthereum()
 const gameOpen = ref(false);
+const mintOpen = ref(false);
 
 onMounted(() => {
   AOS.init()
-  // init()
+  init()
 })
 </script>

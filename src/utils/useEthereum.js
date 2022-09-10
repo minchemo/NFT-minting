@@ -12,7 +12,6 @@ export default function() {
                     name: "setConnectedAddress",
                     data: account[0],
                 })
-                getBalance()
             })
             .catch((e) => {
                 const errorCode = e.code
@@ -27,7 +26,7 @@ export default function() {
 
     const getConfig = () => {
         store.state.contract.methods
-            .nangoHentaiConfig()
+            .notalandConfig()
             .call()
             .then((config) => {
                 store.dispatch("setStateData", { name: "setNftConfig", data: config })
@@ -46,7 +45,7 @@ export default function() {
     const getBuyed = () => {
         if (store.state.connectedAddress != "") {
             store.state.contract.methods
-                .minted(store.state.connectedAddress)
+                .numberMinted(store.state.connectedAddress)
                 .call()
                 .then((amount) => {
                     store.dispatch("setStateData", { name: "setBuyed", data: amount })
@@ -54,12 +53,34 @@ export default function() {
         }
     }
 
-    const buy = (amount) => {
+    const getFreeBuyed = () => {
+        if (store.state.connectedAddress != "") {
+            store.state.contract.methods
+                .freeMinted(store.state.connectedAddress)
+                .call()
+                .then((amount) => {
+                    store.dispatch("setStateData", { name: "setfreeMinted", data: amount })
+                })
+        }
+    }
+
+    const getOwnTokens = () => {
+        if (store.state.connectedAddress != "") {
+            store.state.contract.methods
+                .tokensOfOwner(store.state.connectedAddress)
+                .call()
+                .then((amount) => {
+                    store.dispatch("setStateData", { name: "setOwnTokens", data: amount })
+                })
+        }
+    }
+
+    const buy = (amount, isFree) => {
         let value = store.state.web3.utils.toHex(
             store.state.nftConfig.price * amount
         )
 
-        if (store.state.freeSlots > 0) {
+        if (isFree) {
             value = 0
         }
 
@@ -67,7 +88,7 @@ export default function() {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
             value: value,
-            data: store.state.contract.methods.mint(amount).encodeABI(),
+            data: store.state.contract.methods.getNAL(amount).encodeABI(),
         }
         return store.state.web3.eth.sendTransaction(
             transactionParams,
@@ -79,8 +100,6 @@ export default function() {
                                 name: "setMinting",
                                 data: false,
                             })
-                            getBuyed()
-                            getFreeSlots()
                             clearInterval(interval)
                         }
                     })
@@ -103,12 +122,12 @@ export default function() {
             })
     }
 
-    const getFreeSlots = () => {
+    const getFreeRemain = () => {
         store.state.contract.methods
-            .freeSlots()
+            .freeRemain()
             .call()
             .then((slots) => {
-                store.dispatch("setStateData", { name: "setFreeSlots", data: slots })
+                store.dispatch("setStateData", { name: "setfreeRemain", data: slots })
             })
     }
 
@@ -132,7 +151,7 @@ export default function() {
         store.dispatch("setStateData", { name: "setContract", data: contract })
 
         getConfig()
-        getFreeSlots()
+        getFreeRemain()
 
         ethereum.on("chainChanged", function(id) {
             store.state.web3.eth.getChainId().then((id) => {
@@ -152,6 +171,7 @@ export default function() {
         })
 
         store.state.web3.eth.getChainId().then((id) => {
+            console.log(id);
             if (id != store.state.networkId) {
                 alert("Please Change to mainnet.")
                 return
@@ -167,12 +187,11 @@ export default function() {
 
             setInterval(() => {
                 getConfig()
-                getFreeSlots()
+                getFreeRemain()
                 getTotalSupply()
-
-                if (store.state.connectedAddress != "") {
-                    getBalance()
-                }
+                getFreeBuyed()
+                getBuyed()
+                getOwnTokens()
             }, 500)
         })
 
@@ -183,7 +202,6 @@ export default function() {
         init,
         requestAccount,
         buy,
-        getBuyed,
-        getFreeSlots,
+        getFreeRemain,
     }
 }

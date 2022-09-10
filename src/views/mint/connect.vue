@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-center mx-auto bg-teal-700 px-4 py-4 text-3xl uppercase text-white rounded-md cursor-pointer hover:bg-teal-800 font-black"
+    class="text-center hover:bg-[#603a18] hover:text-white border-[#603a18] text-[#603a18] border-4 px-8 py-4 text-xl uppercase text-black rounded-md cursor-pointer"
     @click="requestAccount">
     connect wallet
   </div>
