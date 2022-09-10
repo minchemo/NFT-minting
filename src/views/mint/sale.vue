@@ -28,7 +28,7 @@
         <div class="text-center mb-4 text-lg md:text-2xl">2. HOW TO MINT</div>
         <div class="flex flex-col gap-4 justify-center ">
           <div @click="mint()" class="text-white font-normal text-md bg-[#603a18] hover:bg-[#4c2400] rounded-md cursor-pointer px-4 py-2 text-center" v-if="store.state.minted < 2">
-            {{ store.state.minting ? 'processing..' : 'FIXED PRICE' }}
+            {{ store.state.minting ? 'processing..' : 'Free' }}
           </div>
           <div @click="freeMint()" class="text-white font-normal text-md bg-[#603a18] hover:bg-[#4c2400] rounded-md cursor-pointer px-4 py-2 text-center"
             v-if="store.state.freeRemain > 0 && store.state.freeMinted == 0">

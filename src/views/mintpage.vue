@@ -120,18 +120,14 @@ const info = [
     {
         title: 'Max Supply :',
         content: '3333'
-    },
+    },  
     {
-        title: 'Free mint :',
-        content: '333 (max 1)'
-    },
-    {
-        title: 'Public mint :',
-        content: '0.012 ETH (max 2)'
+        title: 'Price :',
+        content: 'Free'
     },
     {
         title: 'Max mint :',
-        content: '2 (Free + Public)'
+        content: '1'
     },
     {
         title: 'Team reserve :',
