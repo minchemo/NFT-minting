@@ -1,5 +1,5 @@
 export default {
-    contract_address: "0xD590AaF48EAe15c9BA0e893692E0d639869272BA",
+    contract_address: "0xD5f3C70549C1a7c88cD8a96f535E0a6b6FEC09F0",
     ABI: [
         { inputs: [], stateMutability: "nonpayable", type: "constructor" },
         { inputs: [], name: "ApprovalCallerNotOwnerNorApproved", type: "error" },
@@ -114,17 +114,6 @@ export default {
         {
             anonymous: false,
             inputs: [{
-                indexed: false,
-                internalType: "uint256",
-                name: "tokenId",
-                type: "uint256",
-            }, ],
-            name: "TokenTriggered",
-            type: "event",
-        },
-        {
-            anonymous: false,
-            inputs: [{
                     indexed: true,
                     internalType: "address",
                     name: "from",
@@ -160,21 +149,21 @@ export default {
         },
         {
             inputs: [],
-            name: "flipTriggerStatus",
+            name: "claimNALC",
             outputs: [],
             stateMutability: "nonpayable",
             type: "function",
         },
         {
-            inputs: [{ internalType: "address", name: "", type: "address" }],
-            name: "freeMinted",
+            inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+            name: "genesisClaimed",
             outputs: [{ internalType: "bool", name: "", type: "bool" }],
             stateMutability: "view",
             type: "function",
         },
         {
             inputs: [],
-            name: "freeRemain",
+            name: "genesisReserved",
             outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
             stateMutability: "view",
             type: "function",
@@ -188,7 +177,7 @@ export default {
         },
         {
             inputs: [{ internalType: "uint256", name: "quantity", type: "uint256" }],
-            name: "getNAL",
+            name: "getNALC",
             outputs: [],
             stateMutability: "payable",
             type: "function",
@@ -204,27 +193,6 @@ export default {
             type: "function",
         },
         {
-            inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-            name: "itemStatus",
-            outputs: [{ internalType: "bool", name: "", type: "bool" }],
-            stateMutability: "view",
-            type: "function",
-        },
-        {
-            inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-            name: "itemTimestamp",
-            outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-            stateMutability: "view",
-            type: "function",
-        },
-        {
-            inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-            name: "nalRange",
-            outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-            stateMutability: "view",
-            type: "function",
-        },
-        {
             inputs: [],
             name: "name",
             outputs: [{ internalType: "string", name: "", type: "string" }],
@@ -235,9 +203,10 @@ export default {
             inputs: [],
             name: "notalandConfig",
             outputs: [
+                { internalType: "uint256", name: "maxSupply", type: "uint256" },
+                { internalType: "uint256", name: "teamReserved", type: "uint256" },
                 { internalType: "uint256", name: "price", type: "uint256" },
                 { internalType: "uint256", name: "maxMint", type: "uint256" },
-                { internalType: "uint256", name: "maxSupply", type: "uint256" },
             ],
             stateMutability: "view",
             type: "function",
@@ -260,6 +229,13 @@ export default {
             inputs: [{ internalType: "uint256", name: "tokenId", type: "uint256" }],
             name: "ownerOf",
             outputs: [{ internalType: "address", name: "", type: "address" }],
+            stateMutability: "view",
+            type: "function",
+        },
+        {
+            inputs: [],
+            name: "pauseForever",
+            outputs: [{ internalType: "bool", name: "", type: "bool" }],
             stateMutability: "view",
             type: "function",
         },
@@ -301,28 +277,11 @@ export default {
             type: "function",
         },
         {
-            inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-            name: "seeds",
-            outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-            stateMutability: "view",
-            type: "function",
-        },
-        {
             inputs: [
                 { internalType: "address", name: "operator", type: "address" },
                 { internalType: "bool", name: "approved", type: "bool" },
             ],
             name: "setApprovalForAll",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-        },
-        {
-            inputs: [
-                { internalType: "uint256", name: "tokenId", type: "uint256" },
-                { internalType: "bool", name: "status", type: "bool" },
-            ],
-            name: "setItemStatus",
             outputs: [],
             stateMutability: "nonpayable",
             type: "function",
@@ -335,10 +294,8 @@ export default {
             type: "function",
         },
         {
-            inputs: [
-                { internalType: "uint256[]", name: "_range", type: "uint256[]" },
-            ],
-            name: "setNalRange",
+            inputs: [],
+            name: "setPauseForever",
             outputs: [],
             stateMutability: "nonpayable",
             type: "function",
@@ -346,6 +303,13 @@ export default {
         {
             inputs: [{ internalType: "uint256", name: "_price", type: "uint256" }],
             name: "setPrice",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+        },
+        {
+            inputs: [{ internalType: "string", name: "baseURI", type: "string" }],
+            name: "setURI",
             outputs: [],
             stateMutability: "nonpayable",
             type: "function",
@@ -399,27 +363,6 @@ export default {
         {
             inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
             name: "transferOwnership",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-        },
-        {
-            inputs: [],
-            name: "triggerEnabled",
-            outputs: [{ internalType: "bool", name: "", type: "bool" }],
-            stateMutability: "view",
-            type: "function",
-        },
-        {
-            inputs: [{ internalType: "uint256", name: "tokenId", type: "uint256" }],
-            name: "triggerToken",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-        },
-        {
-            inputs: [{ internalType: "uint256", name: "tokenId", type: "uint256" }],
-            name: "unpack",
             outputs: [],
             stateMutability: "nonpayable",
             type: "function",

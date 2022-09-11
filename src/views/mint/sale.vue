@@ -8,40 +8,42 @@
     <!--Supply-->
     <div class="text-2xl md:text-2xl 2xl:text-4xl text-center">
       <number :from="0" :to="store.state.totalSupply" :duration="1" /> /
-      <number :from="0" :to="store.state.nftConfig.maxSupply" :duration="1" />
+      <number :from="0" :to="store.state.nftConfig.maxSupply + 1111" :duration="1" />
     </div>
     <!--Info-->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 2xl:gap-8 w-full" v-if="store.state.connectedAddress != ''">
-      <!--Selection-->
+      <!--Public sale-->
       <div class="aspect-square border-[#603a18] border-2 p-2 2xl:p-4 h-full flex flex-col items-center justify-center">
-        <div class="text-center mb-4 text-lg md:text-2xl">1 .AMOUNT</div>
-        <div class="flex justify-center items-center gap-4">
+        <div class="text-center mb-4 text-lg md:text-2xl">Public sale</div>
+        <div class="flex justify-center items-center gap-4 mb-4">
           <div class="text-xl flex items-center justify-center cursor-pointer" @click="minusBuyCount()">-
           </div>
           <div class="text-xl">{{ buyCount }}</div>
           <div class="text-xl flex items-center justify-center cursor-pointer" @click="plusBuyCount()">+
           </div>
         </div>
-      </div>
-      <!--Mint section-->
-      <div class="aspect-square border-[#603a18] border-2 p-2 2xl:p-4 h-full flex flex-col items-center justify-center">
-        <div class="text-center mb-4 text-lg md:text-2xl">2. HOW TO MINT</div>
         <div class="flex flex-col gap-4 justify-center ">
-          <div @click="mint()" class="text-white font-normal text-md bg-[#603a18] hover:bg-[#4c2400] rounded-md cursor-pointer px-4 py-2 text-center" v-if="store.state.minted < 2">
-            {{ store.state.minting ? 'processing..' : 'Free' }}
-          </div>
-          <div @click="freeMint()" class="text-white font-normal text-md bg-[#603a18] hover:bg-[#4c2400] rounded-md cursor-pointer px-4 py-2 text-center"
-            v-if="store.state.freeRemain > 0 && store.state.freeMinted == 0">
-            {{ store.state.minting ? 'processing..' : 'Free' }}
+          <div @click="mint()" class="text-white font-normal text-lg bg-[#603a18] hover:bg-[#4c2400] rounded-md cursor-pointer px-4 py-2 text-center" v-if="store.state.minted < 2">
+            {{ store.state.minting ? 'processing..' : 'Buy' }}
           </div>
           <div class="text-xl text-center" v-if="store.state.minted >= 2">
             Cant mint more
           </div>
         </div>
       </div>
+      <!--Claim section-->
+      <div class="aspect-square border-[#603a18] border-2 p-2 2xl:p-4 h-full flex flex-col items-center justify-center">
+        <div class="text-center mb-2 text-lg md:text-2xl">Genesis Claim</div>
+        <div class="text-center mb-2 text-sm md:text-md">Genesis collection holder's will be able to claim free character. <br/>(1 tokenId = 1 character)</div>
+        <div class="flex flex-col gap-4 justify-center ">
+          <div @click="startClaim()" class="text-white font-normal text-lg bg-[#603a18] hover:bg-[#4c2400] rounded-md cursor-pointer px-4 py-2 text-center">
+            {{ store.state.minting ? 'processing..' : 'Claim' }}
+          </div>
+        </div>
+      </div>
       <!--Minted-->
       <div class="aspect-square border-[#603a18] border-2 p-2 2xl:p-4 h-full flex flex-col items-center justify-center">
-        <div class="text-center mb-4 text-lg md:text-2xl">3. GET</div>
+        <div class="text-center mb-4 text-lg md:text-2xl">Owned</div>
         <div class="text-lg text-center">
           {{ store.state.ownTokens.length == 0 ? 'No tokens.': `id: ${store.state.ownTokens.join(', ')}` }}
         </div>
@@ -95,7 +97,7 @@ import useEthereum from "@/utils/useEthereum"
 import store from "@/store"
 import Connect from "@/views/mint/connect.vue"
 
-const { buy } = useEthereum()
+const { buy, claim } = useEthereum()
 const buyCount = ref(1)
 const loading = ref(false);
 
@@ -116,7 +118,15 @@ const mint = async () => {
     return;
   }
   store.dispatch("setStateData", { name: "setMinting", data: true })
-  await buy(buyCount.value, false)
+  await buy(buyCount.value)
+}
+
+const startClaim = async () => {
+  if (store.state.minting) {
+    return;
+  }
+  store.dispatch("setStateData", { name: "setMinting", data: true })
+  await claim()
 }
 
 const freeMint = async () => {

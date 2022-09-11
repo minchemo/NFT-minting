@@ -11,9 +11,13 @@
         <p class="text-sm 2xl:text-xl text-center md:text-left">notaland.games</p>
       </div>
       <div
-        class="bg-[#50ffab] text-black text-xl px-6 py-2 rounded-md md:ml-12 hover:cursor-pointer hover:bg-[#ffde36] btn normal-case tracking-wide font-normal"
-        @click="mintOpen = true">MINT PAGE</div>
-      <label for="my-tokens" class="bg-[#50ffab] text-black text-xl px-6 py-2 rounded-md md:ml-6 hover:cursor-pointer hover:bg-[#ffde36] btn normal-case tracking-wide font-normal">STORAGE</label>
+        class="bg-[#ffde36] text-black text-xl px-6 py-2 rounded-md md:ml-6 hover:cursor-pointer hover:bg-[#ffde36] btn normal-case tracking-wide font-normal"
+        @click="characterOpen = true">Character (Live!)</div>
+      <div
+        class="bg-[#50ffab] text-black text-xl px-6 py-2 rounded-md md:ml-6 hover:cursor-pointer hover:bg-[#ffde36] btn normal-case tracking-wide font-normal"
+        @click="genesisOpen = true">Genesis (sold out)</div>
+      <label for="my-tokens"
+        class="bg-[#50ffab] text-black text-xl px-6 py-2 rounded-md md:ml-6 hover:cursor-pointer hover:bg-[#ffde36] btn normal-case tracking-wide font-normal">STORAGE</label>
     </div>
     <!-- main -->
     <div
@@ -37,7 +41,7 @@
             class="underline">TOKENS</span>
           that
           will be used in the game. For more detail, please check our <span class="underline cursor-pointer"
-            @click="mintOpen = true">mint page</span>.</div>
+            @click="genesisOpen = true">Genesis token</span>.</div>
 
         <div class="text-xl md:text-2xl 2xl:text-5xl text-[#ffde36] uppercase mt-10 flex items-center gap-4">alpha test
           <label for="game-manual"
@@ -53,9 +57,18 @@
         </div>
         <div class="text-md md:text-md 2xl:text-xl">
           <div class="flex gap-4">
+            <div class="flex flex-col">
+              <a class="underline" target="_blank" href="https://opensea.io/collection/notaland">Opensea (Genesis)</a>
+              <a class="underline" target="_blank" href="https://opensea.io/collection/notaland-character">Opensea
+                (Character)</a>
+            </div>
+            <div class="flex flex-col">
+              <a class="underline" target="_blank"
+                href="https://etherscan.io/address/0xd590aaf48eae15c9ba0e893692e0d639869272ba">Etherscan (Genesis)</a>
+              <a class="underline" target="_blank"
+                href="https://etherscan.io/address/0xd5f3c70549c1a7c88cd8a96f535e0a6b6fec09f0">Etherscan (Character)</a>
+            </div>
             <a class="underline" target="_blank" href="https://twitter.com/notaland_games">Twitter</a>
-            <a class="underline" target="_blank" href="https://opensea.io/collection/notaland">Opensea</a>
-            <a class="underline" target="_blank" href="https://etherscan.io/address/0xd590aaf48eae15c9ba0e893692e0d639869272ba">Etherscan</a>
           </div>
         </div>
       </div>
@@ -115,11 +128,12 @@
       </div>
     </div>
   </div>
-  <Mintpage v-if="mintOpen" />
+  <Genesis v-if="genesisOpen" />
+  <Character v-if="characterOpen" />
   <MyTokens />
   <div
     class="fixed left-1/2 -translate-x-[50%] bottom-[3%] rounded-full z-[101] font-['Blocktopia'] tracking-wide font-normal px-4 py-2 bg-[#ffde36] text-black cursor-pointer text-xl"
-    v-if="mintOpen" @click="mintOpen = false">CLOSE</div>
+    v-if="genesisOpen || characterOpen" @click="closeDialog()">CLOSE</div>
 </template>
 
 <style lang="scss" scoped>
@@ -188,12 +202,19 @@
 import { ref, onMounted } from "vue"
 import useEthereum from "@/utils/useEthereum"
 import AOS from "aos"
-import Mintpage from "./mintpage.vue"
+import Genesis from "./genesis.vue"
 import MyTokens from "./myTokens.vue"
+import Character from "./character.vue"
 
 const { init } = useEthereum()
 const gameOpen = ref(false);
-const mintOpen = ref(false);
+const genesisOpen = ref(false);
+const characterOpen = ref(false);
+
+const closeDialog = () => {
+  genesisOpen.value = false;
+  characterOpen.value = false;
+}
 
 onMounted(() => {
   AOS.init()

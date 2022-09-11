@@ -53,17 +53,6 @@ export default function() {
         }
     }
 
-    const getFreeBuyed = () => {
-        if (store.state.connectedAddress != "") {
-            store.state.contract.methods
-                .freeMinted(store.state.connectedAddress)
-                .call()
-                .then((amount) => {
-                    store.dispatch("setStateData", { name: "setfreeMinted", data: amount })
-                })
-        }
-    }
-
     const getOwnTokens = () => {
         if (store.state.connectedAddress != "") {
             store.state.contract.methods
@@ -75,20 +64,46 @@ export default function() {
         }
     }
 
-    const buy = (amount, isFree) => {
+    const claim = () => {
+        const transactionParams = {
+            to: contractConfig.contract_address,
+            from: store.state.connectedAddress,
+            value: 0,
+            data: store.state.contract.methods.claimNALC().encodeABI(),
+        }
+        return store.state.web3.eth.sendTransaction(
+            transactionParams,
+            (err, hash) => {
+                const interval = setInterval(function() {
+                    store.state.web3.eth.getTransactionReceipt(hash, function(err, rec) {
+                        if (rec) {
+                            store.dispatch("setStateData", {
+                                name: "setMinting",
+                                data: false,
+                            })
+                            clearInterval(interval)
+                        }
+                    })
+                }, 1000)
+
+                if (err) {
+                    store.dispatch("setStateData", { name: "setMinting", data: false })
+                    clearInterval(interval)
+                }
+            }
+        )
+    }
+
+    const buy = (amount) => {
         let value = store.state.web3.utils.toHex(
             store.state.nftConfig.price * amount
         )
-
-        if (isFree) {
-            value = 0
-        }
 
         const transactionParams = {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
             value: value,
-            data: store.state.contract.methods.getNAL(amount).encodeABI(),
+            data: store.state.contract.methods.getNALC(amount).encodeABI(),
         }
         return store.state.web3.eth.sendTransaction(
             transactionParams,
@@ -122,15 +137,6 @@ export default function() {
             })
     }
 
-    const getFreeRemain = () => {
-        store.state.contract.methods
-            .freeRemain()
-            .call()
-            .then((slots) => {
-                store.dispatch("setStateData", { name: "setfreeRemain", data: slots })
-            })
-    }
-
     const init = async() => {
         const ethereum = await detectEthereumProvider()
         if (!ethereum) {
@@ -151,7 +157,6 @@ export default function() {
         store.dispatch("setStateData", { name: "setContract", data: contract })
 
         getConfig()
-        getFreeRemain()
 
         ethereum.on("chainChanged", function(id) {
             store.state.web3.eth.getChainId().then((id) => {
@@ -171,7 +176,7 @@ export default function() {
         })
 
         store.state.web3.eth.getChainId().then((id) => {
-            console.log(id);
+            console.log(id)
             if (id != store.state.networkId) {
                 alert("Please Change to mainnet.")
                 return
@@ -187,9 +192,7 @@ export default function() {
 
             setInterval(() => {
                 getConfig()
-                getFreeRemain()
                 getTotalSupply()
-                getFreeBuyed()
                 getBuyed()
                 getOwnTokens()
             }, 500)
@@ -202,6 +205,6 @@ export default function() {
         init,
         requestAccount,
         buy,
-        getFreeRemain,
+        claim,
     }
 }

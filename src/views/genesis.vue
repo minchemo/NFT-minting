@@ -4,7 +4,7 @@
 
         <div class="mx-auto flex items-center justify-center text-black">
             <img class="w-12 md:w-12 2xl:w-12 logo" src="@/assets/logo.gif" alt="" srcset="">
-            <div class="text-2xl">MINT PAGE</div>
+            <div class="text-2xl">Genesis TOKEN</div>
         </div>
 
         <div class="text-center text-sm md:text-md 2xl:text-lg w-full text-gray-600 my-4">
@@ -26,11 +26,11 @@
             <div class="border-[#603a18] border-8 px-4 py-4">
                 <div v-for="item in info"
                     class="flex items-center justify-between text-md md:text-md 2xl:text-2xl text-[#603a18] w-full md:w-[320px] 2xl:w-[600px]">
-                    <div class="basis-1/2 text-left underline">{{item.title}}</div>
+                    <div class="basis-1/2 text-left underline whitespace-nowrap">{{item.title}}</div>
                     <div class="basis-full text-right">{{item.content}}</div>
                 </div>
             </div>
-            <Sale/>
+            
         </div>
 
 
@@ -111,7 +111,7 @@ const images = [
 const info = [
     {
         title: 'Token name :',
-        content: 'Not a land (NAL)'
+        content: 'Not a land (Genesis) (NAL)'
     },
     {
         title: 'Blockchain :',
