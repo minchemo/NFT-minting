@@ -75,7 +75,10 @@
       <!-- game -->
       <div
         class="w-full md:w-[unset] h-[unset] md:h-5/6 bg-[rgba(255,222,54,0.15)] backdrop-blur-md aspect-[9/16] shadow-xl mb-24 md:mb-0">
-        <div v-if="gameOpen" class="z-[1] absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%]">
+        <div v-if="$isMobile()" class="absolute w-full h-full left-0 top-0 bg-white flex items-center justify-center ">
+          <a target="_blank" href="https://alpha.notaland.games" class="text-3xl px-8 py-4 cursor-pointer bg-[#b86212] text-white transition-all text-center">Link to game</a>
+        </div>
+        <div v-else-if="gameOpen" class="z-[1] absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%]">
           <img class="w-20 logo" src="@/assets/logo.gif" alt="" srcset="">
           <p class="text-center">Loading...</p>
         </div>
