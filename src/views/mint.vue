@@ -12,7 +12,7 @@
       </div>
       <div
         class="bg-[#ffde36] text-black text-xl px-6 py-2 rounded-md md:ml-6 hover:cursor-pointer hover:bg-[#ffde36] btn normal-case tracking-wide font-normal"
-        @click="characterOpen = true">Character (Live!)</div>
+        @click="characterOpen = true">MINT (Live!)</div>
       <div
         class="bg-[#50ffab] text-black text-xl px-6 py-2 rounded-md md:ml-6 hover:cursor-pointer hover:bg-[#ffde36] btn normal-case tracking-wide font-normal"
         @click="genesisOpen = true">Genesis (sold out)</div>
