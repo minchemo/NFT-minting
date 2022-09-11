@@ -32,7 +32,7 @@
         </div>
       </div>
       <!--Claim section-->
-      <div class="aspect-square border-[#603a18] border-2 p-2 2xl:p-4 h-full flex flex-col items-center justify-center">
+      <!-- <div class="aspect-square border-[#603a18] border-2 p-2 2xl:p-4 h-full flex flex-col items-center justify-center">
         <div class="text-center mb-2 text-lg md:text-2xl">Genesis Claim</div>
         <div class="text-center mb-2 text-sm md:text-md">Genesis collection holder's will be able to claim free character. <br/>(1 tokenId = 1 character)</div>
         <div class="flex flex-col gap-4 justify-center ">
@@ -40,7 +40,7 @@
             {{ store.state.minting ? 'processing..' : 'Claim' }}
           </div>
         </div>
-      </div>
+      </div> -->
       <!--Minted-->
       <div class="aspect-square border-[#603a18] border-2 p-2 2xl:p-4 h-full flex flex-col items-center justify-center">
         <div class="text-center mb-4 text-lg md:text-2xl">Owned</div>

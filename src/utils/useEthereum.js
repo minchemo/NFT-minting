@@ -71,6 +71,8 @@ export default function() {
             value: 0,
             data: store.state.contract.methods.claimNALC().encodeABI(),
         }
+
+        // return store.state.web3.eth.estimateGas(transactionParams).then(console.log)
         return store.state.web3.eth.sendTransaction(
             transactionParams,
             (err, hash) => {
