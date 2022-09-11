@@ -51,11 +51,11 @@ const info = [
     },
     {
         title: 'Price :',
-        content: '0.005 eth'
+        content: 'free'
     },
     {
         title: 'Max mint :',
-        content: '10'
+        content: '1'
     },
     {
         title: 'Team reserve :',
