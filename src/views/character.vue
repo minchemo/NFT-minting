@@ -59,7 +59,7 @@ const info = [
     },
     {
         title: 'Team reserve :',
-        content: '100'
+        content: '400'
     },
     {
         title: 'Reveal Time :',
