@@ -7,7 +7,7 @@ export default createStore({
         init: false,
         ethereum: null,
         web3: null,
-        networkId: 1,
+        networkId: 4,
         contract: null,
         connectedAddress: "",
         nftConfig: {

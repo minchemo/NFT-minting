@@ -1,35 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* ===== Scrollbar CSS ===== */
-
-
-/* Firefox */
-
-* {
-    scrollbar-width: auto;
-    scrollbar-color: #ffde36 #d1d1d1;
-}
-
-
-/* Chrome, Edge, and Safari */
-
-*::-webkit-scrollbar {
-    width: 8px;
-}
-
-*::-webkit-scrollbar-track {
-    background: #d1d1d1;
-}
-
-*::-webkit-scrollbar-thumb {
-    background-color: #ffde36;
-    border-radius: 0px;
-    border: 0px solid #ffffff;
+@font-face {
+    font-family: 'MK';
+    src: url('@/assets/Mario-Kart-DS.ttf') format('truetype');
 }
 
 @font-face {
-    font-family: 'Blocktopia';
-    src: url('@/assets/Blocktopia.ttf') format('truetype');
+    font-family: 'SP';
+    src: url('@/assets/small-pixel.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'joystix';
+    src: url('@/assets/joystix monospace.ttf') format('truetype');
 }
