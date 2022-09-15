@@ -14,7 +14,7 @@ export default createStore({
             pause: false,
             price: 0,
             maxMint: 2,
-            maxSupply: 3333,
+            maxSupply: 0,
             maxFree: 1,
         },
         totalSupply: 0,
