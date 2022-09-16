@@ -337,7 +337,7 @@
     v-if="showAlert">
     <div>{{ alertMsg}}</div>
     <div class="flex-none">
-      <button class="btn btn-sm btn-ghost text-red-500" @click="showAlert = false; alertMsg = '';">Close</button>
+      <button class="btn btn-sm btn-ghost text-red-500" @click="showAlert = false">Close</button>
     </div>
   </div>
 
@@ -509,20 +509,25 @@ const mint = async (type) => {
     return;
   }
   if (store.state.minting) {
+    showAlert.value = true
+    alertMsg.value = 'Transaction pending...'
     return;
   }
-  store.dispatch("setStateData", { name: "setMinting", data: true })
 
   if (type == 'prop' && store.state.nftConfig.mintStage == 1) {
+    store.dispatch("setStateData", { name: "setMinting", data: true })
     await getProp();
 
   } else if (type == 'merkleHatchEgg' && store.state.nftConfig.mintStage == 2) {
-
+    store.dispatch("setStateData", { name: "setMinting", data: true })
+    // merkleHatch
   } else if (type == 'hatchEgg' && store.state.nftConfig.mintStage == 3) {
-
+    store.dispatch("setStateData", { name: "setMinting", data: true })
+    // publicHatch
   } else {
     showAlert.value = true
     alertMsg.value = 'Not in a valid mint stage.'
+    return;
   }
 }
 
@@ -547,7 +552,7 @@ const register = async () => {
         showAlert.value = true
         alertMsg.value = 'Address exist.'
       } else {
-        let date = new Date(); 
+        let date = new Date();
         let options = {
           weekday: "long", year: "numeric", month: "short",
           day: "numeric", hour: "2-digit", minute: "2-digit"

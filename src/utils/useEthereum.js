@@ -188,7 +188,6 @@ export default function() {
         })
 
         store.state.web3.eth.getChainId().then((id) => {
-            console.log(id)
             if (id != store.state.networkId) {
                 alert("Please Change to mainnet.")
                 return
