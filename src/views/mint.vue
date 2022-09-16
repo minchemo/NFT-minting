@@ -179,7 +179,7 @@
             <div class="underline">10% : shield</div>
           </div>
           <div>
-            UTC 9/16 18:00<br/>
+            UTC 9/16 18:00<br />
             max mint : 1<br />
             price : free
           </div>
@@ -195,7 +195,7 @@
               3825</span>
           </div>
           <div class="my-8">
-            Check twitter and discord for start & end time / schedule<br/>
+            Check twitter and discord for start & end time / schedule<br />
             max mint : 1<br />
             price : {{ store.state.nftConfig.mintStage != 2 ? '?' :
             store.state.web3.utils.fromWei(store.state.nftConfig.price.toString(), 'ether')}} eth<br />
@@ -334,9 +334,7 @@
   </div>
   <div class="alert-bottom alert shadow-lg fixed z-[100] bottom-40 font-['joystix']" data-aos="zoom-in"
     v-if="showAlert">
-    <div>
-      {{alertMsg}}
-    </div>
+    <div v-html="alertMsg"></div>
     <div class="flex-none">
       <button class="btn btn-sm btn-ghost text-red-500" @click="showAlert = false; alertMsg = '';">Close</button>
     </div>
@@ -505,8 +503,8 @@ const alertMsg = ref('');
 
 const mint = async (type) => {
   if (store.state.connectedAddress == '') {
-      showAlert.value = true
-      alertMsg.value = 'Please connect wallet first.'
+    showAlert.value = true
+    alertMsg.value = 'Please connect wallet first.'
     return;
   }
   if (store.state.minting) {
