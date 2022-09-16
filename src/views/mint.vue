@@ -530,20 +530,30 @@ const register = async () => {
     requestAccount();
 
   } else {
-    const docRef = doc(db, "whitelist", store.state.connectedAddress);
-    const docSnap = await getDoc(docRef);
+    var balance = await store.state.web3.eth.getBalance(store.state.connectedAddress);
+    balance = store.state.web3.utils.fromWei(balance.toString(), 'ether')
 
 
-    if (docSnap.exists()) {
-      showAlert.value = true
-      alertMsg.value = 'Address exist.'
+    if (balance >= 0.02) {
+      const docRef = doc(db, "whitelist", store.state.connectedAddress);
+      const docSnap = await getDoc(docRef);
+
+
+      if (docSnap.exists()) {
+        showAlert.value = true
+        alertMsg.value = 'Address exist.'
+      } else {
+        await setDoc(doc(db, "whitelist", store.state.connectedAddress), {
+          add: true,
+        });
+        showAlert.value = true
+        alertMsg.value = 'Address added successfully, Please follow our twitter and <span class="underline">discord</span> for latest news!'
+      }
     } else {
-      await setDoc(doc(db, "whitelist", store.state.connectedAddress), {
-        add: true,
-      });
       showAlert.value = true
-      alertMsg.value = 'Address added successfully, Please follow our twitter and <span class="underline">discord</span> for latest news!'
+      alertMsg.value = 'Please hold at least 0.02 eth in your wallet.'
     }
+
   }
   isLoading.value = false;
 }
