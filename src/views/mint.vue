@@ -4,27 +4,27 @@
     class="overflow-y-auto overflow-x-hidden w-full min-h-screen flex flex-col bg-white items-center font-['joystix'] bg-[#aad999] pb-20 bg">
     <!-- nav -->
     <div class="transition-all fixed top-0 left-0 w-full text-center bg-black/[.9] text-white z-10" v-bind:class="{
-      'py-4': scrollPos >= 40,
-      'py-12': scrollPos < 40,
+      'py-2 md:py-4': scrollPos >= 40,
+      'py-6 md:py-12': scrollPos < 40,
     }">
-      <div class="font-['MK'] text-3xl">
+      <div class="font-['MK'] text-2xl md:text-3xl">
         TAMAGOGI</div>
       <div class="text-sm">
         Fully onchain tamagotchi dapp
       </div>
-      <div class="inline-flex justify-center gap-2 mt-4">
-        <a class="hover:opacity-75" href="https://twitter.com/tamagogi_dapp" target="_blank"><img class="w-12"
+      <div class="inline-flex justify-center gap-2 mt-2  md:mt-4">
+        <a class="hover:opacity-75" href="https://twitter.com/tamagogi_dapp" target="_blank"><img class="w-8 md:w-12"
             src="@/assets/icon/twitter.svg" alt="" srcset=""></a>
-        <a class="hover:opacity-75" href="https://opensea.io/collection/tamagogi" target="_blank"><img class="w-12"
+        <a class="hover:opacity-75" href="https://opensea.io/collection/tamagogi" target="_blank"><img class="w-8 md:w-12"
             src="@/assets/icon/opensea.svg" alt="" srcset=""></a>
-        <a class="hover:opacity-75" href="https://discord.gg/MjcceahkVk" target="_blank"><img class="w-12"
+        <a class="hover:opacity-75" href="https://discord.gg/MjcceahkVk" target="_blank"><img class="w-8 md:w-12"
             src="@/assets/icon/discord.svg" alt="" srcset=""></a>
         <a class="hover:opacity-75" href="https://etherscan.io/address/0x20fce52e29cfa0400c4093bd22e734373b2fafbd"
-          target="_blank"><img class="w-12" src="@/assets/icon/etherscan.svg" alt="" srcset=""></a>
+          target="_blank"><img class="w-8 md:w-12" src="@/assets/icon/etherscan.svg" alt="" srcset=""></a>
       </div>
     </div>
     <!-- container -->
-    <div class="container pt-52 mt-24 font-['joystix'] px-4">
+    <div class="container pt-24 md:pt-52 mt-24 font-['joystix'] px-4">
       <div class="alert bg-red-300 shadow-lg justify-center">
         <div class="text-center">STAGE 2 (PET mint) whitelist Registration is in progress, please <a
             @click="scrollTo('register-btn')" target="_blank" class="bg-white btn text-black btn-sm">GO
