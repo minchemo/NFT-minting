@@ -513,14 +513,16 @@ const mint = async (type) => {
   }
   store.dispatch("setStateData", { name: "setMinting", data: true })
 
-  if (type == 'prop') {
+  if (type == 'prop' && store.state.nftConfig.mintStage == 1) {
     await getProp();
+
+  } else if (type == 'merkleHatchEgg' && store.state.nftConfig.mintStage == 2) {
+
+  } else if (type == 'hatchEgg' && store.state.nftConfig.mintStage == 3) {
+
+  } else {
     showAlert.value = true
-    alertMsg.value = 'ok'
-  } else if (type == 'merkleHatchEgg') {
-
-  } else if (type == 'hatchEgg') {
-
+    alertMsg.value = 'Not in a valid mint stage.'
   }
 }
 
