@@ -13,4 +13,9 @@ export default defineConfig({
             "./runtimeConfig": "./runtimeConfig.browser",
         },
     },
+    build: {
+        commonjsOptions: {
+           esmExternals: true 
+        },
+     }
 })

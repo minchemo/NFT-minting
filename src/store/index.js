@@ -47,7 +47,12 @@ export default createStore({
             for (const key in n) {
                 if (Object.hasOwnProperty.call(n, key)) {
                     const element = n[key]
-                    n[key] = parseInt(element)
+                    if (/^-?\d+$/.test(element)) {
+                        n[key] = parseInt(element)
+                    } else {
+                        n[key] = element
+                    }
+
                 }
             }
             state.nftConfig = n

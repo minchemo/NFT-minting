@@ -26,7 +26,7 @@ export default function() {
 
     const getConfig = () => {
         store.state.contract.methods
-            .notalandConfig()
+            .config()
             .call()
             .then((config) => {
                 store.dispatch("setStateData", { name: "setNftConfig", data: config })
@@ -40,28 +40,6 @@ export default function() {
             .then((amount) => {
                 store.dispatch("setStateData", { name: "setTotalSupply", data: amount })
             })
-    }
-
-    const getBuyed = () => {
-        if (store.state.connectedAddress != "") {
-            store.state.contract.methods
-                .numberMinted(store.state.connectedAddress)
-                .call()
-                .then((amount) => {
-                    store.dispatch("setStateData", { name: "setBuyed", data: amount })
-                })
-        }
-    }
-
-    const getOwnTokens = () => {
-        if (store.state.connectedAddress != "") {
-            store.state.contract.methods
-                .tokensOfOwner(store.state.connectedAddress)
-                .call()
-                .then((amount) => {
-                    store.dispatch("setStateData", { name: "setOwnTokens", data: amount })
-                })
-        }
     }
 
     const claim = () => {
@@ -195,8 +173,6 @@ export default function() {
             setInterval(() => {
                 getConfig()
                 getTotalSupply()
-                getBuyed()
-                getOwnTokens()
             }, 500)
         })
 
