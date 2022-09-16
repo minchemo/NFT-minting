@@ -459,7 +459,7 @@
 <script setup>
 
 import { initializeApp } from 'firebase/app';
-import { getFirestore, getDoc, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, getDoc, getDocs, doc, setDoc, collection} from 'firebase/firestore';
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
 import { ref, onMounted } from "vue"
@@ -533,7 +533,6 @@ const register = async () => {
     const docSnap = await getDoc(docRef);
 
 
-
     if (docSnap.exists()) {
       showAlert.value = true
       alertMsg.value = 'Address exist.'
@@ -548,6 +547,16 @@ const register = async () => {
   isLoading.value = false;
 }
 
+const getAll = async () => {
+  const querySnapshot = await getDocs(collection(db, "whitelist"));
+  const list = [];
+  querySnapshot.forEach((doc) => {
+    list.push(doc.id);
+  });
+
+  console.log(list);
+}
+
 
 onMounted(() => {
   AOS.init()
@@ -557,6 +566,7 @@ onMounted(() => {
     requestAccount();
   }, 1000);
 
+  getAll();
   window.addEventListener('scroll', function () { scrollPos.value = this.scrollY })
 })
 </script>
