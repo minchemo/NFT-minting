@@ -203,7 +203,7 @@ export default function() {
             requestAccount()
 
             setInterval(() => {
-                // getConfig()
+                getConfig()
                 getTotalSupply()
             }, 500)
         })
