@@ -204,7 +204,8 @@
             <div class="text-sm text-black">
               The whitelist is still in the registration stage, <br />please connect wallet and register, the result
               will
-              be announced on Discord and Twitter.
+              be announced on Discord and Twitter.<br />
+              raffle requirement : 0.02 eth (Your wallet have keep at least above 0.02 eth)
             </div>
             <a id="register-btn" class="btn mt-4 bg-red-400 text-black hover:bg-yellow-300" target="_blank"
               @click="register()">
@@ -459,7 +460,7 @@
 <script setup>
 
 import { initializeApp } from 'firebase/app';
-import { getFirestore, getDoc, getDocs, doc, setDoc, collection} from 'firebase/firestore';
+import { getFirestore, getDoc, getDocs, doc, setDoc, collection } from 'firebase/firestore';
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
 import { ref, onMounted } from "vue"
