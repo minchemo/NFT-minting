@@ -7,15 +7,16 @@ export default createStore({
         init: false,
         ethereum: null,
         web3: null,
-        networkId: 4,
+        networkId: 1,
         contract: null,
         connectedAddress: "",
         nftConfig: {
-            pause: false,
+            mintStage: 0,
+            petMaxSupply: 0,
             price: 0,
-            maxMint: 2,
-            maxSupply: 0,
-            maxFree: 1,
+            propMaxSupply: 0,
+            revealPet: false,
+            revealProp: false,
         },
         totalSupply: 0,
         balance: 0,
@@ -52,7 +53,6 @@ export default createStore({
                     } else {
                         n[key] = element
                     }
-
                 }
             }
             state.nftConfig = n

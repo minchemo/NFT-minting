@@ -42,15 +42,13 @@ export default function() {
             })
     }
 
-    const claim = () => {
+    const getProp = (amount) => {
         const transactionParams = {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
             value: 0,
-            data: store.state.contract.methods.claimNALC().encodeABI(),
+            data: store.state.contract.methods.getProp().encodeABI(),
         }
-
-        // return store.state.web3.eth.estimateGas(transactionParams).then(console.log)
         return store.state.web3.eth.sendTransaction(
             transactionParams,
             (err, hash) => {
@@ -74,16 +72,50 @@ export default function() {
         )
     }
 
-    const buy = (amount) => {
+    const merkleHatchEgg = () => {
         let value = store.state.web3.utils.toHex(
-            store.state.nftConfig.price * amount
+            store.state.nftConfig.price * 1
         )
 
         const transactionParams = {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
-            value: value,
-            data: store.state.contract.methods.getNALC(amount).encodeABI(),
+            value: 0,
+            data: store.state.contract.methods.getProp().encodeABI(),
+        }
+        return store.state.web3.eth.sendTransaction(
+            transactionParams,
+            (err, hash) => {
+                const interval = setInterval(function() {
+                    store.state.web3.eth.getTransactionReceipt(hash, function(err, rec) {
+                        if (rec) {
+                            store.dispatch("setStateData", {
+                                name: "setMinting",
+                                data: false,
+                            })
+                            clearInterval(interval)
+                        }
+                    })
+                }, 1000)
+
+                if (err) {
+                    store.dispatch("setStateData", { name: "setMinting", data: false })
+                    clearInterval(interval)
+                }
+            }
+        )
+    }
+
+    const hatchEgg = () => {
+        let value = store.state.web3.utils.toHex(
+            store.state.nftConfig.price * 1
+        )
+
+        const transactionParams = {
+            to: contractConfig.contract_address,
+            from: store.state.connectedAddress,
+            value: 0,
+            data: store.state.contract.methods.getProp().encodeABI(),
         }
         return store.state.web3.eth.sendTransaction(
             transactionParams,
@@ -171,7 +203,7 @@ export default function() {
             requestAccount()
 
             setInterval(() => {
-                getConfig()
+                // getConfig()
                 getTotalSupply()
             }, 500)
         })
@@ -182,7 +214,8 @@ export default function() {
     return {
         init,
         requestAccount,
-        buy,
-        claim,
+        getProp,
+        hatchEgg,
+        merkleHatchEgg,
     }
 }

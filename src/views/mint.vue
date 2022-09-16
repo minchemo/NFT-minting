@@ -15,18 +15,18 @@
       <div class="inline-flex justify-center gap-2 mt-2  md:mt-4">
         <a class="hover:opacity-75" href="https://twitter.com/tamagogi_dapp" target="_blank"><img class="w-8 md:w-12"
             src="@/assets/icon/twitter.svg" alt="" srcset=""></a>
-        <a class="hover:opacity-75" href="https://opensea.io/collection/tamagogi" target="_blank"><img class="w-8 md:w-12"
-            src="@/assets/icon/opensea.svg" alt="" srcset=""></a>
+        <a class="hover:opacity-75" href="https://opensea.io/collection/tamagogi" target="_blank"><img
+            class="w-8 md:w-12" src="@/assets/icon/opensea.svg" alt="" srcset=""></a>
         <a class="hover:opacity-75" href="https://discord.gg/MjcceahkVk" target="_blank"><img class="w-8 md:w-12"
             src="@/assets/icon/discord.svg" alt="" srcset=""></a>
-        <a class="hover:opacity-75" href="https://etherscan.io/address/0x20fce52e29cfa0400c4093bd22e734373b2fafbd"
+        <a class="hover:opacity-75" href="https://etherscan.io/address/0x2841413795Bbe4E42C1A8558B3e55EcDE4a12014"
           target="_blank"><img class="w-8 md:w-12" src="@/assets/icon/etherscan.svg" alt="" srcset=""></a>
       </div>
     </div>
     <!-- container -->
     <div class="container pt-24 md:pt-52 mt-24 font-['joystix'] px-4">
       <div class="alert bg-red-300 shadow-lg justify-center">
-        <div class="text-center">STAGE 2 (PET mint) whitelist Registration is in progress, please <a
+        <div class="flex-col md:flex-row">STAGE 2 (PET mint) whitelist Registration is in progress, please <a
             @click="scrollTo('register-btn')" target="_blank" class="bg-white btn text-black btn-sm">GO
             register</a></div>
       </div>
@@ -82,7 +82,8 @@
         In addition to the above, you can hold the following three props to avoid the above situation.<br /><br />
         <div class="flex flex-col md:flex-row justify-center gap-8 my-16">
           <div class="basis-1/6">
-            <img class="w-full rounded-xl" style="filter: brightness(0) invert(1);" src="@/assets/props/unreveal.gif" alt="" srcset="">
+            <img class="w-full rounded-xl" style="filter: brightness(0) invert(1);" src="@/assets/props/unreveal.gif"
+              alt="" srcset="">
             <p class="text-xl text-center my-4">Unreveal Box</p>
           </div>
           <div class="basis-1/6">
@@ -151,10 +152,26 @@
       </div>
       <div
         class="basis-full py-16 px-2 md:px-32 2xl:px-48 h-auto bg-black/[.7] text-white text-md border-[#ffaa00] border-2 mb-32 text-center">
-        <div class="mt-16 bg-black/[0.8] p-8">
+        <div class="text-black inline-block bg-red-400 cursor-pointer px-4 py-1" @click="requestAccount()"
+          v-if="store.state.connectedAddress == ''">
+          connect wallet
+        </div>
+        <div class="text-red-400" v-else>
+          {{ store.state.connectedAddress.substring(0,
+          5)
+          }}...{{ store.state.connectedAddress.substr(store.state.connectedAddress.length - 4) }}
+        </div>
+        <div class="text-2xl md:text-2xl 2xl:text-4xl text-center mt-8">
+          supply:
+          <number :from="0" :to="store.state.totalSupply" :duration="1" /> /
+          <number :from="0" :to="store.state.nftConfig.petMaxSupply + store.state.nftConfig.propMaxSupply"
+            :duration="1" />
+        </div>
+        <div class="mt-16 bg-black/[0.8] p-8"
+          v-bind:class="{'border-8 border-yellow-400 current-stage': store.state.nftConfig.mintStage == 1}">
           <div
             class="text-yellow-500 text-xl md:text-4xl text-left flex flex-col md:flex-row md:items-end justify-between">
-            <span class="border p-2 border-yellow-500">STAGE 1 - prop</span> <span class="text-lg">id: 1 ~ 1000</span>
+            <span class="border p-2 border-yellow-500">STAGE 1 - prop</span> <span class="text-lg">id: 1 ~ 2000</span>
           </div>
           <div class="flex gap-8 justify-center my-8">
             <div class="underline">45% : toy</div>
@@ -162,23 +179,26 @@
             <div class="underline">10% : shield</div>
           </div>
           <div>
+            UTC 9/16 18:00<br/>
             max mint : 1<br />
             price : free
           </div>
-          <div class="btn btn-md mt-8 bg-yellow-400 hover:bg-yellow-500 text-black">
-            mint a prop
+          <div class="btn btn-md mt-8 bg-yellow-400 hover:bg-yellow-500 text-black" @click="mint('prop')">
+            get a prop
           </div>
         </div>
-        <div class="mt-16 bg-black/[0.8] p-8">
+        <div class="mt-16 bg-black/[0.8] p-8"
+          v-bind:class="{'border-8 border-yellow-400 current-stage': store.state.nftConfig.mintStage == 2}">
           <div
             class="text-yellow-500 text-xl md:text-4xl text-left flex flex-col md:flex-row md:items-end justify-between">
-            <span class="border p-2 border-yellow-500">STAGE 2 - pets (WL)</span> <span class="text-lg">id: 1001 ~
-              2460</span>
+            <span class="border p-2 border-yellow-500">STAGE 2 - pets (WL)</span> <span class="text-lg">id: 2001 ~
+              3825</span>
           </div>
           <div class="my-8">
+            Check twitter and discord for start & end time / schedule<br/>
             max mint : 1<br />
-            price : 0.02 eth<br />
-            Raffle requirement: 0.02 eth
+            price : {{ store.state.nftConfig.mintStage != 2 ? '?' :
+            store.state.web3.utils.fromWei(store.state.nftConfig.price.toString(), 'ether')}} eth<br />
           </div>
           <div class="bg-red-200 py-4">
             <div class="text-sm text-black">
@@ -192,18 +212,21 @@
             </a>
           </div>
         </div>
-        <div class="mt-16 bg-black/[0.8] p-8">
+        <div class="mt-16 bg-black/[0.8] p-8"
+          v-bind:class="{'border-8 border-yellow-400 current-stage': store.state.nftConfig.mintStage == 3}">
           <div
             class="text-yellow-500 text-xl md:text-4xl text-left flex flex-col md:flex-row md:items-end justify-between">
-            <span class="border p-2 border-yellow-500">STAGE 3 - pets (Public)</span> <span class="text-lg">id: 1001 ~
-              2460</span>
+            <span class="border p-2 border-yellow-500">STAGE 3 - pets (Public)</span> <span class="text-lg">id: 2001 ~
+              3825</span>
           </div>
           <div class="my-8">
             max mint : 1<br />
-            price : 0.02 eth
+            price : {{ store.state.nftConfig.mintStage != 3 ? '?' :
+            store.state.web3.utils.fromWei(store.state.nftConfig.price.toString(), 'ether')}} eth
           </div>
           <div class="flex gap-8 justify-center mt-4">
-            <div class="underline">The remaining quantity after the whitelist sale will be allocated to the public sale
+            <div class="underline text-sm">The remaining quantity after the whitelist sale will be allocated to the
+              public sale
             </div>
           </div>
         </div>
@@ -217,7 +240,7 @@
           </div>
           <div class="flex justify-between">
             <span>supply: </span>
-            <span>2460</span>
+            <span>{{ store.state.nftConfig.petMaxSupply + store.state.nftConfig.propMaxSupply }}</span>
           </div>
           <div class="flex justify-between">
             <span>team reserve: </span>
@@ -225,7 +248,8 @@
           </div>
           <div class="flex justify-between">
             <span>contract: </span>
-            <span>0x0</span>
+            <a href="https://etherscan.io/address/0x2841413795Bbe4E42C1A8558B3e55EcDE4a12014"
+              target="_blank">0x2841413795Bbe4E42C1A8558B3e55EcDE4a12014</a>
           </div>
         </div>
 
@@ -240,51 +264,51 @@
         class="basis-full py-16 px-2 md:px-32 2xl:px-48 h-auto bg-black/[.7] text-white text-md border-[#ffaa00] border-2 mb-36 text-center">
         <div class="mt-16 bg-black/[0.8] p-8">
           <div class="text-yellow-500 text-md md:text-2xl">
-            roadmap ?
+            roadmap
           </div>
           <div>We don't have a roadmap, but anything can be happen.</div>
         </div>
         <div class="mt-16 bg-black/[0.8] p-8">
           <div class="text-yellow-500 text-md md:text-2xl">
-            Can I reroll my pet?
+            Can I reroll my pet
           </div>
           <div>Yes, but each TOKEN ID can only be reroll once, please use it with caution.</div>
         </div>
         <div class="mt-16 bg-black/[0.8] p-8">
           <div class="text-yellow-500 text-md md:text-2xl">
-            Can I have multiple pets?
+            Can I have multiple pets
           </div>
           <div>yes</div>
         </div>
         <div class="mt-16 bg-black/[0.8] p-8">
           <div class="text-yellow-500 text-md md:text-2xl">
-            a prop be used on multiple pets?
+            a prop be used on multiple pets
           </div>
           <div>All pets in an address will be affected by an item</div>
         </div>
         <div class="mt-16 bg-black/[0.8] p-8">
           <div class="text-yellow-500 text-md md:text-2xl">
-            What are the restrictions on changing names?
+            What are the restrictions on changing names
           </div>
           <div>The pet's name can be changed unlimited times, but the name once given cannot be used again, even if it
             has been changed.</div>
         </div>
         <div class="mt-16 bg-black/[0.8] p-8">
           <div class="text-yellow-500 text-md md:text-2xl">
-            Is this 100% on-chain rendering?
+            Is this 100% on-chain rendering
           </div>
           <div>The pet part is 100% on-chain, and images of props are stored in IPFS, but the path has been written in
             the contract and cannot be changed.</div>
         </div>
         <div class="mt-16 bg-black/[0.8] p-8">
           <div class="text-yellow-500 text-md md:text-2xl">
-            When can I see my pet ?
+            When can I see my pet
           </div>
           <div>Please follow TWITTER and join DISCORD for the latest reveal news</div>
         </div>
         <div class="mt-16 bg-black/[0.8] p-8">
           <div class="text-yellow-500 text-md md:text-2xl">
-            How are pet hunger and other values ​​calculated?
+            How are pet hunger and other values ​​calculated
           </div>
           <div>Each state has a different level, and the value is calculated according to the rate and the time, but the
             ratio of this level can be adjusted, and we will continue to observe it for a few weeks after the sale ends.
@@ -292,9 +316,10 @@
         </div>
         <div class="mt-16 bg-black/[0.8] p-8">
           <div class="text-yellow-500 text-md md:text-2xl">
-            How pet birthdate works?
+            How pet birthdate works
           </div>
-          <div>In order to save the gas cost during minting, we cannot guarantee that there will be pet birthdays every day, but it is certain that the pet birthdays obtained during minting will be random.
+          <div>In order to save the gas cost during minting, we cannot guarantee that there will be pet birthdays every
+            day, but it is certain that the pet birthdays obtained during minting will be random.
           </div>
         </div>
 
@@ -386,6 +411,21 @@
   }
 }
 
+.current-stage {
+  border-radius: 40px;
+  animation: round .8s infinite alternate-reverse linear;
+
+  @keyframes round {
+    0% {
+      border-style: dashed;
+    }
+
+    100% {
+      border-style: solid;
+    }
+  }
+}
+
 @media screen and (max-width: 769px) {
   .m-btns {
     width: 90px;
@@ -452,7 +492,7 @@ const appCheck = initializeAppCheck(firebaseApp, {
 const db = getFirestore(firebaseApp);
 
 // Web3
-const { init, requestAccount, buy } = useEthereum()
+const { init, requestAccount, getProp, hatchEgg, merkleHatchEgg } = useEthereum()
 
 const scrollPos = ref(0);
 const scrollTo = (id) => {
@@ -462,6 +502,28 @@ const scrollTo = (id) => {
 const isLoading = ref(false);
 const showAlert = ref(false);
 const alertMsg = ref('');
+
+const mint = async (type) => {
+  if (store.state.connectedAddress == '') {
+      showAlert.value = true
+      alertMsg.value = 'Please connect wallet first.'
+    return;
+  }
+  if (store.state.minting) {
+    return;
+  }
+  store.dispatch("setStateData", { name: "setMinting", data: true })
+
+  if (type == 'prop') {
+    await getProp();
+    showAlert.value = true
+    alertMsg.value = 'ok'
+  } else if (type == 'merkleHatchEgg') {
+
+  } else if (type == 'hatchEgg') {
+
+  }
+}
 
 const register = async () => {
   isLoading.value = true;
@@ -482,7 +544,7 @@ const register = async () => {
         add: true,
       });
       showAlert.value = true
-      alertMsg.value = 'Address added successfully, make sure your wallet has 0.02 eth for verify raffle procedural. Please follow our twitter and discord for latest news!'
+      alertMsg.value = 'Address added successfully, Please follow our twitter and <span class="underline">discord</span> for latest news!'
     }
   }
   isLoading.value = false;

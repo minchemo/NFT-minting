@@ -1,14 +1,25 @@
 export default {
-    contract_address: "0xeE80b0fA42aaB176E763448e1a941ED07B3e0313",
+    contract_address: "0x2841413795Bbe4E42C1A8558B3e55EcDE4a12014",
     ABI: [{
             "inputs": [{
                 "internalType": "bytes32[]",
                 "name": "_proof",
                 "type": "bytes32[]"
             }],
-            "name": "merkleHatchEgg",
+            "name": "allowlistHatchEgg",
             "outputs": [],
             "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "inputs": [{
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+            }],
+            "name": "hit",
+            "outputs": [],
+            "stateMutability": "nonpayable",
             "type": "function"
         },
         {
@@ -54,13 +65,6 @@ export default {
             "type": "error"
         },
         {
-            "inputs": [],
-            "name": "buyProp",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
             "inputs": [{
                 "internalType": "uint256",
                 "name": "tokenId",
@@ -73,20 +77,16 @@ export default {
         },
         {
             "inputs": [],
-            "name": "hatchEgg",
+            "name": "getProp",
             "outputs": [],
             "stateMutability": "payable",
             "type": "function"
         },
         {
-            "inputs": [{
-                "internalType": "uint256",
-                "name": "tokenId",
-                "type": "uint256"
-            }],
-            "name": "hit",
+            "inputs": [],
+            "name": "hatchEgg",
             "outputs": [],
-            "stateMutability": "nonpayable",
+            "stateMutability": "payable",
             "type": "function"
         },
         {
@@ -469,6 +469,17 @@ export default {
         },
         {
             "inputs": [{
+                "internalType": "uint256",
+                "name": "_price",
+                "type": "uint256"
+            }],
+            "name": "setPrice",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [{
                 "internalType": "uint256[5]",
                 "name": "_rate",
                 "type": "uint256[5]"
@@ -480,7 +491,14 @@ export default {
         },
         {
             "inputs": [],
-            "name": "setReveal",
+            "name": "setRevealPet",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "setRevealProp",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -577,7 +595,12 @@ export default {
                 },
                 {
                     "internalType": "bool",
-                    "name": "reveal",
+                    "name": "revealProp",
+                    "type": "bool"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "revealPet",
                     "type": "bool"
                 },
                 {
@@ -823,21 +846,6 @@ export default {
         },
         {
             "inputs": [{
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }],
-            "name": "seeds",
-            "outputs": [{
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [{
                 "internalType": "bytes4",
                 "name": "interfaceId",
                 "type": "bytes4"
@@ -891,7 +899,7 @@ export default {
                 },
                 {
                     "internalType": "uint256",
-                    "name": "birth",
+                    "name": "birthhash",
                     "type": "uint256"
                 }
             ],
