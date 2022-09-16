@@ -558,15 +558,15 @@ const register = async () => {
   isLoading.value = false;
 }
 
-const getAll = async () => {
-  const querySnapshot = await getDocs(collection(db, "whitelist"));
-  const list = [];
-  querySnapshot.forEach((doc) => {
-    list.push(doc.id);
-  });
+// const getAll = async () => {
+//   const querySnapshot = await getDocs(collection(db, "whitelist"));
+//   const list = [];
+//   querySnapshot.forEach((doc) => {
+//     list.push(doc.id);
+//   });
 
-  console.log(list);
-}
+//   console.log(list);
+// }
 
 
 onMounted(() => {
@@ -577,7 +577,7 @@ onMounted(() => {
     requestAccount();
   }, 1000);
 
-  getAll();
+  // getAll();
   window.addEventListener('scroll', function () { scrollPos.value = this.scrollY })
 })
 </script>
