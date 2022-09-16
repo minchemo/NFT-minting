@@ -335,7 +335,7 @@
   </div>
   <div class="alert-bottom alert shadow-lg fixed z-[100] bottom-40 font-['joystix']" data-aos="zoom-in"
     v-if="showAlert">
-    <div v-html="alertMsg"></div>
+    <div>{{ alertMsg}}</div>
     <div class="flex-none">
       <button class="btn btn-sm btn-ghost text-red-500" @click="showAlert = false; alertMsg = '';">Close</button>
     </div>
@@ -541,15 +541,24 @@ const register = async () => {
       const docSnap = await getDoc(docRef);
 
 
+
+
       if (docSnap.exists()) {
         showAlert.value = true
         alertMsg.value = 'Address exist.'
       } else {
+        let date = new Date(); 
+        let options = {
+          weekday: "long", year: "numeric", month: "short",
+          day: "numeric", hour: "2-digit", minute: "2-digit"
+        };
+
         await setDoc(doc(db, "whitelist", store.state.connectedAddress), {
           add: true,
+          timestamp: date.toLocaleTimeString("en-us", options)
         });
         showAlert.value = true
-        alertMsg.value = 'Address added successfully, Please follow our twitter and <span class="underline">discord</span> for latest news!'
+        alertMsg.value = 'Address added successfully, Please follow our twitter and discord for latest news!'
       }
     } else {
       showAlert.value = true
@@ -560,15 +569,15 @@ const register = async () => {
   isLoading.value = false;
 }
 
-// const getAll = async () => {
-//   const querySnapshot = await getDocs(collection(db, "whitelist"));
-//   const list = [];
-//   querySnapshot.forEach((doc) => {
-//     list.push(doc.id);
-//   });
+const getAll = async () => {
+  const querySnapshot = await getDocs(collection(db, "whitelist"));
+  const list = [];
+  querySnapshot.forEach((doc) => {
+    list.push(doc.id);
+  });
 
-//   console.log(list);
-// }
+  console.log(list);
+}
 
 
 onMounted(() => {
