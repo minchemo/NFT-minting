@@ -140,12 +140,21 @@ export default function() {
         )
     }
 
-    const getBalance = () => {
+    const getPetMinted = () => {
         store.state.contract.methods
-            .balanceOf(store.state.connectedAddress)
+            .petMinted(store.state.connectedAddress)
             .call()
-            .then((balance) => {
-                store.dispatch("setStateData", { name: "setBalance", data: balance })
+            .then((status) => {
+                store.dispatch("setStateData", { name: "setPetMinted", data: status })
+            })
+    }
+
+    const getPropMinted = () => {
+        store.state.contract.methods
+            .propMinted(store.state.connectedAddress)
+            .call()
+            .then((status) => {
+                store.dispatch("setStateData", { name: "setPropMinted", data: status })
             })
     }
 
@@ -203,8 +212,10 @@ export default function() {
 
             setInterval(() => {
                 getConfig()
+                getPropMinted()
+                getPetMinted()
                 getTotalSupply()
-            }, 500)
+            }, 1000)
         })
 
         store.dispatch("setStateData", { name: "setInit", data: true })

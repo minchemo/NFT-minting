@@ -21,7 +21,8 @@
             src="@/assets/icon/discord.svg" alt="" srcset=""></a>
         <a class="hover:opacity-75" href="https://etherscan.io/address/0x2841413795Bbe4E42C1A8558B3e55EcDE4a12014"
           target="_blank"><img class="w-8 md:w-12" src="@/assets/icon/etherscan.svg" alt="" srcset=""></a>
-        <a class="hover:opacity-75" href="https://medium.com/@tamagogi.app/tamagogi-fully-onchain-tamagotchi-dapp-c4a4575e2a30"
+        <a class="hover:opacity-75"
+          href="https://medium.com/@tamagogi.app/tamagogi-fully-onchain-tamagotchi-dapp-c4a4575e2a30"
           target="_blank"><img class="w-8 md:w-12" src="@/assets/icon/medium.svg" alt="" srcset=""></a>
       </div>
     </div>
@@ -185,8 +186,11 @@
             max mint : 1<br />
             price : free
           </div>
-          <div class="btn btn-md mt-8 bg-yellow-400 hover:bg-yellow-500 text-black" @click="mint('prop')">
+          <div class="btn btn-md mt-8 bg-yellow-400 hover:bg-yellow-500 text-black" @click="mint('prop')" v-if="!store.state.propMinted">
             get a prop
+          </div>
+          <div class="text-red-300 mt-8" v-else>
+            you minted
           </div>
         </div>
         <div class="mt-16 bg-black/[0.8] p-8"
@@ -517,9 +521,13 @@ const mint = async (type) => {
   }
 
   if (type == 'prop' && store.state.nftConfig.mintStage == 1) {
-    store.dispatch("setStateData", { name: "setMinting", data: true })
-    await getProp();
-
+    if (store.state.totalSupply >= store.state.nftConfig.propMaxSupply) {
+      showAlert.value = true
+      alertMsg.value = 'Stage 1 sold out.'
+    } else {
+      store.dispatch("setStateData", { name: "setMinting", data: true })
+      await getProp();
+    }
   } else if (type == 'merkleHatchEgg' && store.state.nftConfig.mintStage == 2) {
     store.dispatch("setStateData", { name: "setMinting", data: true })
     // merkleHatch

@@ -21,8 +21,8 @@ export default createStore({
         totalSupply: 0,
         balance: 0,
         minted: 0,
-        freeMinted: 0,
-        freeRemain: 0,
+        propMinted: false,
+        petMinted: false,
         ownTokens: [],
     },
     mutations: {
@@ -63,25 +63,12 @@ export default createStore({
         setConnectedAddress(state, n) {
             state.connectedAddress = n
         },
-        setBalance(state, n) {
-            state.balance = parseInt(n)
+        setPropMinted(state, n) {
+            state.propMinted = n
         },
-        setBuyed(state, n) {
-            state.minted = n
-        },
-        setfreeRemain(state, n) {
-            state.freeRemain = n
-        },
-        setfreeMinted(state, n) {
-            if (n == false) {
-                state.freeMinted = 0
-            } else {
-                state.freeMinted = n
-            }
-        },
-        setOwnTokens(state, n) {
-            state.ownTokens = n
-        },
+        setPetMinted(state, n) {
+            state.petMinted = n
+        }
     },
     actions: {
         setStateData({ commit }, payload) {
