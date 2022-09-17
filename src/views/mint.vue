@@ -1,5 +1,16 @@
 <template>
+
+
+
   <loading v-model:active="isLoading" :can-cancel="false" :is-full-page="true" />
+
+
+  <div class="alert-bottom alert shadow-lg fixed z-[100] bottom-40 font-['joystix'] " data-aos="zoom-in">
+    <div class="flex-col items-start">Direct to <a class="inline text-blue-300" href="https://allowlist.tamagogi.xyz/">https://allowlist.tamagogi.xyz/</a> if you would like to join public sale.</div>
+    <div class="flex-none">
+    </div>
+  </div>
+
   <div
     class="overflow-y-auto overflow-x-hidden w-full min-h-screen flex flex-col bg-white items-center font-['joystix'] bg-[#aad999] pb-20 bg">
     <!-- nav -->
@@ -352,6 +363,20 @@
 </template>
 
 <style lang="scss" scoped>
+
+  
+.alert-bottom {
+  width: 600px;
+  left: 50%;
+  margin-left: -300px;
+}
+
+@media screen and (max-width: 768px) {
+  .alert-bottom {
+    width: 90%;
+    margin-left: -45%;
+  }
+}
 .go-dashboard {
   animation: flick 1s infinite;
 
