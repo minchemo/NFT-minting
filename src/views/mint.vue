@@ -215,8 +215,7 @@
             </div>
           </div>
 
-          <div class="btn hover:bg-yellow-500 bg-yellow-400 text-black" @click="mint('merkleHatchEgg')"
-            v-if="checkWLIdx() >= 0 && store.state.nftConfig.mintStage == 2">
+          <div class="btn hover:bg-yellow-500 bg-yellow-400 text-black" @click="mint('merkleHatchEgg')">
             hatch egg
           </div>
         </div>
