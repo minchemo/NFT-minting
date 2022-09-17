@@ -1,6 +1,8 @@
 import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
 import path from "path"
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,7 +17,24 @@ export default defineConfig({
     },
     build: {
         commonjsOptions: {
-           esmExternals: true 
+            esmExternals: true,
         },
-     }
+    },
+    define: {
+        "process.env": {},
+    },
+    optimizeDeps: {
+        esbuildOptions: {
+            // Node.js global to browser globalThis
+            define: {
+                global: 'globalThis'
+            },
+            // Enable esbuild polyfill plugins
+            plugins: [
+                NodeGlobalsPolyfillPlugin({
+                    buffer: true
+                })
+            ]
+        }
+    }
 })

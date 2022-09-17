@@ -8,6 +8,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
         "@fortawesome/fontawesome-svg-core": "^6.1.1",
         "@fortawesome/free-brands-svg-icons": "^6.1.1",
         "@fortawesome/free-regular-svg-icons": "^6.1.1",
@@ -19,6 +20,8 @@
         "events": "^3.3.0",
         "firebase": "^9.9.4",
         "i": "^0.3.7",
+        "keccak256": "^1.0.6",
+        "merkletreejs": "^0.2.30",
         "vanilla-lazyload": "^17.8.2",
         "vue": "^3.2.25",
         "vue-loading-overlay": "^5.0",

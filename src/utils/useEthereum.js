@@ -42,6 +42,15 @@ export default function() {
             })
     }
 
+    const getRoothash = () => {
+        store.state.contract.methods
+            .rootHash()
+            .call()
+            .then((hash) => {
+                store.dispatch("setStateData", { name: "setRootHash", data: hash })
+            })
+    }
+
     const getProp = (amount) => {
         const transactionParams = {
             to: contractConfig.contract_address,
@@ -72,16 +81,15 @@ export default function() {
         )
     }
 
-    const merkleHatchEgg = () => {
-        let value = store.state.web3.utils.toHex(
-            store.state.nftConfig.price * 1
-        )
+    const merkleHatchEgg = (proof) => {
+        let value = store.state.web3.utils.toHex(store.state.nftConfig.price * 1)
 
         const transactionParams = {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
-            value: 0,
-            data: store.state.contract.methods.getProp().encodeABI(),
+            value: value,
+            gasLimit: store.state.web3.utils.toHex(300000),
+            data: store.state.contract.methods.allowlistHatchEgg(proof).encodeABI(),
         }
         return store.state.web3.eth.sendTransaction(
             transactionParams,
@@ -107,15 +115,14 @@ export default function() {
     }
 
     const hatchEgg = () => {
-        let value = store.state.web3.utils.toHex(
-            store.state.nftConfig.price * 1
-        )
+        let value = store.state.web3.utils.toHex(store.state.nftConfig.price * 1)
 
         const transactionParams = {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
-            value: 0,
-            data: store.state.contract.methods.getProp().encodeABI(),
+            value: value,
+            gasLimit: store.state.web3.utils.toHex(300000),
+            data: store.state.contract.methods.hatchEgg().encodeABI(),
         }
         return store.state.web3.eth.sendTransaction(
             transactionParams,
@@ -215,10 +222,28 @@ export default function() {
                 getPropMinted()
                 getPetMinted()
                 getTotalSupply()
+                getRoothash()
             }, 1000)
         })
 
         store.dispatch("setStateData", { name: "setInit", data: true })
+    }
+
+    /**
+     * PET read
+     */
+    async function getTokenURI(tokenId) {
+        const data = await store.state.contract.methods
+            .tokenUri(tokenId)
+            .call()
+        return data
+    }
+
+    async function getTokensOfOwner(address) {
+        const data = await store.state.contract.methods
+            .tokensOfOwner(address)
+            .call()
+        return data
     }
 
     return {
@@ -227,5 +252,7 @@ export default function() {
         getProp,
         hatchEgg,
         merkleHatchEgg,
+        getTokenURI,
+        getTokensOfOwner,
     }
 }

@@ -23,7 +23,9 @@ export default createStore({
         minted: 0,
         propMinted: false,
         petMinted: false,
-        ownTokens: [],
+        rootHash: '',
+        showAlert: false,
+        alertMsg: ''
     },
     mutations: {
         setLoading(state, n) {
@@ -68,7 +70,16 @@ export default createStore({
         },
         setPetMinted(state, n) {
             state.petMinted = n
-        }
+        },
+        setRootHash(state, n) {
+            state.rootHash = n
+        },
+        showAlert(state, n) {
+            state.showAlert = n
+        },
+        alertMsg(state, n) {
+            state.alertMsg = n
+        },
     },
     actions: {
         setStateData({ commit }, payload) {

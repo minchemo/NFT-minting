@@ -15,11 +15,11 @@
       <div class="inline-flex justify-center gap-2 mt-2  md:mt-4">
         <a class="hover:opacity-75" href="https://twitter.com/tamagogi_dapp" target="_blank"><img class="w-8 md:w-12"
             src="@/assets/icon/twitter.svg" alt="" srcset=""></a>
-        <a class="hover:opacity-75" href="https://opensea.io/collection/tamagogi" target="_blank"><img
+        <a class="hover:opacity-75" href="https://opensea.io/collection/tamagogi-pets" target="_blank"><img
             class="w-8 md:w-12" src="@/assets/icon/opensea.svg" alt="" srcset=""></a>
         <a class="hover:opacity-75" href="https://discord.gg/MjcceahkVk" target="_blank"><img class="w-8 md:w-12"
             src="@/assets/icon/discord.svg" alt="" srcset=""></a>
-        <a class="hover:opacity-75" href="https://etherscan.io/address/0x2841413795Bbe4E42C1A8558B3e55EcDE4a12014"
+        <a class="hover:opacity-75" href="https://etherscan.io/address/0x4c534034a06f11ecb638bf71a097c168a052a659"
           target="_blank"><img class="w-8 md:w-12" src="@/assets/icon/etherscan.svg" alt="" srcset=""></a>
         <a class="hover:opacity-75"
           href="https://medium.com/@tamagogi.app/tamagogi-fully-onchain-tamagotchi-dapp-c4a4575e2a30"
@@ -28,10 +28,10 @@
     </div>
     <!-- container -->
     <div class="container pt-24 md:pt-52 mt-24 font-['joystix'] px-4">
-      <div class="alert bg-red-300 shadow-lg justify-center">
-        <div class="flex-col md:flex-row">STAGE 2 (PET mint) whitelist Registration is in progress, please <a
-            @click="scrollTo('register-btn')" target="_blank" class="bg-white btn text-black btn-sm">GO
-            register</a></div>
+      <div class="alert bg-green-400 shadow-lg justify-center">
+        <div class="flex-col md:flex-row">Pet dashboard (Alpha) is being prepared for the final launch. <router-link to="/dashboard" class="ml-4 btn btn-sm font-normal bg-green-600 border-0">
+            Go dashboard</router-link>
+        </div>
       </div>
 
       <div class="flex flex-col-reverse md:flex-row justify-between items-center mb-12 md:mb-0">
@@ -50,7 +50,10 @@
           </div>
           <img class="w-full absolute left-0 top-0 z-[0] drop-shadow-3xl" src="@/assets/machine.svg" alt="" srcset="">
           <img class="light w-full absolute left-0 top-0 z-[1]" src="@/assets/machine_l.svg" alt="" srcset="">
-          <img class="w-[34%] absolute left-[33%] top-[36%] z-[2]" src="@/assets/egg.gif" alt="" srcset="">
+          <router-link to="/dashboard"
+            class="w-[34%] absolute left-[33%] top-[36%] z-[2] bg-gray-200 aspect-square flex items-center justify-center text-black text-center cursor-pointer hover:bg-yellow-200 transition-all hover:text-xl">
+            Enter<br />Tamagogi</router-link>
+          <!-- <img class="w-[34%] absolute left-[33%] top-[36%] z-[2]" src="@/assets/egg.gif" alt="" srcset=""> -->
           <div class="m-btns">
             <div class="m-btn aspect-square"></div>
             <div class="m-btn aspect-square"></div>
@@ -173,7 +176,7 @@
         <div class="mt-16 bg-black/[0.8] p-8"
           v-bind:class="{'border-8 border-yellow-400 current-stage': store.state.nftConfig.mintStage == 1}">
           <div
-            class="text-yellow-500 text-xl md:text-4xl text-left flex flex-col md:flex-row md:items-end justify-between">
+            class="text-yellow-500 text-xl md:text-3xl text-left flex flex-col md:flex-row md:items-end justify-between">
             <span class="border p-2 border-yellow-500">STAGE 1 - prop</span> <span class="text-lg">id: 1 ~ 2000</span>
           </div>
           <div class="flex gap-8 justify-center my-8">
@@ -186,43 +189,41 @@
             max mint : 1<br />
             price : free
           </div>
-          <div class="btn btn-md mt-8 bg-yellow-400 hover:bg-yellow-500 text-black" @click="mint('prop')" v-if="!store.state.propMinted">
-            get a prop
-          </div>
-          <div class="text-red-300 mt-8" v-else>
-            you minted
+          <div class="text-red-300 mt-8">
+            end
           </div>
         </div>
         <div class="mt-16 bg-black/[0.8] p-8"
           v-bind:class="{'border-8 border-yellow-400 current-stage': store.state.nftConfig.mintStage == 2}">
           <div
-            class="text-yellow-500 text-xl md:text-4xl text-left flex flex-col md:flex-row md:items-end justify-between">
-            <span class="border p-2 border-yellow-500">STAGE 2 - pets (WL)</span> <span class="text-lg">id: 2001 ~
+            class="text-yellow-500 text-xl md:text-3xl text-left flex flex-col md:flex-row md:items-end justify-between">
+            <span class="border p-2 border-yellow-500">STAGE 2 - pets (allowlist)</span> <span class="text-lg">id: 2001
+              ~
               3825</span>
           </div>
           <div class="my-8">
-            Check twitter and discord for start & end time / schedule<br />
             max mint : 1<br />
-            price : {{ store.state.nftConfig.mintStage != 2 ? '?' :
-            store.state.web3.utils.fromWei(store.state.nftConfig.price.toString(), 'ether')}} eth<br />
+            price : FREE
           </div>
-          <div class="bg-red-200 py-4">
-            <div class="text-sm text-black">
-              The whitelist is still in the registration stage, <br />please connect wallet and register, the result
-              will
-              be announced on Discord and Twitter.<br />
-              raffle requirement : 0.02 eth (Your wallet have keep at least above 0.02 eth)
+
+          <div class="text-sm my-8">
+            <div v-if="checkWLIdx() >= 0" class="text-green-500">
+              You are in allowlist (A), please mint at 18:30 ~ 19:30 9/17 (UTC).
             </div>
-            <a id="register-btn" class="btn mt-4 bg-red-400 text-black hover:bg-yellow-300" target="_blank"
-              @click="register()">
-              register now !
-            </a>
+            <div v-else class="text-red-500">
+              You are not in allowlist
+            </div>
+          </div>
+
+          <div class="btn hover:bg-yellow-500 bg-yellow-400 text-black" @click="mint('merkleHatchEgg')"
+            v-if="checkWLIdx() >= 0 && store.state.nftConfig.mintStage == 2">
+            hatch egg
           </div>
         </div>
         <div class="mt-16 bg-black/[0.8] p-8"
           v-bind:class="{'border-8 border-yellow-400 current-stage': store.state.nftConfig.mintStage == 3}">
           <div
-            class="text-yellow-500 text-xl md:text-4xl text-left flex flex-col md:flex-row md:items-end justify-between">
+            class="text-yellow-500 text-xl md:text-3xl text-left flex flex-col md:flex-row md:items-end justify-between">
             <span class="border p-2 border-yellow-500">STAGE 3 - pets (Public)</span> <span class="text-lg">id: 2001 ~
               3825</span>
           </div>
@@ -235,6 +236,15 @@
             <div class="underline text-sm">The remaining quantity after the whitelist sale will be allocated to the
               public sale
             </div>
+          </div>
+          <div class="text-sm text-center mt-8">
+            pets left:
+            <number :from="0"
+              :to="(store.state.nftConfig.petMaxSupply + store.state.nftConfig.propMaxSupply) - store.state.totalSupply"
+              :duration="1" />
+          </div>
+          <div class="btn hover:bg-yellow-500 bg-yellow-400 text-black mt-8" @click="mint('hatchEgg')">
+            hatch egg
           </div>
         </div>
         <div class="mt-16 bg-black/[0.8] p-8  ">
@@ -255,8 +265,8 @@
           </div>
           <div class="flex justify-between">
             <span>contract: </span>
-            <a href="https://etherscan.io/address/0x2841413795Bbe4E42C1A8558B3e55EcDE4a12014"
-              target="_blank">0x2841413795Bbe4E42C1A8558B3e55EcDE4a12014</a>
+            <a href="https://etherscan.io/address/0x4c534034a06f11ecb638bf71a097c168a052a659"
+              target="_blank">0x4c534034a06f11ecb638bf71a097c168a052a659</a>
           </div>
         </div>
 
@@ -339,17 +349,24 @@
       </div>
     </div>
   </div>
-  <div class="alert-bottom alert shadow-lg fixed z-[100] bottom-40 font-['joystix']" data-aos="zoom-in"
-    v-if="showAlert">
-    <div>{{ alertMsg}}</div>
-    <div class="flex-none">
-      <button class="btn btn-sm btn-ghost text-red-500" @click="showAlert = false">Close</button>
-    </div>
-  </div>
 
 </template>
 
 <style lang="scss" scoped>
+.go-dashboard {
+  animation: flick 1s infinite;
+
+  @keyframes flick {
+    from {
+      color: yellow;
+    }
+
+    to {
+      color: #000;
+    }
+  }
+}
+
 .bg {
   background-image: url('@/assets/bg.png');
   background-size: initial;
@@ -477,27 +494,12 @@ import store from "@/store"
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 
+import { MerkleTree } from "merkletreejs";
+import keccak256 from "keccak256";
 
-// FIREBASE
-const firebaseConfig = {
-  apiKey: "AIzaSyB9uJeHJjwyl3TN1f1OA6Bg18n_9dcwwhw",
-  authDomain: "tamagogi-6455f.firebaseapp.com",
-  projectId: "tamagogi-6455f",
-  storageBucket: "tamagogi-6455f.appspot.com",
-  messagingSenderId: "558491248440",
-  appId: "1:558491248440:web:01d88f1e54bd3e010103cd",
-  measurementId: "G-JJTDC0QEBZ"
-};
-
-const firebaseApp = initializeApp(firebaseConfig);
-const appCheck = initializeAppCheck(firebaseApp, {
-  provider: new ReCaptchaV3Provider('6LcrcgAiAAAAAAY1_M5ggplDzU9o8f8O0OW1-iu7'),
-  isTokenAutoRefreshEnabled: true
-});
-const db = getFirestore(firebaseApp);
-
+import whitelist from "@/assets/whitelist.json";
 // Web3
-const { init, requestAccount, getProp, hatchEgg, merkleHatchEgg } = useEthereum()
+const { init, requestAccount, hatchEgg, merkleHatchEgg } = useEthereum()
 
 const scrollPos = ref(0);
 const scrollTo = (id) => {
@@ -505,95 +507,52 @@ const scrollTo = (id) => {
 }
 
 const isLoading = ref(false);
-const showAlert = ref(false);
-const alertMsg = ref('');
 
-const mint = async (type) => {
+const whitelistAddr = whitelist.addresses;
+
+const getProof = () => {
+  const leafNodes = whitelistAddr.map((addr) => keccak256(addr))
+  const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true })
+  return merkleTree.getHexProof(leafNodes[checkWLIdx()]);
+}
+
+const checkWLIdx = () => {
+  const idx = whitelistAddr.findIndex(e => e.toLowerCase() == store.state.connectedAddress.toLowerCase());
+  return idx;
+}
+
+const mint = (type) => {
   if (store.state.connectedAddress == '') {
-    showAlert.value = true
-    alertMsg.value = 'Please connect wallet first.'
+    store.dispatch("setStateData", { name: "showAlert", data: true })
+    store.dispatch("setStateData", { name: "alertMsg", data: 'Please connect wallet first.' })
     return;
   }
   if (store.state.minting) {
-    showAlert.value = true
-    alertMsg.value = 'Transaction pending...'
+    store.dispatch("setStateData", { name: "showAlert", data: true })
+    store.dispatch("setStateData", { name: "alertMsg", data: 'Transaction pending...' })
+    return;
+  }
+  if (store.state.petMinted) {
+    store.dispatch("setStateData", { name: "showAlert", data: true })
+    store.dispatch("setStateData", { name: "alertMsg", data: 'Max to mint 1 pet' })
     return;
   }
 
-  if (type == 'prop' && store.state.nftConfig.mintStage == 1) {
-    if (store.state.totalSupply >= store.state.nftConfig.propMaxSupply) {
-      showAlert.value = true
-      alertMsg.value = 'Stage 1 sold out.'
-    } else {
-      store.dispatch("setStateData", { name: "setMinting", data: true })
-      await getProp();
-    }
-  } else if (type == 'merkleHatchEgg' && store.state.nftConfig.mintStage == 2) {
+  if (type == 'merkleHatchEgg' && store.state.nftConfig.mintStage == 2) {
+    let proof = getProof();
+
     store.dispatch("setStateData", { name: "setMinting", data: true })
-    // merkleHatch
+
+    merkleHatchEgg(proof);
   } else if (type == 'hatchEgg' && store.state.nftConfig.mintStage == 3) {
+    hatchEgg();
     store.dispatch("setStateData", { name: "setMinting", data: true })
-    // publicHatch
   } else {
-    showAlert.value = true
-    alertMsg.value = 'Not in a valid mint stage.'
+    store.dispatch("setStateData", { name: "showAlert", data: true })
+    store.dispatch("setStateData", { name: "alertMsg", data: 'Not in a valid mint stage.' })
     return;
   }
 }
-
-const register = async () => {
-  isLoading.value = true;
-  if (store.state.connectedAddress == '') {
-    requestAccount();
-
-  } else {
-    var balance = await store.state.web3.eth.getBalance(store.state.connectedAddress);
-    balance = store.state.web3.utils.fromWei(balance.toString(), 'ether')
-
-
-    if (balance >= 0.02) {
-      const docRef = doc(db, "whitelist", store.state.connectedAddress);
-      const docSnap = await getDoc(docRef);
-
-
-
-
-      if (docSnap.exists()) {
-        showAlert.value = true
-        alertMsg.value = 'Address exist.'
-      } else {
-        let date = new Date();
-        let options = {
-          weekday: "long", year: "numeric", month: "short",
-          day: "numeric", hour: "2-digit", minute: "2-digit"
-        };
-
-        await setDoc(doc(db, "whitelist", store.state.connectedAddress), {
-          add: true,
-          timestamp: date.toLocaleTimeString("en-us", options)
-        });
-        showAlert.value = true
-        alertMsg.value = 'Address added successfully, Please follow our twitter and discord for latest news!'
-      }
-    } else {
-      showAlert.value = true
-      alertMsg.value = 'Please hold at least 0.02 eth in your wallet.'
-    }
-
-  }
-  isLoading.value = false;
-}
-
-const getAll = async () => {
-  const querySnapshot = await getDocs(collection(db, "whitelist"));
-  const list = [];
-  querySnapshot.forEach((doc) => {
-    list.push(doc.id);
-  });
-
-  console.log(list);
-}
-
 
 onMounted(() => {
   AOS.init()
@@ -603,7 +562,6 @@ onMounted(() => {
     requestAccount();
   }, 1000);
 
-  // getAll();
   window.addEventListener('scroll', function () { scrollPos.value = this.scrollY })
 })
 </script>
