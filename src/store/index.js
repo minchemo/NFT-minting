@@ -12,9 +12,9 @@ export default createStore({
         connectedAddress: "",
         nftConfig: {
             mintStage: 0,
-            petMaxSupply: 0,
+            petMaxSupply: 1825,
             price: 0,
-            propMaxSupply: 0,
+            propMaxSupply: 2000,
             revealPet: false,
             revealProp: false,
         },

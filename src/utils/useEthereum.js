@@ -121,12 +121,12 @@ export default function() {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
             value: value,
-            gasLimit: store.state.web3.utils.toHex(300000),
-            data: store.state.contract.methods.hatchEgg().encodeABI(),
+            gas: store.state.web3.utils.toHex(300000),
         }
-        return store.state.web3.eth.sendTransaction(
-            transactionParams,
-            (err, hash) => {
+        return store.state.contract.methods
+            .hatchEgg()
+            .send(transactionParams)
+            .on("transactionHash", function(r) {
                 const interval = setInterval(function() {
                     store.state.web3.eth.getTransactionReceipt(hash, function(err, rec) {
                         if (rec) {
@@ -138,30 +138,10 @@ export default function() {
                         }
                     })
                 }, 1000)
-
-                if (err) {
-                    store.dispatch("setStateData", { name: "setMinting", data: false })
-                    clearInterval(interval)
-                }
-            }
-        )
-    }
-
-    const getPetMinted = () => {
-        store.state.contract.methods
-            .petMinted(store.state.connectedAddress)
-            .call()
-            .then((status) => {
-                store.dispatch("setStateData", { name: "setPetMinted", data: status })
             })
-    }
-
-    const getPropMinted = () => {
-        store.state.contract.methods
-            .propMinted(store.state.connectedAddress)
-            .call()
-            .then((status) => {
-                store.dispatch("setStateData", { name: "setPropMinted", data: status })
+            .on("error", function(err) {
+                store.dispatch("setStateData", { name: "setMinting", data: false })
+                clearInterval(interval)
             })
     }
 
@@ -219,10 +199,6 @@ export default function() {
 
             setInterval(() => {
                 getConfig()
-                getPropMinted()
-                getPetMinted()
-                getTotalSupply()
-                getRoothash()
             }, 1000)
         })
 
@@ -233,9 +209,7 @@ export default function() {
      * PET read
      */
     async function getTokenURI(tokenId) {
-        const data = await store.state.contract.methods
-            .tokenUri(tokenId)
-            .call()
+        const data = await store.state.contract.methods.tokenURI(tokenId).call()
         return data
     }
 
@@ -246,13 +220,117 @@ export default function() {
         return data
     }
 
+    async function checkName(name) {
+        const data = await store.state.contract.methods.nameTable(name).call()
+        return data
+    }
+
+    async function getPetUnhappinessAndProp(id) {
+        const data = await store.state.contract.methods.getPetUnhappinessAndProp(id).call()
+        return data
+    }
+
+    async function TMGGs(tokenId) {
+        const data = await store.state.contract.methods.TMGGs(tokenId).call()
+        return data
+    }
+    /**
+     * PET write
+     */
+
+    async function feed(tokenId, onReceipt, onError) {
+        const transactionParams = {
+            to: contractConfig.contract_address,
+            from: store.state.connectedAddress,
+        }
+        return store.state.contract.methods
+            .feed(tokenId)
+            .send(transactionParams)
+            .on("receipt", (e) => {
+                onReceipt(e)
+            })
+            .on("error", (e) => {
+                onError(e)
+            })
+    }
+
+    async function play(tokenId, onReceipt, onError) {
+        const transactionParams = {
+            to: contractConfig.contract_address,
+            from: store.state.connectedAddress,
+        }
+        return store.state.contract.methods
+            .play(tokenId)
+            .send(transactionParams)
+            .on("receipt", (e) => {
+                onReceipt(e)
+            })
+            .on("error", (e) => {
+                onError(e)
+            })
+    }
+
+    async function reroll(tokenId, onReceipt, onError) {
+        const transactionParams = {
+            to: contractConfig.contract_address,
+            from: store.state.connectedAddress,
+        }
+        return store.state.contract.methods
+            .reroll(tokenId)
+            .send(transactionParams)
+            .on("receipt", (e) => {
+                onReceipt(e)
+            })
+            .on("error", (e) => {
+                onError(e)
+            })
+    }
+
+    async function hit(tokenId, onReceipt, onError) {
+        const transactionParams = {
+            to: contractConfig.contract_address,
+            from: store.state.connectedAddress,
+        }
+        return store.state.contract.methods
+            .hit(tokenId)
+            .send(transactionParams)
+            .on("receipt", (e) => {
+                onReceipt(e)
+            })
+            .on("error", (e) => {
+                onError(e)
+            })
+    }
+
+    async function changeName(id, name, onReceipt, onError) {
+        const transactionParams = {
+            to: contractConfig.contract_address,
+            from: store.state.connectedAddress,
+        }
+        return store.state.contract.methods
+            .setName(id, name)
+            .send(transactionParams)
+            .on("receipt", (e) => {
+                onReceipt(e)
+            })
+            .on("error", (e) => {
+                onError(e)
+            })
+    }
+
     return {
         init,
         requestAccount,
-        getProp,
-        hatchEgg,
-        merkleHatchEgg,
         getTokenURI,
         getTokensOfOwner,
+        hatchEgg,
+        hit,
+        changeName,
+        reroll,
+        play,
+        feed,
+        TMGGs,
+        checkName,
+        getPetUnhappinessAndProp
     }
 }

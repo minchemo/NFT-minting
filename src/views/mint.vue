@@ -34,7 +34,7 @@
     <!-- container -->
     <div class="container pt-24 md:pt-52 mt-24 font-['joystix'] px-4">
       <div class="alert bg-green-400 shadow-lg justify-center">
-        <div class="flex-col md:flex-row">Pet dashboard (Alpha) is being prepared for the final launch. <router-link to="/dashboard" class="ml-4 btn btn-sm font-normal bg-green-600 border-0">
+        <div class="flex-col md:flex-row">Pet dashboard (Alpha) is now online. <router-link to="/dashboard" class="ml-4 btn btn-sm font-normal bg-green-600 border-0">
             Go dashboard</router-link>
         </div>
       </div>
@@ -210,18 +210,8 @@
             max mint : 1<br />
             price : FREE
           </div>
-
-          <div class="text-sm my-8">
-            <div v-if="checkWLIdx() >= 0" class="text-green-500">
-              You are in allowlist (A), please mint at 18:30 ~ 19:30 9/17 (UTC).
-            </div>
-            <div v-else class="text-red-500">
-              You are not in allowlist
-            </div>
-          </div>
-
-          <div class="btn hover:bg-yellow-500 bg-yellow-400 text-black" @click="mint('merkleHatchEgg')">
-            hatch egg
+          <div class="text-red-300 mt-8">
+            end
           </div>
         </div>
         <div class="mt-16 bg-black/[0.8] p-8"
@@ -241,14 +231,8 @@
               public sale
             </div>
           </div>
-          <div class="text-sm text-center mt-8">
-            pets left:
-            <number :from="0"
-              :to="(store.state.nftConfig.petMaxSupply + store.state.nftConfig.propMaxSupply) - store.state.totalSupply"
-              :duration="1" />
-          </div>
-          <div class="btn hover:bg-yellow-500 bg-yellow-400 text-black mt-8" @click="mint('hatchEgg')">
-            hatch egg
+          <div class="text-red-300 mt-8">
+            end
           </div>
         </div>
         <div class="mt-16 bg-black/[0.8] p-8  ">
@@ -517,7 +501,7 @@ import keccak256 from "keccak256";
 
 import whitelist from "@/assets/whitelist.json";
 // Web3
-const { init, requestAccount, hatchEgg, merkleHatchEgg } = useEthereum()
+const { init, requestAccount, hatchEgg } = useEthereum()
 
 const scrollPos = ref(0);
 const scrollTo = (id) => {
@@ -578,6 +562,7 @@ onMounted(() => {
 
   setTimeout(() => {
     requestAccount();
+    
   }, 1000);
 
   window.addEventListener('scroll', function () { scrollPos.value = this.scrollY })

@@ -16,7 +16,9 @@ specifiers:
   daisyui: ^2.25.0
   events: ^3.3.0
   firebase: ^9.9.4
+  html2canvas: ^1.4.1
   i: ^0.3.7
+  js-base64: ^3.7.2
   keccak256: ^1.0.6
   merkletreejs: ^0.2.30
   postcss: ^8.4.14
@@ -44,7 +46,9 @@ dependencies:
   daisyui: 2.25.0_ugi4xkrfysqkt4c4y6hkyfj344
   events: 3.3.0
   firebase: 9.9.4
+  html2canvas: 1.4.1
   i: 0.3.7
+  js-base64: 3.7.2
   keccak256: 1.0.6
   merkletreejs: 0.2.32
   vanilla-lazyload: 17.8.2
@@ -1163,6 +1167,11 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
+  /base64-arraybuffer/1.0.2:
+    resolution: {integrity: sha512-I3yl4r9QB5ZRY3XuJVEPfc2XhZO6YweFPI+UovAzn+8/hb3oJ6lnysaFcjVpkCPfVWFUDvoZ8kmVDP7WyRtYtQ==}
+    engines: {node: '>= 0.6.0'}
+    dev: false
+
   /base64-js/1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
     dev: false
@@ -1574,6 +1583,12 @@ packages:
 
   /crypto-js/3.3.0:
     resolution: {integrity: sha512-DIT51nX0dCfKltpRiXV+/TVZq+Qq2NgF4644+K7Ttnla7zEzqc+kjJyiB96BHNyUTBxyjzRcZYpUdZa+QAqi6Q==}
+    dev: false
+
+  /css-line-break/2.1.0:
+    resolution: {integrity: sha512-FHcKFCZcAha3LwfVBhCQbW2nCNbkZXn7KVUJcsT5/P8YmfsVja0FMPJr0B903j/E69HUphKiV9iQArX8SDYA4w==}
+    dependencies:
+      utrie: 1.0.2
     dev: false
 
   /css-selector-tokenizer/0.8.0:
@@ -2529,6 +2544,14 @@ packages:
       minimalistic-crypto-utils: 1.0.1
     dev: false
 
+  /html2canvas/1.4.1:
+    resolution: {integrity: sha512-fPU6BHNpsyIhr8yyMpTLLxAbkaK8ArIBcmZIRiBLiDhjeqvXolaEmDGmELFuX9I4xDcaKKcJl+TKZLqruBbmWA==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      css-line-break: 2.1.0
+      text-segmentation: 1.0.3
+    dev: false
+
   /http-cache-semantics/4.1.0:
     resolution: {integrity: sha512-carPklcUh7ROWRK7Cv27RPtdhYhUsela/ue5/jKzjegVvXDqM2ILE9Q2BGn9JZJh1g87cp56su/FgQSzcWS8cQ==}
     dev: false
@@ -2799,6 +2822,10 @@ packages:
     dependencies:
       has-to-string-tag-x: 1.4.1
       is-object: 1.0.2
+    dev: false
+
+  /js-base64/3.7.2:
+    resolution: {integrity: sha512-NnRs6dsyqUXejqk/yv2aiXlAvOs56sLkX6nUdeaNezI5LFFLlsZjOThmwnrcwh5ZZRwZlCMnVAY3CvhIhoVEKQ==}
     dev: false
 
   /js-sha3/0.5.7:
@@ -3915,6 +3942,12 @@ packages:
       yallist: 3.1.1
     dev: false
 
+  /text-segmentation/1.0.3:
+    resolution: {integrity: sha512-iOiPUo/BGnZ6+54OsWxZidGCsdU8YbE4PSpdPinp7DeMtUJNJBoJ/ouUSTJjHkh1KntHaltHl/gDs2FC4i5+Nw==}
+    dependencies:
+      utrie: 1.0.2
+    dev: false
+
   /timed-out/4.0.1:
     resolution: {integrity: sha1-8y6srFoXW+ol1/q1Zas+2HQe9W8=}
     engines: {node: '>=0.10.0'}
@@ -4081,6 +4114,12 @@ packages:
   /utils-merge/1.0.1:
     resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
     engines: {node: '>= 0.4.0'}
+    dev: false
+
+  /utrie/1.0.2:
+    resolution: {integrity: sha512-1MLa5ouZiOmQzUbjbu9VmjLzn1QLXBhwpUa7kdLUQK+KQ5KA9I1vk5U4YHe/X2Ch7PYnJfWuWT+VbuxbGwljhw==}
+    dependencies:
+      base64-arraybuffer: 1.0.2
     dev: false
 
   /uuid/3.3.2:
