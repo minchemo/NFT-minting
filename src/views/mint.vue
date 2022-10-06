@@ -205,7 +205,7 @@
                 you can only mint
                 once
                 at phase 2</p>
-              <p v-else class="alert text-xs bg-red-500 w-auto mx-auto">Allowlist will announced on discord and twitter
+              <p v-else class="alert text-xs bg-red-500 w-auto mx-auto">You are not in allowlist
               </p>
             </div>
             <template v-if="store.state.minted">
