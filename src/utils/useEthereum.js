@@ -207,7 +207,7 @@ export default function() {
             data: contractPet,
         })
 
-        getConfig()
+        // getConfig()
 
         ethereum.on("chainChanged", function(id) {
             store.state.web3.eth.getChainId().then((id) => {
@@ -249,7 +249,7 @@ export default function() {
             // requestAccount()
 
             setInterval(() => {
-                getConfig()
+                // getConfig()
                 getTotalSupply();
 
                 if (store.state.connectedAddress != "") {

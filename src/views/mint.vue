@@ -237,10 +237,15 @@
             </template>
             <template v-else-if="store.state.nftConfig.phase == 3">
               <div class="flex flex-col items-center mt-8">
-                <div class="text-center text-xs">You can mint <span class="underline text-yellow-500">1</span> potted
-                  for
-                  {{(store.state.nftConfig.publicPrice / Math.pow(10, 18))}}
-                  eth.</div>
+                select quantity, max to {{store.state.nftConfig.publicMaxMint}}
+                <div class="flex gap-2 my-2 ">
+                  <div class="btn bg-yellow-600" @click="publicBuyCount = 1">1</div>
+                  <div class="btn bg-yellow-600" @click="publicBuyCount = 2">2</div>
+                  <div class="btn bg-yellow-600" @click="publicBuyCount = 3">3</div>
+                </div>
+                <div class="text-center text-xs">
+                  {{(publicBuyCount * store.state.nftConfig.publicPrice / Math.pow(10, 18))}}
+                  eth</div>
                 <div class="btn mt-4 bg-yellow-300 text-black hover:bg-yellow-500" @click="mint('public')">mint</div>
               </div>
             </template>
@@ -481,6 +486,8 @@ const getAll = async () => {
   console.log(reg);
 }
 
+const publicBuyCount = ref(0);
+
 const register = async () => {
   isLoading.value = true;
   if (store.state.connectedAddress == '') {
@@ -574,7 +581,7 @@ const mint = (type) => {
     allowlistMint(getAllowlistProof());
   } else if (type == 'public' && store.state.nftConfig.phase == 3) {
     store.dispatch("setStateData", { name: "setMinting", data: true })
-    publicMint(1)
+    publicMint(publicBuyCount.value)
   } else {
     store.dispatch("setStateData", { name: "showAlert", data: true })
     store.dispatch("setStateData", { name: "alertMsg", data: 'Not in a valid mint stage.' })
