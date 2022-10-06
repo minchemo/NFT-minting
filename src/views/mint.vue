@@ -205,7 +205,8 @@
                 you can only mint
                 once
                 at phase 2</p>
-              <p v-else class="alert text-xs bg-red-500 w-auto mx-auto">Allowlist will announced on discord and twitter</p>
+              <p v-else class="alert text-xs bg-red-500 w-auto mx-auto">Allowlist will announced on discord and twitter
+              </p>
             </div>
             <template v-if="store.state.minted">
               <div class="text-center mt-4 text-xs">You have minted at phase 2.</div>
@@ -463,11 +464,22 @@ const firebaseConfig = {
   measurementId: "G-JJTDC0QEBZ"
 };
 const firebaseApp = initializeApp(firebaseConfig);
-const appCheck = initializeAppCheck(firebaseApp, {
-  provider: new ReCaptchaV3Provider('6LeYGV4iAAAAALQN35nZBZRlXI9T-xMblL27bvV1'),
-  isTokenAutoRefreshEnabled: true
-});
+// const appCheck = initializeAppCheck(firebaseApp, {
+//   provider: new ReCaptchaV3Provider('6LeYGV4iAAAAALQN35nZBZRlXI9T-xMblL27bvV1'),
+//   isTokenAutoRefreshEnabled: true
+// });
 const db = getFirestore(firebaseApp);
+
+let reg = [];
+const getAll = async () => {
+  // const docRef = doc(db, "whitelist-potted");
+  // const docSnap = await getDocs(docRef);
+  const querySnapshot = await getDocs(collection(db, "whitelist-potted"));
+  querySnapshot.forEach((doc) => {
+    reg.push(doc.id);
+  });
+  console.log(reg);
+}
 
 const register = async () => {
   isLoading.value = true;
@@ -629,8 +641,6 @@ onMounted(() => {
 
     fetchIntroPotted()
   }, 5000);
-
-  // welcome()
 
   window.addEventListener('scroll', function () { scrollPos.value = this.scrollY })
 })
