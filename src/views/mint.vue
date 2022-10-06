@@ -607,7 +607,7 @@ const fetchIntroPotted = () => {
 
 }
 
-const phaseTimestamp = [1665079200000, 1665082800000, 1665082800000, 1665082800000]
+const phaseTimestamp = [1665079200000, 1665082800000, 1665086400000, 1665090000000]
 
 const gardenSoon = () => {
   store.dispatch("setStateData", { name: "showAlert", data: true })
