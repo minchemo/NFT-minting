@@ -46,7 +46,7 @@
                         v-if="!loading">reload</div>
                     <!-- all potteds -->
                     <div
-                        class="flex w-full flex-col md:flex-row justify-center items-center md:items-start bg-black/30 ">
+                        class="flex w-full flex-col md:flex-row justify-center items-center md:items-start bg-black/30 max-h-[500px] overflow-y-scoll">
                         <!-- unreveal -->
                         <div class="py-4 px-6 relative">
                             <p class="text-center my-4 underline">Unreveal ({{unrevealPotteds.length}})</p>
