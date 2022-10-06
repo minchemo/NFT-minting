@@ -7,23 +7,23 @@ export default createStore({
         init: false,
         ethereum: null,
         web3: null,
-        networkId: 1,
+        networkId: 5,
         contract: null,
+        contractPet: null,
         connectedAddress: "",
         nftConfig: {
-            mintStage: 0,
-            petMaxSupply: 1825,
-            price: 0,
-            propMaxSupply: 2000,
-            revealPet: false,
-            revealProp: false,
+            maxPotted: 9999,
+            publicPrice: 0,
+            publicMaxMint: 1,
+            claimHash: null,
+            presaleHash: null,
+            phase: 2,
         },
         totalSupply: 0,
-        balance: 0,
-        minted: 0,
-        propMinted: false,
-        petMinted: false,
-        rootHash: '',
+        petBalance: 0,
+        claimed: false,
+        minted: false,
+        publicMinted: 0,
         showAlert: false,
         alertMsg: ''
     },
@@ -46,6 +46,9 @@ export default createStore({
         setContract(state, n) {
             state.contract = n
         },
+        setContractPet(state, n) {
+            state.contractPet = n
+        },
         setNftConfig(state, n) {
             for (const key in n) {
                 if (Object.hasOwnProperty.call(n, key)) {
@@ -65,20 +68,23 @@ export default createStore({
         setConnectedAddress(state, n) {
             state.connectedAddress = n
         },
-        setPropMinted(state, n) {
-            state.propMinted = n
-        },
-        setPetMinted(state, n) {
-            state.petMinted = n
-        },
-        setRootHash(state, n) {
-            state.rootHash = n
-        },
         showAlert(state, n) {
             state.showAlert = n
         },
         alertMsg(state, n) {
             state.alertMsg = n
+        },
+        setClaimed(state, n) {
+            state.claimed = n
+        },
+        setMinted(state, n) {
+            state.minted = n
+        },
+        setPublicMinted(state, n) {
+            state.publicMinted = n
+        },
+        setPetBalance(state, n) {
+            state.petBalance = n
         },
     },
     actions: {

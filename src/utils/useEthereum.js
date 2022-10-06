@@ -1,5 +1,6 @@
 import Web3 from "web3"
 import contractConfig from "@/utils/contract"
+import contractPetConfig from "@/utils/contract_pet"
 import detectEthereumProvider from "@metamask/detect-provider"
 import store from "@/store"
 
@@ -17,11 +18,26 @@ export default function() {
                 const errorCode = e.code
 
                 if (errorCode == 4001) {
-                    alert("User rejected the request, Please connect again.")
+                    store.dispatch("setStateData", { name: "showAlert", data: true })
+                    store.dispatch("setStateData", {
+                        name: "alertMsg",
+                        data: "User rejected the request, Please connect again.",
+                    })
                 } else if (errorCode == -32002) {
-                    alert("Request already pending, please check on your Metamask.")
+                    store.dispatch("setStateData", { name: "showAlert", data: true })
+                    store.dispatch("setStateData", {
+                        name: "alertMsg",
+                        data: "Request already pending, please check on your Metamask.",
+                    })
                 }
             })
+    }
+
+    async function asyncRequestAccount() {
+        const account = await store.state.ethereum.request({
+            method: "eth_requestAccounts",
+        })
+        return account
     }
 
     const getConfig = () => {
@@ -42,94 +58,109 @@ export default function() {
             })
     }
 
-    const getRoothash = () => {
-        store.state.contract.methods
-            .rootHash()
-            .call()
-            .then((hash) => {
-                store.dispatch("setStateData", { name: "setRootHash", data: hash })
-            })
-    }
-
-    const getProp = (amount) => {
+    const allowlistMint = (proof) => {
         const transactionParams = {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
             value: 0,
-            data: store.state.contract.methods.getProp().encodeABI(),
         }
-        return store.state.web3.eth.sendTransaction(
-            transactionParams,
-            (err, hash) => {
-                const interval = setInterval(function() {
-                    store.state.web3.eth.getTransactionReceipt(hash, function(err, rec) {
-                        if (rec) {
-                            store.dispatch("setStateData", {
-                                name: "setMinting",
-                                data: false,
-                            })
-                            clearInterval(interval)
-                        }
-                    })
-                }, 1000)
 
-                if (err) {
+        if (store.state.nftConfig.phase == 1) {
+            return store.state.contract.methods
+                .claimPotted(proof)
+                .send(transactionParams)
+                .on("transactionHash", function(hash) {
+                    store.dispatch("setStateData", { name: "showAlert", data: true })
+                    store.dispatch("setStateData", {
+                        name: "alertMsg",
+                        data: "Transaction pending...",
+                    })
+                    const interval = setInterval(function() {
+                        store.state.web3.eth.getTransactionReceipt(
+                            hash,
+                            function(err, rec) {
+                                if (rec) {
+                                    store.dispatch("setStateData", {
+                                        name: "showAlert",
+                                        data: false,
+                                    })
+                                    store.dispatch("setStateData", {
+                                        name: "setMinting",
+                                        data: false,
+                                    })
+                                    clearInterval(interval)
+                                }
+                            }
+                        )
+                    }, 1000)
+                })
+                .on("error", function(err) {
                     store.dispatch("setStateData", { name: "setMinting", data: false })
                     clearInterval(interval)
-                }
-            }
-        )
+                })
+        } else if (store.state.nftConfig.phase == 2) {
+            return store.state.contract.methods
+                .getPotted(proof)
+                .send(transactionParams)
+                .on("transactionHash", function(hash) {
+                    store.dispatch("setStateData", { name: "showAlert", data: true })
+                    store.dispatch("setStateData", {
+                        name: "alertMsg",
+                        data: "Transaction pending...",
+                    })
+                    const interval = setInterval(function() {
+                        store.state.web3.eth.getTransactionReceipt(
+                            hash,
+                            function(err, rec) {
+                                if (rec) {
+                                    store.dispatch("setStateData", {
+                                        name: "showAlert",
+                                        data: false,
+                                    })
+                                    store.dispatch("setStateData", {
+                                        name: "setMinting",
+                                        data: false,
+                                    })
+                                    clearInterval(interval)
+                                }
+                            }
+                        )
+                    }, 1000)
+                })
+                .on("error", function(err) {
+                    store.dispatch("setStateData", { name: "setMinting", data: false })
+                    clearInterval(interval)
+                })
+        }
     }
 
-    const merkleHatchEgg = (proof) => {
-        let value = store.state.web3.utils.toHex(store.state.nftConfig.price * 1)
+    const publicMint = (quantity) => {
+        let value = store.state.web3.utils.toHex(
+            store.state.nftConfig.publicPrice * quantity
+        )
 
         const transactionParams = {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
             value: value,
-            gasLimit: store.state.web3.utils.toHex(300000),
-            data: store.state.contract.methods.allowlistHatchEgg(proof).encodeABI(),
         }
-        return store.state.web3.eth.sendTransaction(
-            transactionParams,
-            (err, hash) => {
-                const interval = setInterval(function() {
-                    store.state.web3.eth.getTransactionReceipt(hash, function(err, rec) {
-                        if (rec) {
-                            store.dispatch("setStateData", {
-                                name: "setMinting",
-                                data: false,
-                            })
-                            clearInterval(interval)
-                        }
-                    })
-                }, 1000)
 
-                if (err) {
-                    store.dispatch("setStateData", { name: "setMinting", data: false })
-                    clearInterval(interval)
-                }
-            }
-        )
-    }
-
-    const hatchEgg = () => {
-        let value = store.state.web3.utils.toHex(store.state.nftConfig.price * 1)
-
-        const transactionParams = {
-            to: contractConfig.contract_address,
-            from: store.state.connectedAddress,
-            value: value,
-            gas: store.state.web3.utils.toHex(300000),
-        }
         return store.state.contract.methods
-            .hatchEgg()
+            .buyPotted(quantity)
             .send(transactionParams)
-            .on("transactionHash", function(r) {
+            .on("transactionHash", function(hash) {
                 const interval = setInterval(function() {
+                    store.dispatch("setStateData", { name: "showAlert", data: true })
+                    store.dispatch("setStateData", {
+                        name: "alertMsg",
+                        data: "Transaction pending...",
+                    })
                     store.state.web3.eth.getTransactionReceipt(hash, function(err, rec) {
                         if (rec) {
+                            store.dispatch("setStateData", {
+                                name: "showAlert",
+                                data: false,
+                            })
                             store.dispatch("setStateData", {
                                 name: "setMinting",
                                 data: false,
@@ -148,9 +179,12 @@ export default function() {
     const init = async() => {
         const ethereum = await detectEthereumProvider()
         if (!ethereum) {
-            alert(
-                "No wallet plugin is available! Please change your browser or install wallet plugin."
-            )
+            store.dispatch("setStateData", { name: "showAlert", data: true })
+            store.dispatch("setStateData", {
+                name: "alertMsg",
+                data: "No wallet plugin is available! Please change your browser or install wallet plugin.",
+            })
+
             return
         }
 
@@ -160,16 +194,29 @@ export default function() {
             contractConfig.contract_address
         )
 
+        let contractPet = new web3.eth.Contract(
+            contractPetConfig.ABI,
+            contractPetConfig.contract_address
+        )
+
         store.dispatch("setStateData", { name: "setEthereum", data: ethereum })
         store.dispatch("setStateData", { name: "setWeb3", data: web3 })
         store.dispatch("setStateData", { name: "setContract", data: contract })
+        store.dispatch("setStateData", {
+            name: "setContractPet",
+            data: contractPet,
+        })
 
         getConfig()
 
         ethereum.on("chainChanged", function(id) {
             store.state.web3.eth.getChainId().then((id) => {
                 if (id != store.state.networkId) {
-                    alert("Please Change to mainnet.")
+                    store.dispatch("setStateData", { name: "showAlert", data: true })
+                    store.dispatch("setStateData", {
+                        name: "alertMsg",
+                        data: "Please Change to mainnet.",
+                    })
                 } else {
                     window.location.reload()
                 }
@@ -185,7 +232,11 @@ export default function() {
 
         store.state.web3.eth.getChainId().then((id) => {
             if (id != store.state.networkId) {
-                alert("Please Change to mainnet.")
+                store.dispatch("setStateData", { name: "showAlert", data: true })
+                store.dispatch("setStateData", {
+                    name: "alertMsg",
+                    data: "Please Change to mainnet.",
+                })
                 return
             }
             ethereum.on("accountsChanged", function(accounts) {
@@ -195,24 +246,61 @@ export default function() {
                 })
             })
 
-            requestAccount()
+            // requestAccount()
 
             setInterval(() => {
                 getConfig()
+
+                if (store.state.connectedAddress != "") {
+                    setInterval(() => {
+                        getClaimed(store.state.connectedAddress)
+                        getMinted(store.state.connectedAddress)
+                        getPublicMinted(store.state.connectedAddress)
+                        getPetBalance(store.state.connectedAddress)
+                    }, 1000)
+                }
             }, 1000)
         })
 
         store.dispatch("setStateData", { name: "setInit", data: true })
     }
 
-    /**
-     * PET read
-     */
-    async function getTokenURI(tokenId) {
-        const data = await store.state.contract.methods.tokenURI(tokenId).call()
-        return data
+    const getClaimed = (address) => {
+        store.state.contract.methods
+            .claimed(address)
+            .call()
+            .then((data) => {
+                store.dispatch("setStateData", { name: "setClaimed", data: data })
+            })
+    }
+    const getMinted = (address) => {
+        store.state.contract.methods
+            .presaleMinted(address)
+            .call()
+            .then((data) => {
+                store.dispatch("setStateData", { name: "setMinted", data: data })
+            })
+    }
+    const getPublicMinted = (address) => {
+        store.state.contract.methods
+            .publicMinted(address)
+            .call()
+            .then((data) => {
+                store.dispatch("setStateData", { name: "setPublicMinted", data: data })
+            })
+    }
+    const getPetBalance = (address) => {
+        store.state.contractPet.methods
+            .balanceOf(address)
+            .call()
+            .then((data) => {
+                store.dispatch("setStateData", { name: "setPetBalance", data: data })
+            })
     }
 
+    /**
+     * read
+     */
     async function getTokensOfOwner(address) {
         const data = await store.state.contract.methods
             .tokensOfOwner(address)
@@ -220,31 +308,30 @@ export default function() {
         return data
     }
 
-    async function checkName(name) {
-        const data = await store.state.contract.methods.nameTable(name).call()
+    async function getPottedGene(tokenId) {
+        const data = await store.state.contract.methods.potteds(tokenId).call()
         return data
     }
-
-    async function getPetUnhappinessAndProp(id) {
-        const data = await store.state.contract.methods.getPetUnhappinessAndProp(id).call()
+    async function getTokenURI(tokenId) {
+        const data = await store.state.contract.methods.tokenURI(tokenId).call()
         return data
     }
-
-    async function TMGGs(tokenId) {
-        const data = await store.state.contract.methods.TMGGs(tokenId).call()
+    async function previewPotted(tokenId, revealNum) {
+        const data = await store.state.contract.methods
+            .previewPotted(tokenId, revealNum)
+            .call({ from: store.state.connectedAddress })
         return data
     }
     /**
-     * PET write
+     * write
      */
-
-    async function feed(tokenId, onReceipt, onError) {
+    async function setReveal(tokenId, revealNum, onReceipt, onError) {
         const transactionParams = {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
         }
         return store.state.contract.methods
-            .feed(tokenId)
+            .setPottedReveal(tokenId, revealNum)
             .send(transactionParams)
             .on("receipt", (e) => {
                 onReceipt(e)
@@ -253,62 +340,13 @@ export default function() {
                 onError(e)
             })
     }
-
-    async function play(tokenId, onReceipt, onError) {
+    async function reroll(tokenId, petId, onReceipt, onError) {
         const transactionParams = {
             to: contractConfig.contract_address,
             from: store.state.connectedAddress,
         }
         return store.state.contract.methods
-            .play(tokenId)
-            .send(transactionParams)
-            .on("receipt", (e) => {
-                onReceipt(e)
-            })
-            .on("error", (e) => {
-                onError(e)
-            })
-    }
-
-    async function reroll(tokenId, onReceipt, onError) {
-        const transactionParams = {
-            to: contractConfig.contract_address,
-            from: store.state.connectedAddress,
-        }
-        return store.state.contract.methods
-            .reroll(tokenId)
-            .send(transactionParams)
-            .on("receipt", (e) => {
-                onReceipt(e)
-            })
-            .on("error", (e) => {
-                onError(e)
-            })
-    }
-
-    async function hit(tokenId, onReceipt, onError) {
-        const transactionParams = {
-            to: contractConfig.contract_address,
-            from: store.state.connectedAddress,
-        }
-        return store.state.contract.methods
-            .hit(tokenId)
-            .send(transactionParams)
-            .on("receipt", (e) => {
-                onReceipt(e)
-            })
-            .on("error", (e) => {
-                onError(e)
-            })
-    }
-
-    async function changeName(id, name, onReceipt, onError) {
-        const transactionParams = {
-            to: contractConfig.contract_address,
-            from: store.state.connectedAddress,
-        }
-        return store.state.contract.methods
-            .setName(id, name)
+            .rerollPotted(tokenId, petId)
             .send(transactionParams)
             .on("receipt", (e) => {
                 onReceipt(e)
@@ -321,16 +359,16 @@ export default function() {
     return {
         init,
         requestAccount,
+        asyncRequestAccount,
+
         getTokenURI,
-        getTokensOfOwner,
-        hatchEgg,
-        hit,
-        changeName,
+        getPottedGene,
+        previewPotted,
         reroll,
-        play,
-        feed,
-        TMGGs,
-        checkName,
-        getPetUnhappinessAndProp
+        setReveal,
+        getTokensOfOwner,
+
+        allowlistMint,
+        publicMint,
     }
 }

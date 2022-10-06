@@ -7,10 +7,10 @@ const routes = [{
             import ("@/views/mint.vue"),
     },
     {
-        path: "/dashboard",
-        name: "dashboard",
+        path: "/my-potteds",
+        name: "my-potteds",
         component: () =>
-            import ("@/views/dashboard.vue"),
+            import ("@/views/my_potteds.vue"),
     },
 ]
 
