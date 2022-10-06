@@ -378,7 +378,7 @@ const rewrokSvgString = (string) => {
 }
 
 const confirmReveal = async () => {
-    if (revealing) {
+    if (revealing.value) {
         return
     }
 
