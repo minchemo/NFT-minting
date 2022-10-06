@@ -250,6 +250,7 @@ export default function() {
 
             setInterval(() => {
                 getConfig()
+                getTotalSupply();
 
                 if (store.state.connectedAddress != "") {
                     setInterval(() => {

@@ -18,9 +18,8 @@
         <a class="hover:opacity-50 transition-all"
           href="https://etherscan.io/address/0x81b491EA8c26AffFE00Dd27517Dcd838Bf5097BE" target="_blank"><img
             class="w-8 md:w-10" src="@/assets/icon/etherscan.svg" alt="" srcset=""></a>
-        <a class="hover:opacity-50 transition-all"
-          href="https://medium.com/@tamagogi.app"
-          target="_blank"><img class="w-8 md:w-10" src="@/assets/icon/medium.svg" alt="" srcset=""></a>
+        <a class="hover:opacity-50 transition-all" href="https://medium.com/@tamagogi.app" target="_blank"><img
+            class="w-8 md:w-10" src="@/assets/icon/medium.svg" alt="" srcset=""></a>
       </div>
       <div class="mt-2 flex items-center justify-center gap-4 text-xs">
         <div class="link-btn" @click="scrollTo('mint')">mint</div>
@@ -45,7 +44,7 @@
 
         <span class="underline font-bold">POTTED-POTTED</span> is The first on-chain generated Potted artwork.
       </div>
-      <div v-if="store.state.nftConfig.phase <= 1" class="bg-green-800 text-white rounded px-4 py-2 mt-8">allowlist
+      <div v-if="store.state.nftConfig.phase <= 1" class="bg-green-600 text-white rounded px-4 py-2 mt-8">allowlist
         Raffle of Phase 2 is now opening, <span class="underline cursor-pointer" @click="scrollTo('raffle')">Go
           register</span></div>
       <div class="scroll-down">
@@ -147,6 +146,11 @@
             }}...{{ store.state.connectedAddress.substr(store.state.connectedAddress.length - 4) }}
           </div>
         </div>
+        <!-- supply -->
+        <div class="text-center text-3xl mb-8">
+          <number :from="0" :to="store.state.totalSupply" :duration="1" /> /
+          <number :from="0" :to="store.state.nftConfig.maxPotted" :duration="1" />
+        </div>
         <div class="relative">
           <!-- Phase 1 -->
           <div class="subtitle" :class="{'active': store.state.nftConfig.phase == 1}">
@@ -185,13 +189,13 @@
             Phase 2<span>allowlist</span>
           </div>
           <!--raffle-->
-          <div id="raffle" class="flex flex-col items-center justify-center mt-8 py-8 p-4 bg-black/70"
+          <div id="raffle" class="flex flex-col items-center justify-center mt-8 py-8 p-4 bg-green-400/70"
             v-if="store.state.nftConfig.phase <= 1">
-            <div class="text-red-500 py-2 px-6">
-              <p>Allowlist raffle is now opening</p>
+            <div class="py-2 px-6">
+              <p class="underline">Allowlist raffle is now opening</p>
             </div>
             <div class="text-sm my-2 text-center">make sure your wallet have 0.02 eth for verify (no cost)<br /> Close
-              10 minutes before phase 2 begins.</div>
+              20 minutes before phase 2 begins.</div>
             <div class="cursor-pointer border py-2 px-4 mt-4 hover:bg-white/50" @click="register()">register</div>
           </div>
           <!--raffle end-->
@@ -201,7 +205,7 @@
                 you can only mint
                 once
                 at phase 2</p>
-              <p v-else class="alert text-xs bg-red-500 w-auto mx-auto">You are not in allowlist</p>
+              <p v-else class="alert text-xs bg-red-500 w-auto mx-auto">Allowlist will announced on discord and twitter</p>
             </div>
             <template v-if="store.state.minted">
               <div class="text-center mt-4 text-xs">You have minted at phase 2.</div>
@@ -468,7 +472,8 @@ const db = getFirestore(firebaseApp);
 const register = async () => {
   isLoading.value = true;
   if (store.state.connectedAddress == '') {
-    requestAccount();
+    store.dispatch("setStateData", { name: "showAlert", data: true })
+    store.dispatch("setStateData", { name: "alertMsg", data: 'You should connect wallet first.' })
   } else {
     var balance = await store.state.web3.eth.getBalance(store.state.connectedAddress);
     balance = store.state.web3.utils.fromWei(balance.toString(), 'ether')
@@ -625,7 +630,7 @@ onMounted(() => {
     fetchIntroPotted()
   }, 5000);
 
-  welcome()
+  // welcome()
 
   window.addEventListener('scroll', function () { scrollPos.value = this.scrollY })
 })
