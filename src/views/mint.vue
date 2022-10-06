@@ -464,7 +464,7 @@ const firebaseConfig = {
 };
 const firebaseApp = initializeApp(firebaseConfig);
 const appCheck = initializeAppCheck(firebaseApp, {
-  provider: new ReCaptchaV3Provider('6LcrcgAiAAAAAAY1_M5ggplDzU9o8f8O0OW1-iu7'),
+  provider: new ReCaptchaV3Provider('6LeYGV4iAAAAALQN35nZBZRlXI9T-xMblL27bvV1'),
   isTokenAutoRefreshEnabled: true
 });
 const db = getFirestore(firebaseApp);
